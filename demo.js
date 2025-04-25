@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Constants & State ---
-    const MAX_IMAGES = 3;
+    const MAX_IMAGES = 2; // Limit to 2 images
     const MAX_FILE_SIZE_MB = 3;
     // Attempt limit constants removed
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
@@ -298,19 +298,43 @@ document.addEventListener('DOMContentLoaded', () => {
         // 4. Your backend sends the generated text back to this script.
         // 5. This script then calls displayResults() with the text received from the backend.
 
-        // Simulate the process with a timeout and local text generation:
-        simulateApiCall(userMessageInput.value)
-            .then(generatedText => {
-                displayResults(generatedText);
-            })
-            .catch(error => {
-                console.error("Simulated API call failed:", error);
-                showError("Kunne ikke generere opslag (simuleret fejl). Prøv igen.");
-                loadingIndicator.style.display = 'none';
-                submitBtn.textContent = 'Lav Opslag'; // Reset button text on error
-                // Keep button disabled on error? Or re-enable? Let's re-enable for now.
-                // submitBtn.disabled = false; // Re-enable if desired
-            });
+        // Call the backend API endpoint
+        fetch('/api/generate-post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userMessage: userMessageInput.value }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                // Attempt to read error message from backend if available
+                return response.json().then(errData => {
+                    throw new Error(errData.error || `HTTP error! status: ${response.status}`);
+                }).catch(() => {
+                    // Fallback if response is not JSON or reading fails
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.result) {
+                displayResults(data.result);
+            } else {
+                throw new Error("Invalid response structure from API.");
+            }
+        })
+        .catch(error => {
+            console.error("Error calling backend API:", error);
+            showError(`Fejl: ${error.message || 'Kunne ikke generere opslag.'}`);
+            loadingIndicator.style.display = 'none';
+            // Reset button and show input section on error
+            submitBtn.textContent = 'Lav Opslag';
+            submitBtn.disabled = false; // Re-enable button
+            inputSection.style.display = 'block'; // Show input again
+            outputSection.style.display = 'none'; // Hide output
+        });
     }
 
     // Placeholder for the function that would call your backend
@@ -343,34 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- End Simulation ---
     }
 
-     // Renamed function for clarity
-    async function simulateApiCall(message) {
-         console.log("Simulating API call with message:", message);
-         // Simulate network delay and text generation
-         return new Promise((resolve) => {
-             setTimeout(() => {
-                const simulatedText = generateSimulatedPost(message);
-                resolve(simulatedText);
-            }, 2000);
-        });
-    }
-
-
-    function generateSimulatedPost(userMessage) {
-        // Basic simulation - replace with more sophisticated logic if needed
-        const baseText = userMessage.trim();
-        let generated = `🎉 Nyt fra ${baseText}! 🎉\n\n`;
-
-        if (baseText.toLowerCase().includes('tilbud') || baseText.includes('kr')) {
-            generated += `Skynd dig ned i butikken og gør et kup! Vi har lige nu [Fantastisk Tilbud] på [Produkt]. Perfekt til [Anledning]. ✨\n\n`;
-        } else if (baseText.toLowerCase().includes('nyhed') || baseText.toLowerCase().includes('nye')) {
-            generated += `Spændende nyheder! Vi har fået [Beskrivelse af Nyhed] på hylderne. Kom forbi og se udvalget! 😍\n\n`;
-        } else {
-            generated += `Kom ned og oplev den gode stemning i butikken! Vi glæder os til at se dig. 😊\n\n`;
-        }
-        generated += `#DinButik #Aarhus #${baseText.split(' ')[0] || 'Lokalt'}`; // Simple hashtag
-        return generated;
-    }
+    // Removed simulateApiCall and generateSimulatedPost functions
 
     function displayResults(generatedText) {
         loadingIndicator.style.display = 'none';
@@ -406,23 +403,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set wrapper width
         const numSlides = uploadedFiles.length;
         slidesWrapper.style.width = `${numSlides * 100}%`;
-        console.log("Setting IG wrapper width:", slidesWrapper.style.width); // DEBUG
+        // console.log("Setting IG wrapper width:", slidesWrapper.style.width); // DEBUG REMOVED
 
-        // Append images directly to wrapper
+        // Create and append slides with images
         uploadedFiles.forEach((file, index) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.classList.add('carousel-slide'); // Add class for styling
+
             const img = document.createElement('img');
             img.src = URL.createObjectURL(file);
             img.alt = "Uploadet billede";
-            img.dataset.index = index; // Keep index if needed
-            slidesWrapper.appendChild(img);
+            // img.dataset.index = index; // Index not strictly needed on img anymore
+
+            slideDiv.appendChild(img); // Append img to slide div
+            slidesWrapper.appendChild(slideDiv); // Append slide div to wrapper
         });
 
         carouselContainer.appendChild(slidesWrapper); // Add wrapper to main container
-
-        // Add indicators container dynamically
-        const indicatorsContainer = document.createElement('div');
-        indicatorsContainer.classList.add('carousel-indicators');
-        carouselContainer.appendChild(indicatorsContainer); // Append indicators container
+        slidesWrapper.style.transform = 'translateX(0%)'; // Reset transform after appending
 
         // Add Carousel Controls and Indicators if multiple images
         if (numSlides > 1) {
@@ -446,8 +444,17 @@ document.addEventListener('DOMContentLoaded', () => {
             carouselContainer.appendChild(controlsDiv); // Append controls directly to carousel container
             currentSlide = 0; // Reset slide index
         }
-        // Ensure wrapper transform is reset
-        slidesWrapper.style.transform = 'translateX(0%)';
+
+        // Add indicators container dynamically
+        const indicatorsContainer = document.createElement('div');
+        indicatorsContainer.classList.add('carousel-indicators');
+        carouselContainer.appendChild(indicatorsContainer); // Append indicators container
+
+        // Add Carousel Controls and Indicators if multiple images
+        // REMOVED - CSS scroll snap handles navigation
+
+        // Ensure wrapper transform is reset - REMOVED (not needed for scroll snap)
+        // slidesWrapper.style.transform = 'translateX(0%)';
 
         // Show the post-demo CTA section
         console.log("Attempting to show CTA..."); // DEBUG
@@ -465,32 +472,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Instagram Carousel Logic ---
-    let currentSlide = 0; // For Instagram
-    function moveCarousel(direction) {
-        const slidesWrapper = instagramCarousel.querySelector('.carousel-slides-wrapper');
-        const totalSlides = uploadedFiles.length;
-        if (!slidesWrapper || totalSlides <= 1) return;
-
-        currentSlide += direction;
-
-        // Clamp slide index
-        if (currentSlide < 0) {
-            currentSlide = 0;
-        } else if (currentSlide >= totalSlides) {
-            currentSlide = totalSlides - 1;
-        }
-
-        // Calculate and apply the transform (This is the core logic)
-        const newTransform = `translateX(-${currentSlide * 100}%)`;
-        console.log("moveCarousel: Applying transform", newTransform, "to", slidesWrapper); // DEBUG
-        slidesWrapper.style.transform = newTransform;
-
-        // Show/hide buttons based on current slide index
-        const prevBtn = instagramCarousel.querySelector('.carousel-controls .prev');
-        const nextBtn = instagramCarousel.querySelector('.carousel-controls .next');
-        if (prevBtn) prevBtn.style.display = (currentSlide === 0) ? 'none' : 'block';
-        if (nextBtn) nextBtn.style.display = (currentSlide === totalSlides - 1) ? 'none' : 'block';
-    }
+    // let currentSlide = 0; // REMOVED - CSS scroll snap handles this
+    // function moveCarousel(direction) { ... } // REMOVED - CSS scroll snap handles this
 
     // --- Facebook Carousel Logic REMOVED ---
 
@@ -532,6 +515,36 @@ document.addEventListener('DOMContentLoaded', () => {
         errorMessage.textContent = '';
         errorMessage.style.display = 'none';
     }
+
+
+    // --- Instagram Carousel Logic (Restored) ---
+    let currentSlide = 0; // For Instagram
+    function moveCarousel(direction) {
+        const slidesWrapper = instagramCarousel.querySelector('.carousel-slides-wrapper');
+        const totalSlides = uploadedFiles.length;
+        if (!slidesWrapper || totalSlides <= 1) return;
+
+        currentSlide += direction;
+
+        // Clamp slide index
+        if (currentSlide < 0) {
+            currentSlide = 0;
+        } else if (currentSlide >= totalSlides) {
+            currentSlide = totalSlides - 1;
+        }
+
+        // Calculate and apply the transform (This is the core logic)
+        const newTransform = `translateX(-${currentSlide * 100}%)`;
+        console.log("moveCarousel: Applying transform", newTransform, "to", slidesWrapper); // DEBUG
+        slidesWrapper.style.transform = newTransform;
+
+        // Show/hide buttons based on current slide index
+        const prevBtn = instagramCarousel.querySelector('.carousel-controls .prev');
+        const nextBtn = instagramCarousel.querySelector('.carousel-controls .next');
+        if (prevBtn) prevBtn.style.display = (currentSlide === 0) ? 'none' : 'block';
+        if (nextBtn) nextBtn.style.display = (currentSlide === totalSlides - 1) ? 'none' : 'block';
+    }
+
 
 
 
