@@ -374,11 +374,14 @@ document.addEventListener('DOMContentLoaded', () => {
         outputContent.style.display = 'block';
         submitBtn.textContent = 'Lav Opslag'; // Reset button text on success
 
-        // --- Populate Facebook Preview (Reverted to simple image display) ---
-        facebookText.innerText = generatedText;
+        // --- Populate Facebook Preview ---
+        const fbTextElement = document.getElementById('facebook-text');
+        const fbSeeMoreBtn = fbTextElement.nextElementSibling; // Assumes button is next sibling
+        fbTextElement.innerText = generatedText;
+        setupSeeMore(fbTextElement, fbSeeMoreBtn); // Setup "See more" for Facebook
+
         const facebookImagesContainer = document.getElementById('facebook-images');
         facebookImagesContainer.innerHTML = ''; // Clear previous images
-
         uploadedFiles.forEach(file => {
             const img = document.createElement('img');
             img.src = URL.createObjectURL(file);
@@ -393,7 +396,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         // --- Populate Instagram Preview ---
-        instagramText.innerText = generatedText;
+        const igTextElement = document.getElementById('instagram-text');
+        const igSeeMoreBtn = igTextElement.nextElementSibling; // Assumes button is next sibling
+        igTextElement.innerText = generatedText;
+        setupSeeMore(igTextElement, igSeeMoreBtn); // Setup "See more" for Instagram
+
         const carouselContainer = instagramCarousel; // The main container div
         carouselContainer.innerHTML = ''; // Clear previous content (including placeholders)
 
@@ -497,14 +504,67 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear IG carousel completely on reset
         instagramCarousel.innerHTML = '';
 
-        facebookText.innerText = '';
-        instagramText.innerText = '';
+        // Reset text and "See more" state
+        const fbTextElement = document.getElementById('facebook-text');
+        const fbSeeMoreBtn = fbTextElement?.nextElementSibling;
+        if (fbTextElement) {
+            fbTextElement.innerText = '';
+            fbTextElement.classList.remove('collapsed');
+        }
+        if (fbSeeMoreBtn) fbSeeMoreBtn.style.display = 'none';
+
+        const igTextElement = document.getElementById('instagram-text');
+        const igSeeMoreBtn = igTextElement?.nextElementSibling;
+         if (igTextElement) {
+            igTextElement.innerText = '';
+            igTextElement.classList.remove('collapsed');
+        }
+        if (igSeeMoreBtn) igSeeMoreBtn.style.display = 'none';
+
+
         // Hide CTA section again on reset
         const postDemoCta = document.getElementById('post-demo-cta');
         if (postDemoCta) {
             postDemoCta.style.display = 'none';
         }
     }
+
+    // --- See More Logic ---
+    function setupSeeMore(textElement, buttonElement) {
+        if (!textElement || !buttonElement) return;
+
+        // Reset state initially
+        textElement.classList.remove('collapsed');
+        buttonElement.style.display = 'none';
+        buttonElement.textContent = buttonElement.id.includes('facebook') ? 'Se mere' : 'mere'; // Reset text
+
+        // Check for overflow after rendering
+        // Use setTimeout to allow browser to render and calculate heights
+        setTimeout(() => {
+            const isOverflowing = textElement.scrollHeight > textElement.clientHeight;
+
+            if (isOverflowing) {
+                textElement.classList.add('collapsed');
+                buttonElement.style.display = buttonElement.id.includes('instagram') ? 'inline' : 'block'; // Show button (inline for IG)
+
+                // Remove previous listener if any, then add new one
+                buttonElement.replaceWith(buttonElement.cloneNode(true)); // Simple way to remove listeners
+                const newButtonElement = textElement.nextElementSibling; // Get the new button reference
+                newButtonElement.addEventListener('click', () => {
+                    textElement.classList.toggle('collapsed');
+                    const isCollapsed = textElement.classList.contains('collapsed');
+                    newButtonElement.textContent = isCollapsed
+                        ? (buttonElement.id.includes('facebook') ? 'Se mere' : 'mere')
+                        : (buttonElement.id.includes('facebook') ? 'Se mindre' : 'mindre');
+                });
+            } else {
+                textElement.classList.remove('collapsed');
+                buttonElement.style.display = 'none';
+            }
+        }, 100); // Small delay for rendering
+    }
+    // --- End See More Logic ---
+
 
     function showError(message) {
         errorMessage.textContent = message;

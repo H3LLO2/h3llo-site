@@ -497,13 +497,13 @@ img.logo {
     display: flex; /* Use flexbox for centering */
     align-items: center; /* Center vertically */
     justify-content: center; /* Center horizontally */
+    /* padding: 5px; */ /* REMOVED - Let object-fit handle sizing */
 }
 
 .testimonial-image img {
     width: 100%;
     height: 100%;
     object-fit: contain; /* Ensure logo fits without cropping */
-    object-fit: cover; /* Or 'contain' for logos */
 }
 
 .testimonial-content {
@@ -879,11 +879,24 @@ img.logo {
     text-align: right; /* Align signature to the right */
 }
 /* === GENERAL SECTION SPACING === */
-section {
+/* REMOVED global section padding - Apply padding per section */
+/* section {
     padding-top: 80px;
     padding-bottom: 80px;
-    /* overflow: hidden; */ /* Already exists globally */
-}
+} */
+
+/* Ensure specific sections have padding */
+.hero { padding: 80px 0 40px 0; } /* Keep existing */
+.how-it-works { padding: 80px 0; }
+.product-value { padding: 80px 0; }
+.video-section { padding: 80px 0; }
+.smart-section { padding: 80px 0; }
+.testimonials { padding: 80px 0; }
+.about-section { padding: 80px 0; }
+.founder-story { padding: 80px 0; } /* Added for new section */
+.interactive-demo-section { padding: 60px 0; } /* Keep existing reduced */
+.contact-section { padding: 60px 0; } /* Keep existing reduced */
+
 
 /* Add container padding back ONLY where section padding isn't suitable */
 .site-footer .container {

@@ -657,3 +657,37 @@ body {
     margin-right: auto;
     line-height: 1.5; /* Adjust line height for readability */
 }
+/* See More Functionality */
+.post-text-wrapper {
+    position: relative; /* For button positioning if needed */
+}
+
+.post-text.collapsed {
+    max-height: 6.5em; /* Adjust based on desired line count (approx 4-5 lines) */
+    overflow: hidden;
+    position: relative; /* Needed for gradient overlay */
+    /* Optional: Add a fade-out effect at the bottom */
+    /* mask-image: linear-gradient(to bottom, black 70%, transparent 100%); */
+    /* -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%); */
+}
+
+.see-more-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted); /* Match timestamp color */
+    cursor: pointer;
+    padding: 0;
+    margin-top: 5px;
+    font-size: 0.9em;
+    display: block; /* Ensure it appears below text */
+}
+
+.see-more-btn:hover {
+    text-decoration: underline;
+}
+
+/* Instagram specific 'more' button alignment */
+.instagram-preview .post-caption .see-more-btn {
+    display: inline; /* Place it after the text */
+    margin-left: 5px;
+}

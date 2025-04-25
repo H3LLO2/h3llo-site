@@ -98,7 +98,10 @@
                                 <span class="post-timestamp">Lige nu • <span class="earth-icon">🌍</span></span>
                             </div>
                         </div>
-                        <p id="facebook-text" class="post-text"></p>
+                        <div class="post-text-wrapper">
+                            <p id="facebook-text" class="post-text"></p>
+                            <button class="see-more-btn" style="display: none;">Se mere</button>
+                        </div>
                         <!-- Restore original image container -->
                         <div id="facebook-images" class="post-images">
                             <!-- Images added by JS -->
@@ -147,9 +150,12 @@
                             </div>
                             <div class="post-caption">
                                  <span class="profile-name">din_butik</span> <!-- Removed suffix -->
-                                 <p id="instagram-text" class="post-text"></p>
-                            </div>
-                            <div class="post-actions">
+                                 <div class="post-text-wrapper">
+                                     <p id="instagram-text" class="post-text"></p>
+                                     <button class="see-more-btn" style="display: none;">mere</button> <!-- Instagram uses 'more' -->
+                                 </div>
+                           </div>
+                           <div class="post-actions">
                                 <span>❤️</span> <span>💬</span> <span>➤</span>
                                 <span class="bookmark">🔖</span>
                             </div>
