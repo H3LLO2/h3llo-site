@@ -96,7 +96,7 @@ Eksempel 16 (Længere - Generel Velkomst/Om Os): Velkommen hos [Virksomhedsnavn]
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
       ],
-      max_tokens: 300, // Increased token limit
+      max_tokens: 1000, // Increased token limit significantly
       temperature: 0.7,
     });
 
