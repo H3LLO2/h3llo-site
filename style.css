@@ -1018,3 +1018,29 @@ img.logo {
         margin-right: auto;
     }
 }
+/* Corner Demo Button */
+.btn-corner-demo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100; /* Ensure it's above other header content */
+    padding: 8px 18px; /* Smaller padding */
+    font-size: 0.9rem; /* Smaller font */
+}
+
+/* Adjust position on smaller screens if needed */
+@media (max-width: 767px) {
+    .btn-corner-demo {
+        top: 15px;
+        right: 15px;
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+    /* Optional: Add padding to body/header to prevent overlap with badge */
+    body {
+        padding-top: 50px; /* Adjust if top badge exists */
+    }
+    .top-badge {
+        top: 65px; /* Push badge down below button */
+    }
+}

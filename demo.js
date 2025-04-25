@@ -27,17 +27,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Constants & State ---
     const MAX_IMAGES = 2; // Limit to 2 images
     const MAX_FILE_SIZE_MB = 3;
-    // Attempt limit constants removed
+    const MAX_ATTEMPTS = 2; // Re-add attempt limit
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
     let uploadedFiles = []; // Array to hold File objects
+    let attemptsMade = 0;
+    let overrideLimit = false; // Flag for bypass
 
     // --- Initial Setup ---
+    // Check for override parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    overrideLimit = urlParams.get('override') === 'true';
+
     if (currentYearDemo) {
         currentYearDemo.textContent = new Date().getFullYear();
     }
-    // Attempt counter display hidden
-    if (attemptCounterDisplay) attemptCounterDisplay.style.display = 'none';
-    checkFormValidity(); // Initial check
+
+    // Initialize attempt counter from localStorage unless overridden
+    if (!overrideLimit) {
+        attemptsMade = parseInt(localStorage.getItem('demoAttempts') || '0', 10);
+        // updateAttemptCounterDisplay(); // Call moved after function definition
+    } else {
+        if (attemptCounterDisplay) attemptCounterDisplay.textContent = 'Demo limit overridden.';
+        if (attemptCounterDisplay) attemptCounterDisplay.style.display = 'block'; // Show override message
+    }
+
+    // checkFormValidity(); // Call moved after function definition
 
     // --- Event Listeners ---
 
@@ -269,8 +283,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageValid = userMessageInput.value.trim().length > 0;
         const imagesValid = uploadedFiles.length > 0 && uploadedFiles.length <= MAX_IMAGES;
 
-        const isValid = messageValid && imagesValid; // Limit check removed
+        const isLimitReached = !overrideLimit && attemptsMade >= MAX_ATTEMPTS;
+        const isValid = messageValid && imagesValid && !isLimitReached;
         submitBtn.disabled = !isValid;
+
+        // Show limit message if that's the reason for disabling
+        if (messageValid && imagesValid && isLimitReached) {
+             if (typeof updateAttemptCounterDisplay === 'function') updateAttemptCounterDisplay(); // Ensure function exists before calling
+        } else if (!isLimitReached && attemptCounterDisplay?.textContent.includes('demo forsøg')) { // Check the counter display text safely
+             // Don't hide general errors, just update counter if limit was previously shown
+             if (typeof updateAttemptCounterDisplay === 'function') updateAttemptCounterDisplay(); // Show remaining attempts instead
+        }
+
         return isValid;
     }
 
@@ -285,10 +309,18 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingIndicator.style.display = 'block';
         outputContent.style.display = 'none';
 
-        // Attempt count logic removed
+        // Check attempt limit again just before sending (unless overridden)
+        if (!overrideLimit && attemptsMade >= MAX_ATTEMPTS) {
+            showError(`Du har brugt dine ${MAX_ATTEMPTS} demo forsøg.`);
+            submitBtn.textContent = 'Lav Opslag'; // Reset button
+            submitBtn.disabled = true; // Keep disabled
+            inputSection.style.display = 'block'; // Show input again
+            outputSection.style.display = 'none'; // Hide output
+            return; // Stop submission
+        }
 
-        // ** SIMULATE AI CALL **
-        // In a real app, you'd send `userMessageInput.value` and potentially image data/URLs
+        // ** API CALL **
+        // (Existing API call logic follows)
         // to your backend, which then calls the OpenAI API.
         // ** IMPORTANT: API Call Simulation **
         // In a real application, DO NOT expose your OpenAI API key directly in client-side JavaScript.
@@ -320,6 +352,13 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             if (data.result) {
+                 // Increment attempts on successful generation (if limit active)
+                if (!overrideLimit) {
+                    attemptsMade++;
+                    localStorage.setItem('demoAttempts', attemptsMade.toString());
+                    if (typeof updateAttemptCounterDisplay === 'function') updateAttemptCounterDisplay();
+                    if (typeof checkFormValidity === 'function') checkFormValidity(); // Re-check validity to disable button if limit reached
+                }
                 displayResults(data.result);
             } else {
                 throw new Error("Invalid response structure from API.");
@@ -605,6 +644,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nextBtn) nextBtn.style.display = (currentSlide === totalSlides - 1) ? 'none' : 'block';
     }
 
+// --- Attempt Counter Update ---
+    function updateAttemptCounterDisplay() {
+        if (overrideLimit || !attemptCounterDisplay) return; // Don't show if overridden or element missing
+
+        const remaining = MAX_ATTEMPTS - attemptsMade;
+        if (remaining > 0) {
+            attemptCounterDisplay.textContent = `Du har ${remaining} forsøg tilbage.`;
+            attemptCounterDisplay.style.display = 'block'; // Make sure it's visible
+            attemptCounterDisplay.classList.remove('limit-reached');
+        } else {
+            attemptCounterDisplay.textContent = `Du har brugt dine ${MAX_ATTEMPTS} demo forsøg.`;
+            attemptCounterDisplay.style.display = 'block';
+            attemptCounterDisplay.classList.add('limit-reached'); // Optional: Add class for styling
+        }
+    }
+
+    // Initial calls after functions are defined
+    updateAttemptCounterDisplay();
+    checkFormValidity();
 
 
 

@@ -691,3 +691,20 @@ body {
     display: inline; /* Place it after the text */
     margin-left: 5px;
 }
+/* Demo Disclaimer Styling */
+.demo-disclaimer {
+    font-size: 0.85em;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-top: 0.5rem; /* Space above */
+    margin-bottom: 1.5rem; /* Space below before button */
+    text-align: center;
+    max-width: 500px; /* Limit width */
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Attempt Counter Limit Reached Styling */
+#attempt-counter.limit-reached {
+    color: var(--accent-pink); /* Use pink/red for warning */
+    font-weight: bold;
+}
