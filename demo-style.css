@@ -1,0 +1,772 @@
+/* === DEMO PAGE STYLES === */
+
+/* Import or define base variables (match style.css) */
+:root {
+    --bg-color: #0D0D0D;
+    --secondary-bg: #1A1A1A;
+    --text-color: #F9FAFB;
+    --text-muted: #bbb;
+    --border-color: #333;
+    --primary-gradient: linear-gradient(90deg, #00CFFF 0%, #9C27B0 50%, #FF2CD4 100%);
+    --accent-blue: #00CFFF;
+    --accent-purple: #9C27B0;
+    --accent-pink: #FF2CD4;
+    --glow-pink: rgba(255, 44, 212, 0.7);
+    --glow-blue: rgba(0, 207, 255, 0.7);
+    --font-family: 'Poppins', sans-serif;
+    --border-radius: 10px;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --facebook-blue: #1877F2;
+    --instagram-border: #e1e1e1;
+}
+
+/* Basic Reset & Body Styles (match style.css) */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 100%;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    line-height: 1.7;
+    font-size: 1rem;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Container for Demo Content */
+.demo-container {
+    width: 95%; /* More width on small screens */
+    max-width: 550px; /* Narrower 'app-like' width on desktop */
+    margin: 30px auto;
+    padding: 25px;
+    background-color: var(--secondary-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    flex-grow: 1; /* Allow demo container to take available space */
+}
+
+/* Demo Header */
+.demo-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+}
+
+.demo-header .logo {
+    height: 50px;
+    width: auto;
+    margin-bottom: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.demo-header h1 {
+    font-size: clamp(1.8rem, 4vw + 0.8rem, 2.5rem);
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.demo-header p {
+    color: var(--text-muted);
+    max-width: 60ch;
+    margin: 0 auto;
+    font-size: 1rem;
+}
+
+/* General Section Styling */
+.demo-section {
+    margin-bottom: 2.5rem;
+}
+
+/* Form Styling */
+#demo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.3);
+}
+
+.char-counter {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: right;
+    margin-top: 0.25rem;
+}
+
+/* Image Upload Area */
+.upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    position: relative; /* For input overlay */
+}
+
+.upload-area:hover {
+    border-color: var(--accent-blue);
+    background-color: rgba(0, 207, 255, 0.05);
+}
+
+.upload-area.dragover {
+    border-color: var(--accent-pink); /* Use pink for dragover */
+    border-style: solid; /* Make border solid */
+    background-color: rgba(255, 44, 212, 0.1); /* Pinkish background */
+}
+
+
+/* Style the label within the upload area */
+.upload-label {
+    margin: 0;
+    color: var(--text-muted);
+    cursor: pointer; /* Ensure cursor indicates clickability */
+    display: block; /* Ensure it takes up space */
+    padding: 1rem; /* Make the label area easily clickable */
+}
+
+
+.upload-area .browse-link {
+    color: var(--accent-blue);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Hide default file input */
+#image-upload {
+    /* Visually hide it */
+    opacity: 0;
+    position: absolute;
+    z-index: -1; /* Send it behind */
+    width: 0.1px; /* Minimal size */
+    height: 0.1px;
+    overflow: hidden;
+    /* Prevent any interaction */
+    pointer-events: none;
+}
+
+/* Image Previews */
+.image-previews-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.img-preview-wrapper {
+    position: relative;
+    width: 100px; /* Default size */
+    height: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.img-preview-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.remove-img-btn {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Submit Button & Group */
+.submit-group {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* Re-use button styles from style.css */
+.btn {
+    display: inline-block;
+    padding: 14px 30px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    margin: 8px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: var(--text-color);
+    box-shadow: 0 0 0px var(--glow-pink);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    transform: translateY(-3px) scale(1.03); /* Enhanced scale */
+    box-shadow: 0 6px 22px var(--glow-pink); /* Enhanced glow */
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--accent-blue);
+    border: 2px solid var(--accent-blue);
+    box-shadow: 0 0 0px var(--glow-blue);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background-color: rgba(0, 207, 255, 0.1);
+    transform: translateY(-3px) scale(1.03); /* Enhanced scale */
+    box-shadow: 0 6px 22px var(--glow-blue); /* Enhanced glow */
+    text-decoration: none;
+    color: var(--accent-blue);
+}
+
+#submit-btn:disabled {
+    background: #555;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    opacity: 0.6; /* Indicate disabled state better */
+}
+
+/* Privacy Note & Attempt Counter */
+.privacy-note {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 1rem;
+}
+#attempt-counter {
+    display: none; /* Hide attempt counter element */
+}
+
+/* Error Message */
+.error-message {
+    color: var(--accent-pink);
+    background-color: rgba(255, 44, 212, 0.1);
+    border: 1px solid var(--accent-pink);
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 1rem; /* Keep some space */
+    display: none; /* Hidden by default */
+}
+
+/* === OUTPUT SECTION STYLES === */
+#demo-output-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+    font-size: clamp(1.5rem, 3vw + 0.7rem, 2rem);
+}
+
+/* Loading Indicator */
+#loading-indicator {
+    text-align: center;
+    padding: 2rem 0;
+}
+#loading-indicator p {
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-left-color: var(--accent-blue);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Post Preview General */
+#output-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Reduced gap between sections */
+    align-items: center;
+}
+
+/* Wrapper for each preview type */
+.preview-wrapper {
+    width: 100%;
+    padding: 1.5rem;
+    background-color: var(--bg-color); /* Slightly different bg */
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem; /* Space between wrappers */
+    border: 1px solid var(--border-color);
+}
+
+.preview-wrapper h3 {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+
+.post-preview {
+    border-radius: var(--border-radius);
+    background-color: var(--bg-color); /* Keep post bg consistent */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    width: 100%;
+    /* max-width removed, controlled by wrapper */
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 10px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+.post-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.post-timestamp {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.post-text {
+    padding: 0 15px 15px 15px;
+    color: var(--text-color);
+    white-space: pre-wrap; /* Preserve line breaks from AI */
+    margin-bottom: 0; /* Reset default p margin */
+    max-width: none; /* Override default p max-width */
+}
+
+.post-images { /* Used only by original FB structure */
+    display: flex;
+    background-color: #000;
+}
+.post-images img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    /* Simple layout for multiple FB images */
+    flex: 1;
+    min-width: 0;
+    aspect-ratio: 1 / 1; /* Default to square */
+    object-fit: cover;
+}
+.post-images.single-image img {
+    aspect-ratio: auto; /* Adjust for single image */
+    flex: none; /* Don't flex single image */
+}
+
+
+.post-actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 15px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.post-actions span {
+    cursor: pointer;
+}
+
+/* Facebook Specific */
+.facebook-preview {
+    border: 1px solid var(--border-color);
+}
+.facebook-preview .post-timestamp .earth-icon {
+    font-size: 0.7em;
+    vertical-align: middle;
+}
+
+/* --- Carousel Base Styles (Apply to both FB & IG) --- */
+.image-carousel { /* Generic class for both carousels */
+    position: relative;
+    overflow: hidden; /* Crucial: Hide parts of the wrapper outside the container */
+    width: 100%;
+    background-color: #000; /* Black background */
+}
+#instagram-carousel { /* Specific aspect ratio for IG */
+     aspect-ratio: 1 / 1;
+}
+#facebook-carousel { /* FB aspect ratio - Reverted to simple display */
+     /* aspect-ratio: 1 / 1; */
+}
+
+.carousel-slides-wrapper {
+    display: flex;
+    height: 100%; /* Fill the container height */
+    transition: transform 0.4s ease-in-out;
+    /* Width set dynamically by JS based on image count */
+}
+
+/* Style for the individual slide container div */
+.carousel-slide {
+    flex: 0 0 100%; /* Each slide takes 100% of the container width */
+    height: 100%;
+    display: flex; /* Center image within the slide */
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Hide potential image overflow */
+}
+
+/* Corrected: Styles for the image INSIDE the slide div */
+.carousel-slide img {
+    display: block;
+    /* Remove explicit width/height */
+    max-width: 100%; /* Prevent exceeding slide width */
+    max-height: 100%; /* Prevent exceeding slide height */
+    object-fit: contain; /* Fit whole image */
+    margin: auto; /* Re-add margin: auto for centering */
+}
+
+
+.carousel-controls {
+     position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    pointer-events: none; /* Allow clicks on images */
+    z-index: 5; /* Ensure controls are above images */
+}
+.carousel-controls button {
+    background-color: rgba(255, 255, 255, 0.8); /* Lighter background */
+    color: rgba(0, 0, 0, 0.7); /* Darker icon color */
+    border: none;
+    border-radius: 50%;
+    width: 28px;  /* Slightly smaller */
+    height: 28px; /* Slightly smaller */
+    font-size: 18px; /* Larger arrow */
+    font-weight: bold;
+    line-height: 26px; /* Adjust for vertical centering */
+    text-align: center;
+    cursor: pointer;
+    pointer-events: all; /* Enable clicks on buttons */
+    opacity: 0.9; /* More opaque */
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Subtle shadow */
+}
+.carousel-controls button:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 1); /* Fully opaque on hover */
+}
+
+/* Carousel Indicators */
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px; /* Position near the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px; /* Space between dots */
+    z-index: 5; /* Above images */
+}
+
+.carousel-indicators .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+    transition: background-color 0.3s ease;
+    /* cursor: pointer; */ /* Add if implementing dot click */
+}
+
+.carousel-indicators .dot.active {
+    background-color: rgba(255, 255, 255, 1); /* Opaque white for active */
+}
+
+/* --- End Carousel Base Styles --- */
+
+
+/* Instagram Specific Preview Styles */
+.instagram-preview {
+    background-color: #000; /* Instagram dark mode */
+    border: 1px solid #262626;
+    max-width: 480px; /* Typical mobile width */
+    margin-left: auto; /* Center it within its wrapper */
+    margin-right: auto;
+}
+
+.instagram-preview .post-header {
+    padding: 12px 15px;
+    border-bottom: 1px solid #262626;
+}
+
+.post-caption {
+    padding: 10px 15px;
+}
+.post-caption .profile-name {
+    margin-right: 5px;
+}
+.post-caption p {
+    display: inline; /* Keep text on same line as username */
+    color: var(--text-color);
+    margin: 0;
+}
+
+.instagram-preview .post-actions {
+    border-top: none;
+    padding: 8px 15px;
+    justify-content: flex-start;
+    gap: 15px;
+    font-size: 1.4rem; /* Larger icons */
+}
+.instagram-preview .post-actions .bookmark {
+    margin-left: auto; /* Push bookmark to the right */
+}
+
+.post-likes {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0 15px 5px 15px;
+}
+
+.instagram-preview .post-timestamp {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    padding: 0 15px 10px 15px;
+}
+
+/* Dummy Instagram Posts REMOVED */
+
+/* Try Again Button */
+#try-again-btn {
+    margin-top: 1.5rem;
+}
+
+/* Demo Footer */
+.demo-footer {
+    background-color: var(--secondary-bg);
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+    padding-bottom: 20px;
+    flex-shrink: 0; /* Prevent footer from shrinking */
+}
+.demo-footer .container {
+    padding: 0 15px; /* Add horizontal padding */
+    max-width: 550px; /* Match demo container width */
+}
+.demo-footer p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+.demo-footer a {
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+.demo-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Post-Demo CTA Section */
+.post-cta-section {
+    text-align: center;
+    background-color: var(--secondary-bg); /* Match container bg */
+    padding: 2rem 1rem;
+    margin-top: 2rem; /* Space above CTA */
+    border-top: 1px solid var(--border-color);
+}
+.post-cta-section h2 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+.post-cta-section p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    max-width: 60ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Responsive Adjustments */
+/* Tablet and up - container width is already handled */
+
+@media (max-width: 480px) {
+    .demo-container {
+        width: 100%;
+        margin: 0 auto;
+        border-radius: 0; /* Full width on small mobile */
+        padding: 10px; /* Further reduced padding */
+        min-height: calc(100vh - 60px); /* Adjust for footer */
+        overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+    .demo-header {
+        margin-bottom: 1.5rem; /* Reduced header margin */
+        padding-bottom: 1rem; /* Reduced header padding */
+    }
+    .demo-header h1 {
+        font-size: clamp(1.6rem, 5vw + 0.5rem, 2.2rem); /* Slightly smaller H1 */
+    }
+     .demo-header p {
+        font-size: 0.9rem; /* Slightly smaller header paragraph */
+    }
+    .demo-section {
+        margin-bottom: 1.5rem; /* Reduced section spacing */
+    }
+    .form-group label { font-size: 1rem; } /* Slightly smaller labels */
+    .upload-area { padding: 1.5rem; } /* Slightly more padding */
+    .img-preview-wrapper { width: 80px; height: 80px; } /* Slightly smaller previews */
+    .btn { padding: 12px 20px; font-size: 0.9rem; }
+    #demo-output-section h2 { font-size: 1.3rem; }
+    .preview-wrapper {
+        padding: 0.75rem; /* Further reduced padding */
+        margin-bottom: 1rem;
+    }
+    .preview-wrapper h3 {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
+    .instagram-preview {
+        max-width: 100%; /* Allow IG preview to take full width */
+        width: 100%; /* Ensure it takes full width */
+    }
+    .profile-pic { width: 35px; height: 35px; }
+    .profile-name { font-size: 0.9rem; }
+    .post-timestamp { font-size: 0.75rem; }
+    .post-text { font-size: 0.9rem; }
+    .post-actions { font-size: 0.85rem; padding: 8px 10px;}
+    .instagram-preview .post-actions { font-size: 1.2rem; gap: 12px;}
+    .post-likes { font-size: 0.85rem; }
+    .demo-footer { padding-bottom: 10px; } /* Less padding */
+    .demo-footer .logo { height: 30px; }
+    .post-cta-section { padding: 1.5rem 1rem; } /* Adjust CTA padding */
+}
+/* === Inspiration Button === */
+.inspiration-button {
+    background: none;
+    border: none;
+    color: var(--accent-blue); /* Use accent color */
+    font-size: 1.1rem; /* Adjust size as needed */
+    padding: 0 0 0 8px; /* Add some space to the left */
+    margin-left: 5px; /* Space from label text */
+    cursor: pointer;
+    vertical-align: middle; /* Align with label text */
+    line-height: 1; /* Prevent extra height */
+}
+
+.inspiration-button:hover,
+.inspiration-button:focus {
+    color: var(--accent-pink); /* Change color on hover/focus */
+    outline: 2px solid var(--accent-blue); /* Clear focus indicator */
+    outline-offset: 2px;
+}
+
+/* Modal styles removed, replaced by popover styles below */
+/* Style images directly within the carousel wrapper */
+.carousel-slides-wrapper img {
+    width: 100%; /* Each image takes the full width of the VISIBLE container */
+    height: 100%; /* Fill the container height */
+    object-fit: cover; /* Cover the area, maintain aspect ratio */
+    display: block; /* Ensure block display */
+    flex-shrink: 0; /* Prevent images from shrinking */
+}
+/* Style for placeholder transition */
+#user-message::placeholder {
+    transition: opacity 0.2s ease-in-out;
+    /* Ensure default color is set if not already */
+    color: var(--text-muted); /* Or appropriate placeholder color */
+}
+
+/* Helper class to fade out placeholder */
+#user-message.placeholder-hiding::placeholder {
+    opacity: 0;
+}

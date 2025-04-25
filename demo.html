@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prøv H3LLO - Interaktiv Demo</title>
+    <meta name="description" content="Prøv H3LLO's AI-drevne social media værktøj interaktivt. Upload billeder, skriv en besked, og se et eksempel på dit opslag.">
+    <!-- Link to existing styles for consistency (optional, adjust path if needed) -->
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <!-- Link to demo-specific styles -->
+    <link rel="stylesheet" href="demo-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Favicons (reuse from main site) -->
+    <link rel="icon" href="images/For%20Web/Favicons/browser.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/For%20Web/Favicons/iPhone.png">
+</head>
+<body>
+
+    <!-- === DEMO CONTAINER START === -->
+    <div class="demo-container">
+
+        <header class="demo-header">
+            <img src="images/For Web/Color logo - no background.svg" alt="H3LLO Logo" class="logo">
+            <h1>Prøv H3LLO Interaktivt</h1>
+            <!-- Refined Header Paragraph -->
+            <p>Oplev hvordan H3LLO's AI forvandler dine billeder og en kort besked til færdige SoMe-opslag på sekunder.</p>
+        </header>
+
+        <!-- === INPUT SECTION START === -->
+        <section id="demo-input-section" class="demo-section">
+            <form id="demo-form">
+                <!-- Text Input -->
+                <div class="form-group">
+                    <label for="user-message">1. Skriv din besked (Max 200 tegn)</label>
+
+
+                    <!-- Added aria-describedby -->
+                    <textarea id="user-message" name="message" rows="3" placeholder="F.eks. '3 kjoler for 500 kr.' eller 'Nye åbningstider i weekenden'" maxlength="200" required aria-label="Din besked til H3LLO (Max 200 tegn)" aria-describedby="error-message"></textarea>
+                    <div id="char-count" class="char-counter">0 / 200</div>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="form-group">
+                    <label for="image-upload-label">2. Upload 1-3 billeder (JPG, PNG - Max 3MB/stk)</label>
+                    <div class="upload-area" id="upload-area" aria-label="Område til billedupload via træk-og-slip eller klik">
+                         <!-- Added aria-describedby -->
+                        <input type="file" id="image-upload" name="images" accept=".jpg, .jpeg, .png" multiple aria-hidden="true" aria-describedby="error-message"> <!-- Hide from screen reader, label handles it -->
+                        <!-- Changed p to label -->
+                        <label for="image-upload" class="upload-label" id="image-upload-label">
+                            Træk billeder hertil eller <span class="browse-link">vælg filer</span>
+                        </label>
+                    </div>
+                    <div id="image-previews" class="image-previews-container">
+                        <!-- Image previews will be added here by JS -->
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group submit-group">
+                    <button type="submit" id="submit-btn" class="btn btn-primary" disabled aria-label="Generer opslag baseret på besked og billeder">Lav Opslag</button>
+                </div>
+
+                <!-- Privacy Note -->
+                <p class="privacy-note">
+                    🔒 Dette er kun en demo. Intet bliver gemt, og dine data bliver ikke postet nogen steder.
+                    <span id="attempt-counter"></span>
+                </p>
+                 <!-- Added role="alert" -->
+                 <div id="error-message" class="error-message" role="alert" style="display: none;"></div>
+            </form>
+        </section>
+        <!-- === INPUT SECTION END === -->
+
+
+        <!-- === OUTPUT SECTION START === -->
+        <section id="demo-output-section" class="demo-section" style="display: none;">
+            <h2>Dit H3LLO Opslag (Eksempel)</h2>
+
+             <!-- Added aria-live -->
+            <div id="loading-indicator" style="display: none;" aria-live="polite">
+                <p>🤖 H3LLO's AI genererer dit opslag...</p>
+                <div class="spinner"></div>
+            </div>
+
+            <div id="output-content">
+
+                <div class="preview-wrapper facebook-wrapper">
+                    <h3>Facebook Eksempel</h3>
+                    <!-- Facebook Preview -->
+                    <div class="post-preview facebook-preview">
+                        <div class="post-header">
+                            <!-- Using existing logo as placeholder -->
+                            <img src="images/For Web/Favicons/browser.png" alt="Profilbillede Placeholder" class="profile-pic">
+                            <div class="post-info">
+                                <span class="profile-name">Din Butik</span>
+                                <span class="post-timestamp">Lige nu • <span class="earth-icon">🌍</span></span>
+                            </div>
+                        </div>
+                        <p id="facebook-text" class="post-text"></p>
+                        <!-- Restore original image container -->
+                        <div id="facebook-images" class="post-images">
+                            <!-- Images added by JS -->
+                        </div>
+                        <div class="post-actions">
+                        <span>👍 Like</span>
+                        <span>💬 Kommentér</span>
+                        <span>🔗 Del</span>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="preview-wrapper instagram-wrapper">
+                     <h3>Instagram Eksempel</h3>
+                    <!-- Instagram Preview -->
+                    <div class="post-preview instagram-preview">
+                         <!-- Dummy post above REMOVED -->
+    
+                        <!-- Real generated post -->
+                        <div class="instagram-post-content">
+                            <div class="post-header">
+                                 <!-- Using existing logo as placeholder -->
+                                <img src="images/For Web/Favicons/browser.png" alt="Profilbillede Placeholder" class="profile-pic">
+                                <span class="profile-name">din_butik</span>
+                            </div>
+                            <div id="instagram-carousel" class="image-carousel"> <!-- Generic class -->
+                                <div class="carousel-slides-wrapper">
+                                    <!-- Static Slide Placeholders -->
+                                    <div class="carousel-slide" id="ig-slide-0" style="display: none;">
+                                        <img src="" alt="Uploadet billede 1">
+                                    </div>
+                                    <div class="carousel-slide" id="ig-slide-1" style="display: none;">
+                                        <img src="" alt="Uploadet billede 2">
+                                    </div>
+                                    <div class="carousel-slide" id="ig-slide-2" style="display: none;">
+                                        <img src="" alt="Uploadet billede 3">
+                                    </div>
+                                </div>
+                                <div class="carousel-controls">
+                                    <button class="prev" style="display: none;">‹</button> <!-- Use HTML entity -->
+                                    <button class="next" style="display: none;">›</button> <!-- Use HTML entity -->
+                                </div>
+                                <div class="carousel-indicators">
+                                    <!-- Dots added by JS -->
+                                </div>
+                            </div>
+                            <div class="post-caption">
+                                 <span class="profile-name">din_butik</span> <!-- Removed suffix -->
+                                 <p id="instagram-text" class="post-text"></p>
+                            </div>
+                            <div class="post-actions">
+                                <span>❤️</span> <span>💬</span> <span>➤</span>
+                                <span class="bookmark">🔖</span>
+                            </div>
+                            <div class="post-likes">Syntes godt om af <strong>h3llo_ai</strong> og <strong>12 andre</strong></div>
+                            <div class="post-timestamp">LIGE NU</div>
+                        </div>
+
+                     <!-- Dummy post below REMOVED -->
+                </div>
+            </div>
+             <button id="try-again-btn" class="btn btn-secondary" aria-label="Nulstil demoen og prøv igen">Prøv Igen</button>
+        </div>
+
+    </section>
+        <!-- === OUTPUT SECTION END === -->
+
+        <!-- === POST-DEMO CTA SECTION START === -->
+        <section id="post-demo-cta" class="demo-section post-cta-section" style="display: none;">
+             <div class="container">
+                 <!-- Refined CTA Headline -->
+                 <h2>Klar til at spare tid og nå flere kunder?</h2>
+                 <p>Spar tid på sociale medier og få flere kunder i butikken. Book et uforpligtende møde og hør mere.</p>
+                 <div class="cta-buttons">
+                     <a href="https://calendly.com/lasse-h3llo/h3llo-demo-med-lasse" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book et hurtigt møde nu</a>
+                     <a href="index.html#contact" class="btn btn-secondary">Send mig en besked først</a>
+                 </div>
+             </div>
+        </section>
+        <!-- === POST-DEMO CTA SECTION END === -->
+
+
+    </div>
+    <!-- === DEMO CONTAINER END === -->
+
+    <!-- === FOOTER START === -->
+    <footer class="site-footer demo-footer">
+        <div class="container">
+             <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo Hvid" class="logo footer-logo">
+            <p>© <span id="current-year-demo"></span> – H3LLO er udviklet i Aarhus til lokale forretninger</p>
+            <p><a href="index.html">Tilbage til forsiden</a></p>
+        </div>
+    </footer>
+    <!-- === FOOTER END === -->
+
+    <script src="demo.js"></script>
+
+
+</body>
+</html>
