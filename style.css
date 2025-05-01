@@ -1159,3 +1159,67 @@ body {
         height: 30px;
     }
 }
+/* === USE CASE EXAMPLES START === */
+.examples-section {
+    background-color: var(--secondary-bg); /* Match How it Works section */
+    padding: 50px 0;
+}
+
+.example-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: single column */
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+
+.example-card {
+    background-color: var(--bg-color);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+}
+
+.example-card .example-input {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.example-card .example-input strong {
+    color: var(--accent-blue); /* Highlight "Input" */
+}
+
+.example-card .example-output p:first-child { /* Style "H3LLO Output:" */
+    font-weight: 600;
+    color: var(--accent-pink);
+    margin-bottom: 0.5rem;
+}
+
+.example-card .example-output p:last-child { /* Style the actual output text */
+    color: var(--text-color);
+    margin-bottom: 0; /* Remove bottom margin on last paragraph */
+    white-space: pre-wrap; /* Preserve line breaks if any */
+}
+
+/* Responsive adjustments for examples */
+@media (min-width: 768px) {
+    .example-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Multi-column layout */
+    }
+}
+/* === USE CASE EXAMPLES END === */
+.example-card .example-image {
+    margin-top: 1rem; /* Space above image */
+    margin-bottom: 1rem; /* Space below image */
+    text-align: center; /* Center image if needed */
+}
+
+.example-card .example-image img {
+    max-width: 100%; /* Ensure image fits card */
+    height: auto;
+    border-radius: 5px; /* Optional: slightly rounded corners */
+    border: 1px solid var(--border-color); /* Optional: subtle border */
+}
