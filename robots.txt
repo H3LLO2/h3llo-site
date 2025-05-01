@@ -1,0 +1,6 @@
+# Allow all web crawlers access to all content
+User-agent: *
+Allow: /
+
+# Sitemap (add URL once generated)
+# Sitemap: https://your-domain.com/sitemap.xml

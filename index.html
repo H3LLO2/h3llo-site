@@ -13,29 +13,72 @@
     <meta property="og:image" content="images/h3llo-og-preview.jpg"> <!-- Adjust path to your preview image -->
     <meta property="og:url" content="https://h3llo.dk/"> <!-- Adjust if URL is different -->
     <meta property="og:type" content="website">
+<!-- Security Headers -->
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <!-- Basic Content Security Policy (CSP) - Needs refinement based on actual resources -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://assets.calendly.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://hook.integromat.com; frame-src https://www.youtube.com https://calendly.com;">
     <!-- Stylesheets & Fonts -->
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://calendly.com">
+    <link rel="preconnect" href="https://assets.calendly.com" crossorigin>
     <!-- Favicons -->
     <link rel="icon" href="images/For%20Web/Favicons/browser.png" type="image/png"> <!-- Standard Favicon -->
     <link rel="apple-touch-icon" href="images/For%20Web/Favicons/iPhone.png"> <!-- Apple Touch Icon -->
     <!-- Add other sizes if needed -->
+<!-- Schema.org Markup for Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "H3LLO", // Replace with your organization name
+      "url": "https://h3llo.dk/", // Replace with your website URL
+      "logo": "https://h3llo.dk/images/For%20Web/Color%20logo%20-%20no%20background.svg", // Replace with your logo URL
+      "description": "H3LLO automatiserer social media opslag for lokale butikker i Aarhus. Spar tid og nå flere kunder.", // Optional: Add description
+      "address": { // Optional: Add address if relevant
+        "@type": "PostalAddress",
+        "addressLocality": "Aarhus",
+        "addressCountry": "DK"
+      },
+      "sameAs": [ // Optional: Add social media profile links
+        "https://www.facebook.com/yourprofile",
+        "https://www.instagram.com/yourprofile"
+       ]
+    }
+    </script>
 </head>
 <body>
+<!-- === STICKY NAVIGATION START === -->
+    <nav class="sticky-nav" role="navigation" aria-label="Hovednavigation">
+        <div class="nav-container">
+            <a href="#" class="nav-logo-link">
+                <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo" class="nav-logo">
+            </a>
+            <ul>
+                <li><a href="#how-it-works">Sådan virker det</a></li>
+                <li><a href="#video">Se video</a></li>
+                <li><a href="#testimonials">Kunder</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+                <li><a href="demo.html" class="nav-demo-btn">Prøv Demo</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- === STICKY NAVIGATION END === -->
     <div class="ai-badge top-badge">✨ AI-drevet – uden at det føles som AI</div>
 
     <!-- === HEADER / HERO SECTION START === -->
-    <header class="hero fade-in">
+    <header class="hero fade-in" role="banner">
 <a href="demo.html" class="btn btn-secondary btn-corner-demo">Prøv en demo</a>
         <div class="container">
-            <img src="images/For Web/Color logo - no background.svg" alt="H3LLO Logo" class="logo">
+            <img src="images/For Web/Color logo - no background.svg" alt="H3LLO Logo - Nem Social Media Automation" class="logo">
             <h1>Sig <span class="h3llo-gradient">H3LLO</span> til nem markedsføring</h1>
             <p class="subline">Automatiser dine Facebook- og Instagram-opslag på under 2 minutter.</p>
             <p class="hero-explanation">Send billeder og en besked – <span class="h3llo-gradient">H3LLO</span> laver opslaget og poster det for dig.</p>
             <div class="cta-buttons">
-                <a href="#video" class="btn btn-primary">Se selv hvor nemt det er</a>
+                <a href="#video" class="btn btn-secondary">Se selv hvor nemt det er</a>
                 <a href="https://calendly.com/lasse-h3llo/h3llo-demo-med-lasse" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Book et hurtigt møde</a>
             </div>
             <p class="reassurance">Prøv gratis i 7 dage • Kom i gang på få minutter - <span class="h3llo-gradient">H3LLO</span> virker bare.</p>
@@ -43,12 +86,12 @@
     </header>
     <!-- === HEADER / HERO SECTION END === -->
 
-    <main>
+    <main role="main">
 
         <!-- === HOW IT WORKS SECTION START === -->
-        <section id="how-it-works" class="how-it-works fade-in">
+        <section id="how-it-works" class="how-it-works fade-in" role="region" aria-labelledby="how-it-works-heading">
             <div class="container">
-                <h2>Sådan virker det</h2>
+                <h2 id="how-it-works-heading">Sådan virker det</h2>
                 <div class="steps">
                     <article class="step">
                         <div class="step-icon">
@@ -89,9 +132,9 @@
 
 
         <!-- === PRODUCT VALUE SECTION START === -->
-        <section class="product-value fade-in">
+        <section class="product-value fade-in" role="region" aria-labelledby="product-value-heading">
             <div class="container">
-                <h2><span class="h3llo-gradient">H3LLO</span> er til dig, der hellere vil passe butikken end poste opslag</h2>
+                <h2 id="product-value-heading"><span class="h3llo-gradient">H3LLO</span> er til dig, der hellere vil passe butikken end poste opslag</h2>
                 <p class="highlight-benefit"><strong>Vores kunder oplever op til 500% flere visninger i perioden!</strong></p>
                 <div class="value-points">
                     <div class="point">
@@ -120,18 +163,18 @@
 
 
         <!-- === VIDEO SECTION START === -->
-        <section id="video" class="video-section fade-in">
+        <section id="video" class="video-section fade-in" role="region" aria-labelledby="video-heading">
             <div class="container">
-                <h2>Se det i aktion</h2>
+                <h2 id="video-heading">Se det i aktion</h2>
                  <!-- Embed YouTube video or use placeholder -->
                  <div class="video-wrapper">
                      <div class="ai-badge video-badge">🤖 AI-drevet, men menneskeligt udført</div>
                     <!-- Replace with your actual YouTube embed code -->
                     <!-- Example using placeholder image linking to video -->
-                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" class="video-placeholder" aria-label="Afspil video om <span class="h3llo-gradient">H3LLO</span> (åbner YouTube)">
-                        <img src="images/h3llo-video-thumbnail.jpg" alt="Video thumbnail - klik for at se hvordan H3LLO virker"> <!-- Use a real thumbnail -->
+                    <div class="video-placeholder" data-id="dQw4w9WgXcQ" aria-label="Afspil video om H3LLO"> <!-- Replace dQw4w9WgXcQ with your video ID -->
+                        <img src="images/h3llo-video-thumbnail.jpg" alt="Video thumbnail - klik for at se hvordan H3LLO virker" loading="lazy" decoding="async"> <!-- Use a real thumbnail -->
                         <span class="play-icon" aria-hidden="true">▶</span>
-                    </a>
+                    </div>
                  </div>
                 <p class="caption">Se videoen og få en fornemmelse af, hvordan det virker i en <em>real life demo</em>. Bruges allerede af flere specialbutikker, caféer, restauranter, frisører m.fl.</p>
            </div>
@@ -140,9 +183,9 @@
 
 
 <!-- === WHY H3LLO IS SMART SECTION START === -->
-<section class="smart-section fade-in">
+<section class="smart-section fade-in" role="region" aria-labelledby="smart-heading">
   <div class="container">
-    <h2>Hvorfor er <span class="h3llo-gradient">H3LLO</span> så banebrydende smart?</h2>
+    <h2 id="smart-heading">Hvorfor er <span class="h3llo-gradient">H3LLO</span> så banebrydende smart?</h2>
     <p class="smart-intro"><strong>Fordi det fjerner alt det, du ikke gider – og lader dig gøre det, du er bedst til.</strong></p>
 
     <div class="smart-benefits">
@@ -170,13 +213,13 @@
 <!-- === WHY H3LLO IS SMART SECTION END === -->
 
         <!-- === TESTIMONIALS SECTION START === -->
-        <section class="testimonials fade-in">
+        <section class="testimonials fade-in" role="region" aria-labelledby="testimonials-heading">
             <div class="container">
-                <h2>Hvad siger butikkerne?</h2>
+                <h2 id="testimonials-heading">Hvad siger butikkerne?</h2>
                 <div class="testimonial-grid">
                     <article class="testimonial-card">
                         <div class="testimonial-image">
-                            <img src="images/re-love-logoet.jpg" alt="Re-Love Logo">
+                            <img src="images/re-love-logoet.jpg" alt="Re-Love Logo" loading="lazy" decoding="async">
                         </div>
                         <div class="testimonial-content">
                             <blockquote>"Super intuitivt og effektivt. Vi får flere kunder ind fra Facebook nu takket være <span class="h3llo-gradient">H3LLO</span>."</blockquote>
@@ -185,7 +228,7 @@
                     </article>
                     <article class="testimonial-card">
                          <div class="testimonial-image">
-                            <img src="images/Lava_logo.png" alt="Café Lava Logo">
+                            <img src="images/Lava_logo.png" alt="Café Lava Logo" loading="lazy" decoding="async">
                         </div>
                         <div class="testimonial-content">
                             <blockquote>"<span class="h3llo-gradient">H3LLO</span> har gjort vores SoMe så meget nemmere. Vi sparer timer hver uge, som vi kan bruge på kunderne!"</blockquote>
@@ -194,7 +237,7 @@
                     </article>
                     <article class="testimonial-card">
                          <div class="testimonial-image">
-                            <img src="images/mr_logo.png" alt="Mr. Andersen Logo">
+                            <img src="images/mr_logo.png" alt="Mr. Andersen Logo" loading="lazy" decoding="async">
                         </div>
                         <div class="testimonial-content">
                             <blockquote>"Endelig en løsning der forstår en travl hverdag i butikken. Kan klart anbefales til andre lokale."</blockquote>
@@ -208,12 +251,12 @@
 
 
 <!-- === INTERACTIVE DEMO SECTION START === -->
-<section class="interactive-demo-section fade-in">
+<section class="interactive-demo-section fade-in" role="region" aria-labelledby="demo-heading">
   <div class="container">
-    <h2>Få en lille smagsprøve på <span class="h3llo-gradient">H3LLO</span> – uden opsætning</h2>
+    <h2 id="demo-heading">Få en lille smagsprøve på <span class="h3llo-gradient">H3LLO</span> – uden opsætning</h2>
     <p class="demo-subtext">Send en kort besked og et billede. Se straks hvordan dit opslag ville se ud.<br>(Demoen er en forsimplet version – den ægte vare kan endnu mere!)</p>
     <div class="demo-preview-image">
-            <img src="images/Preview_demo_billede.png" alt="Preview af H3LLO interaktiv demo">
+            <img src="images/Preview_demo_billede.png" alt="Preview af H3LLO interaktiv demo" loading="lazy" decoding="async">
     </div>
     <a href="demo.html" class="btn btn-primary btn-large">Start demo</a>
   </div>
@@ -224,9 +267,9 @@
 
 
 <!-- === ABOUT SECTION START === -->
-<section class="about-section fade-in">
+<section class="about-section fade-in" role="region" aria-labelledby="about-heading">
   <div class="container">
-    <h2>Bygget i Aarhus – Fordi lokal handel er værd at kæmpe for</h2>
+    <h2 id="about-heading">Bygget i Aarhus – Fordi lokal handel er værd at kæmpe for</h2>
     <div class="about-content">
       <p>Hvorfor <span class="h3llo-gradient">H3LLO</span>? Fordi jeg selv har stået i det. Jeg ved, hvor meget passion lokale forretninger drives af – og hvor frustrerende det er, når markedsføring stjæler dyrebar tid fra kunderne og driften.</p>
       <p>Jeg hedder Lasse. Med en baggrund som journalist (bl.a. fra TV 2 og TV 2 ECHO) og med erfaring som marketingchef i Aarhus, har jeg stået i spidsen for marketing og kommunikation tæt på virkeligheden.</p>
@@ -240,9 +283,9 @@
 <!-- === ABOUT SECTION END === -->
 
         <!-- === CONTACT FORM SECTION START === -->
-        <section id="contact" class="contact-section fade-in">
+        <section id="contact" class="contact-section fade-in" role="region" aria-labelledby="contact-heading">
             <div class="container">
-                <h2>Klar til at spare tid?</h2>
+                <h2 id="contact-heading">Klar til at spare tid?</h2>
                 <p>Send en besked herunder, så vender vi hurtigt tilbage. Du kan også booke et møde direkte.</p>
                 <p class="contact-intro">Skriv direkte til mig her:</p>
                 <form id="contact-form" class="contact-form" action="https://hook.integromat.com/your-webhook-url" method="POST">
@@ -255,7 +298,7 @@
                         <textarea id="message" name="message" rows="4" required></textarea>
                     </div>
                     <div class="form-submit">
-                         <button type="submit" class="btn btn-primary">Skriv til mig</button>
+                         <button type="submit" class="btn btn-secondary">Skriv til mig</button>
                     </div>
                      <div id="form-status" class="form-status" aria-live="polite"></div>
                 </form>
@@ -271,9 +314,9 @@
     </main>
 
     <!-- === FOOTER START === -->
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
         <div class="container">
-             <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo Hvid" class="logo footer-logo">
+             <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo Hvid" class="logo footer-logo" loading="lazy" decoding="async">
             <p>© <span id="current-year"></span> – <span class="h3llo-gradient">H3LLO</span> er udviklet i Aarhus til lokale forretninger</p>
         </div>
     </footer>
@@ -356,6 +399,36 @@
             });
         });
 
+// Lazy Load YouTube Video
+        const videoPlaceholder = document.querySelector('.video-placeholder');
+        if (videoPlaceholder) {
+            videoPlaceholder.addEventListener('click', function() {
+                const videoId = this.getAttribute('data-id');
+                if (videoId) {
+                    const iframe = document.createElement('iframe');
+                    iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`); // Autoplay and hide related videos
+                    iframe.setAttribute('frameborder', '0');
+                    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; presentation'); // Added presentation for fullscreen possibility
+                    iframe.setAttribute('allowfullscreen', '');
+                    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-popups'); // Added sandbox attribute
+                    iframe.setAttribute('title', 'H3LLO Demo Video'); // Add a title for accessibility
+
+                    // Replace placeholder content with iframe
+                    const wrapper = this.parentNode; // Get the .video-wrapper
+                    wrapper.innerHTML = ''; // Clear existing content (image, icon)
+                    wrapper.appendChild(iframe);
+                }
+            });
+            // Add keyboard accessibility (Enter/Space key press)
+            videoPlaceholder.addEventListener('keydown', function(event) {
+                 if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault(); // Prevent default space bar scroll
+                    this.click(); // Trigger the click event
+                 }
+            });
+            // Make the placeholder focusable
+            videoPlaceholder.setAttribute('tabindex', '0');
+        }
     </script>
 
 </body>

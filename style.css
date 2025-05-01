@@ -94,6 +94,11 @@ a:hover {
     color: var(--accent-blue);
     text-decoration: none; /* Remove underline on hover for links */
 }
+a:focus {
+    outline: 2px solid var(--accent-pink); /* Use pink for focus outline */
+    outline-offset: 2px; /* Add some space between the link and the outline */
+    color: var(--accent-pink); /* Ensure text color changes on focus too */
+}
 
 img {
     max-width: 100%;
@@ -340,9 +345,16 @@ img.logo {
     align-items: center;
     gap: 0.75rem;
     background-color: var(--secondary-bg);
-    padding: 1rem 1.25rem;
+    padding: 1.25rem 1.5rem; /* Slightly more padding */
     border-radius: var(--border-radius);
-    border-left: 5px solid var(--accent-purple); /* Thicker border */
+    border-left: 5px solid var(--accent-purple); /* Restored border-left */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
+}
+
+.point:hover {
+    transform: translateY(-3px); /* Lift card on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
 }
 
 .point .icon {
@@ -460,9 +472,9 @@ img.logo {
     background-color: var(--secondary-bg);
     padding: 2rem;
     border-radius: var(--border-radius);
-    border-left: 6px solid; /* Gradient border applied below */
-    border-image: var(--primary-gradient) 1;
-    box-shadow: var(--card-shadow);
+    border-left: 6px solid; /* Restored */
+    border-image: var(--primary-gradient) 1; /* Restored */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adjusted base shadow */
     display: flex;
     flex-direction: column; /* Stack image and content vertically on mobile */
     gap: 1.5rem;
@@ -470,7 +482,8 @@ img.logo {
 }
 
 .testimonial-card:hover {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-3px); /* Adjusted hover transform */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Added hover shadow */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
@@ -1042,5 +1055,107 @@ img.logo {
     }
     .top-badge {
         top: 65px; /* Push badge down below button */
+    }
+}
+/* === STICKY NAVIGATION STYLES === */
+.sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(13, 13, 13, 0.9); /* Semi-transparent dark background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    padding: 10px 0;
+    z-index: 1000; /* Ensure it's above other content */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: top 0.3s ease; /* Smooth transition if hiding/showing */
+}
+
+.sticky-nav .nav-container {
+    width: 90%;
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sticky-nav .nav-logo-link {
+    display: inline-block;
+}
+
+.sticky-nav .nav-logo {
+    height: 35px; /* Adjust logo size */
+    width: auto;
+    display: block;
+}
+
+.sticky-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Spacing between links */
+}
+
+.sticky-nav ul li {
+    display: inline-block;
+}
+
+.sticky-nav ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sticky-nav ul li a:hover,
+.sticky-nav ul li a:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--accent-blue);
+    outline: none; /* Remove default focus outline, rely on background change */
+}
+
+/* Style for the Demo button in the nav */
+.sticky-nav .nav-demo-btn {
+    background-color: var(--accent-blue);
+    color: var(--bg-color);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.sticky-nav .nav-demo-btn:hover,
+.sticky-nav .nav-demo-btn:focus {
+    background-color: var(--accent-pink);
+    color: var(--text-color);
+    box-shadow: 0 0 10px var(--glow-pink);
+}
+
+/* Adjust body padding to prevent content from hiding behind sticky nav */
+body {
+    padding-top: 70px; /* Adjust based on nav height */
+}
+
+/* Hide sticky nav on very small screens if needed */
+@media (max-width: 767px) {
+    .sticky-nav ul {
+        display: none; /* Hide links, maybe implement a burger menu later */
+    }
+    .sticky-nav .nav-container {
+        justify-content: center; /* Center logo when links are hidden */
+    }
+     body {
+        padding-top: 60px; /* Adjust if nav height changes */
+    }
+    .sticky-nav {
+        padding: 8px 0;
+    }
+    .sticky-nav .nav-logo {
+        height: 30px;
     }
 }
