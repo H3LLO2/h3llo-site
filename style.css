@@ -1223,6 +1223,28 @@ body {
     border-radius: 5px; /* Optional: slightly rounded corners */
     border: 1px solid var(--border-color); /* Optional: subtle border */
 }
+.footer-contact {
+    text-align: center;
+    margin-top: 1rem; /* Add some space above contact details */
+    font-size: 0.9rem; /* Slightly smaller font for footer details */
+    color: var(--text-muted);
+}
+
+.footer-contact p {
+    margin-bottom: 0.25rem; /* Reduce space between lines in footer contact */
+    max-width: none; /* Allow footer text to span width */
+    color: inherit; /* Inherit muted color */
+}
+
+.footer-contact a {
+    color: var(--text-muted); /* Muted link color */
+    text-decoration: underline;
+}
+
+.footer-contact a:hover,
+.footer-contact a:focus {
+    color: var(--accent-blue); /* Brighter on hover/focus */
+}
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
 /* Style for horizontal scroll indicator */
