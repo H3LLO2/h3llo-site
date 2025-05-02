@@ -1300,4 +1300,24 @@ body {
     h1 { font-size: clamp(2rem, 6vw + 1rem, 3rem); } /* Adjust H1 size */
     h2 { font-size: clamp(1.6rem, 5vw + 0.8rem, 2.4rem); margin-bottom: 2rem;} /* Adjust H2 size/margin */
 
+    /* Mobile Hero Adjustments */
+    .hero p.reassurance,
+    .hero p.hero-explanation { /* Also hide hero explanation */
+        display: none;
+    }
+    .hero .cta-buttons {
+        margin-top: 2.5rem; /* Increase top margin to push buttons down */
+    }
+    .top-badge {
+        position: static; /* Override absolute positioning */
+        display: block; /* Ensure it takes block space */
+        width: fit-content; /* Allow centering with margin auto */
+        margin: 10px auto 0 auto; /* Add top margin, center horizontally */
+        padding: 4px 15px; /* Adjust padding: less vertical, more horizontal */
+        font-size: 0.75rem; /* Slightly smaller font */
+        /* top: 10px; REMOVED */
+        left: auto; /* Reset */
+        transform: none; /* Reset */
+    }
+
 }

@@ -90,7 +90,7 @@
     <!-- === HEADER / HERO SECTION START === -->
     <header class="hero fade-in" role="banner">
         <div class="container">
-            <img src="images/For Web/Color logo - no background.svg" alt="H3LLO Logo - Nem Social Media Automation" class="logo">
+            <img src="images/For Web/Color logo - no background.svg" alt="H3LLO Logo - Nem Social Media Automation" class="logo" width="205" height="60"> <!-- Added estimated width/height for SVG -->
             <h1>Sig <span class="h3llo-gradient">H3LLO</span> til nem markedsføring</h1>
             <p class="subline">Automatiser dine Facebook- og Instagram-opslag på under 2 minutter.</p>
             <p class="hero-explanation">Send billeder og en besked – <span class="h3llo-gradient">H3LLO</span> laver opslaget og poster det for dig.</p>
@@ -117,7 +117,7 @@
                             </svg>
                         </div>
                         <h3>1. Send besked & billede</h3>
-                        <p>Send 1+ billede/video og en kort besked om, hvad der sker i butikken.</p>
+                        <p>Når du vil poste sender du 1 eller flere billeder/video og en kort besked om, hvad der sker i butikken.</p>
                     </article>
                     <article class="step">
                         <div class="step-icon">
@@ -188,7 +188,11 @@
                         <p class="example-input"><strong>Input:</strong> "Udsalg Eton skjorter i Slim fra str 38-43 og contemporary str 40-46. Spar 30%"</p>
                         <!-- Add image here -->
                         <div class="example-image">
-                             <img src="images/Magnus.jpg" alt="Eksempel på Mr. Andersen opslag billede" loading="lazy">
+                             <picture>
+                               <source srcset="images/H3LLOimg1,Lava_logo,Magnus/Magnus.webp" type="image/webp">
+                               <source srcset="images/Magnus.jpg" type="image/jpeg">
+                               <img src="images/Magnus.jpg" alt="Eksempel på Mr. Andersen opslag billede" loading="lazy" decoding="async" width="400" height="400"> <!-- Added estimated width/height -->
+                             </picture>
                         </div>
                         <div class="example-output">
                             <p><strong>H3LLO Output:</strong></p>
@@ -198,7 +202,11 @@
                     <article class="example-card">
                         <p class="example-input"><strong>Input:</strong> "Spritz: bitter, Campari,Limoncello,Hugo ellerAperol. Og ja – der er også en alkoholfri Amalfi"</p>
                         <div class="example-image">
-                             <img src="images/Rasmus.png" alt="Eksempel på LAVA Aarhus opslag billede" loading="lazy">
+                            <picture>
+                              <source srcset="images/H3LLOimg1,Lava_logo,Magnus/Rasmus.webp" type="image/webp">
+                              <source srcset="images/Rasmus.png" type="image/png">
+                              <img src="images/Rasmus.png" alt="Eksempel på LAVA Aarhus opslag billede" loading="lazy" decoding="async" width="400" height="225"> <!-- Added estimated width/height -->
+                            </picture>
                         </div>
                         <div class="example-output">
                             <p><strong>H3LLO Output:</strong></p>
@@ -208,7 +216,11 @@
                     <article class="example-card">
                         <p class="example-input"><strong>Input:</strong> "Mads Nørgaard taske til 275 kr<br>Custommade kimono i str 36 450kr<br>bluse Love & Divine i str L 275kr<br>tørklæde 2 stk 325kr<br>kjole Zadig og Voltaire i str M 500kr<br>*se på billederne for farven h3llo"</p>
                         <div class="example-image">
-                             <img src="images/Re-love_mette.png" alt="Eksempel på Re-love opslag billede" loading="lazy">
+                            <picture>
+                              <source srcset="images/H3LLOimg1,Lava_logo,Magnus/Re-love_mette.webp" type="image/webp">
+                              <source srcset="images/Re-love_mette.png" type="image/png">
+                              <img src="images/Re-love_mette.png" alt="Eksempel på Re-love opslag billede" loading="lazy" decoding="async" width="400" height="225"> <!-- Added estimated width/height -->
+                            </picture>
                         </div>
                         <div class="example-output">
                             <p><strong>H3LLO Output:</strong></p>
@@ -263,7 +275,11 @@
                 <div class="testimonial-grid">
                     <article class="testimonial-card">
                         <div class="testimonial-image">
-                            <img src="images/re-love-logoet.jpg" alt="Re-Love Logo" loading="lazy" decoding="async">
+                            <picture>
+                              <source srcset="images/H3LLOimg1,Lava_logo,Magnus/re-love-logoet.webp" type="image/webp">
+                              <source srcset="images/re-love-logoet.jpg" type="image/jpeg">
+                              <img src="images/re-love-logoet.jpg" alt="Re-Love Logo" loading="lazy" decoding="async" width="80" height="80"> <!-- Added estimated width/height -->
+                            </picture>
                         </div>
                         <div class="testimonial-content">
                             <blockquote>"Super intuitivt og effektivt. Vi får flere kunder ind fra Facebook nu takket være <span class="h3llo-gradient">H3LLO</span>."</blockquote>
@@ -272,7 +288,11 @@
                     </article>
                     <article class="testimonial-card">
                          <div class="testimonial-image">
-                            <img src="images/Lava_logo.png" alt="Café Lava Logo" loading="lazy" decoding="async">
+                            <picture>
+                              <source srcset="images/H3LLOimg1,Lava_logo,Magnus/Lava_logo.webp" type="image/webp">
+                              <source srcset="images/Lava_logo.png" type="image/png">
+                              <img src="images/Lava_logo.png" alt="Café Lava Logo" loading="lazy" decoding="async" width="80" height="80"> <!-- Added estimated width/height -->
+                            </picture>
                         </div>
                         <div class="testimonial-content">
                             <blockquote>"<span class="h3llo-gradient">H3LLO</span> har gjort vores SoMe så meget nemmere. Vi sparer timer hver uge, som vi kan bruge på kunderne!"</blockquote>
@@ -281,7 +301,11 @@
                     </article>
                     <article class="testimonial-card">
                          <div class="testimonial-image">
-                            <img src="images/mr_logo.png" alt="Mr. Andersen Logo" loading="lazy" decoding="async">
+                            <picture>
+                              <source srcset="images/H3LLOimg1,Lava_logo,Magnus/mr_logo.webp" type="image/webp">
+                              <source srcset="images/mr_logo.png" type="image/png">
+                              <img src="images/mr_logo.png" alt="Mr. Andersen Logo" loading="lazy" decoding="async" width="80" height="80"> <!-- Added estimated width/height -->
+                            </picture>
                         </div>
                         <div class="testimonial-content">
                             <blockquote>"Endelig en løsning der forstår en travl hverdag i butikken. Kan klart anbefales til andre lokale."</blockquote>
@@ -300,7 +324,11 @@
     <h2 id="demo-heading">Få en lille smagsprøve på <span class="h3llo-gradient">H3LLO</span> – uden opsætning</h2>
     <p class="demo-subtext">Send en kort besked og et billede. Se straks hvordan dit opslag ville se ud.<br>(Demoen er en forsimplet version – den ægte vare kan endnu mere!)</p>
     <div class="demo-preview-image">
-            <img src="images/Preview_demo_billede.png" alt="Preview af H3LLO interaktiv demo" loading="lazy" decoding="async">
+            <picture>
+              <source srcset="images/H3LLOimg1,Lava_logo,Magnus/Preview_demo_billede.webp" type="image/webp">
+              <source srcset="images/Preview_demo_billede.png" type="image/png">
+              <img src="images/Preview_demo_billede.png" alt="Preview af H3LLO interaktiv demo" loading="lazy" decoding="async" width="400" height="225"> <!-- Added estimated width/height -->
+            </picture>
     </div>
 <a href="demo.html" class="btn btn-primary btn-large">Start demo</a>
   </div>
@@ -319,6 +347,12 @@
       <p>Jeg hedder Lasse. Med en baggrund som journalist (bl.a. fra TV 2 og TV 2 ECHO) og med erfaring som marketingchef i Aarhus, har jeg stået i spidsen for marketing og kommunikation tæt på virkeligheden.</p>
       <p>Derfor byggede jeg <span class="h3llo-gradient">H3LLO</span> – ikke som endnu et komplekst marketingværktøj, men som en reel genvej.</p>
       <p><span class="h3llo-gradient">H3LLO</span> er 2025's genvej til professionelle opslag på sociale medier på under 2 minutter. Det er enkelt, det er effektivt, og det virker, så du kan fokusere på det, du er bedst til.</p>
+      <!-- Assuming founder image was here, need to re-insert -->
+      <picture>
+        <source srcset="images/H3LLOimg1,Lava_logo,Magnus/H3LLOimg1.webp" type="image/webp">
+        <source srcset="images/H3LLOimg1.png" type="image/png">
+        <img src="images/H3LLOimg1.png" alt="Lasse Koertsen - Stifter af H3LLO" class="founder-image" loading="lazy" decoding="async" width="150" height="150"> <!-- Added estimated width/height -->
+      </picture>
       <p>Jeg ønsker at gøre det nemt for gode, lokale forretninger at blive set og hørt online. At styrke lokalsamfundet ved at give jer et redskab, der sparer tid og skaber resultater.</p>
       <p class="signature">/ Lasse – stifter af <span class="h3llo-gradient">H3LLO</span></p>
     </div>
@@ -368,7 +402,7 @@
     <!-- === FOOTER START === -->
     <footer class="site-footer" role="contentinfo">
         <div class="container">
-             <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo Hvid" class="logo footer-logo" loading="lazy" decoding="async">
+             <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo Hvid" class="logo footer-logo" loading="lazy" decoding="async" width="137" height="40"> <!-- Added estimated width/height for SVG -->
             <p>© <span id="current-year"></span> – <span class="h3llo-gradient">H3LLO</span> er udviklet i Aarhus til lokale forretninger</p>
             <div class="footer-contact">
                 <p>H3LLO ApS | CVR: 45421937</p>
