@@ -42,9 +42,35 @@ document.addEventListener('DOMContentLoaded', () => {
         currentYearDemo.textContent = new Date().getFullYear();
     }
 
-    // Initialize attempt counter from localStorage unless overridden
+    // Initialize attempt counter from localStorage with 12-hour reset, unless overridden
     if (!overrideLimit) {
-        attemptsMade = parseInt(localStorage.getItem('demoAttempts') || '0', 10);
+        const twelveHours = 12 * 60 * 60 * 1000; // Milliseconds in 12 hours
+        let demoData = null;
+        try {
+            const storedData = localStorage.getItem('h3lloDemoData');
+            if (storedData) {
+                demoData = JSON.parse(storedData);
+            }
+        } catch (e) {
+            console.error("Error parsing demo data from localStorage", e);
+            demoData = null; // Reset if data is corrupt
+        }
+
+        const now = Date.now();
+
+        if (demoData && demoData.timestamp && typeof demoData.attempts === 'number') {
+            const timeDiff = now - demoData.timestamp;
+            if (timeDiff < twelveHours) { // Check against 12 hours
+                attemptsMade = demoData.attempts; // Use stored attempts if within 12 hours
+            } else {
+                attemptsMade = 0; // Reset attempts if older than 12 hours
+                localStorage.setItem('h3lloDemoData', JSON.stringify({ attempts: attemptsMade, timestamp: now }));
+            }
+        } else {
+            // Initialize if no valid data found
+            attemptsMade = 0;
+            localStorage.setItem('h3lloDemoData', JSON.stringify({ attempts: attemptsMade, timestamp: now }));
+        }
         // updateAttemptCounterDisplay(); // Call moved after function definition
     } else {
         if (attemptCounterDisplay) attemptCounterDisplay.textContent = 'Demo limit overridden.';
@@ -355,7 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
                  // Increment attempts on successful generation (if limit active)
                 if (!overrideLimit) {
                     attemptsMade++;
-                    localStorage.setItem('demoAttempts', attemptsMade.toString());
+                    // Store updated attempts and current timestamp
+                    localStorage.setItem('h3lloDemoData', JSON.stringify({ attempts: attemptsMade, timestamp: Date.now() }));
                     if (typeof updateAttemptCounterDisplay === 'function') updateAttemptCounterDisplay();
                     if (typeof checkFormValidity === 'function') checkFormValidity(); // Re-check validity to disable button if limit reached
                 }
