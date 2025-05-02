@@ -734,6 +734,11 @@ img.logo {
     padding: 0; /* Remove extra padding */
 }
 
+/* Ensure copyright paragraph text is centered */
+.site-footer .container > p {
+    text-align: center;
+    max-width: none; /* Ensure it can span width to center */
+}
 .site-footer p {
     font-size: 0.9rem;
     color: var(--text-muted);
