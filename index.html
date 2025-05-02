@@ -332,7 +332,7 @@
                 <h2 id="contact-heading">Klar til at spare tid?</h2>
                 <p>Send en besked herunder, så vender vi hurtigt tilbage. Du kan også booke et møde direkte.</p>
                 <p class="contact-intro">Skriv direkte til mig her:</p>
-                <form id="contact-form" class="contact-form" action="https://hook.integromat.com/your-webhook-url" method="POST">
+                <form id="contact-form" class="contact-form" action="https://formspree.io/f/xyzweeyg" method="POST">
                     <div class="form-group">
                         <label for="name">Navn</label>
                         <input type="text" id="name" name="name" required>
@@ -413,38 +413,56 @@
             formStatus.textContent = ''; // Clear previous status
             formStatus.className = 'form-status'; // Reset class
 
-            fetch(webhookUrl, {
+            // Fetch request modified for Formspree AJAX
+            fetch(webhookUrl, { // webhookUrl is now the Formspree URL from contactForm.action
                 method: 'POST',
                 body: formData,
-                // Headers might not be needed depending on Make.com webhook config
-                // headers: {
-                //     'Content-Type': 'application/x-www-form-urlencoded', // Or 'application/json' if sending JSON
-                // }
+                headers: {
+                    'Accept': 'application/json' // Formspree requires this for AJAX
+                }
             })
             .then(response => {
                 if (response.ok) {
-                    // Make.com webhooks usually return 'Accepted' text or status 200
-                    return response.text(); // Or response.json() if it returns JSON
+                    // Formspree success response (usually {ok: true})
+                    return response.json();
                 } else {
-                    // Handle server errors (e.g., 4xx, 5xx)
-                    throw new Error(`Server responded with status: ${response.status}`);
+                    // Try to parse Formspree error response
+                    return response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                          // Formspree validation errors
+                          throw new Error(data["errors"].map(error => error["message"]).join(", "));
+                        } else {
+                          // Other server errors
+                          throw new Error(`Server responded with status: ${response.status}`);
+                        }
+                    }).catch(() => {
+                         // Fallback if error response isn't JSON
+                         throw new Error(`Server responded with status: ${response.status}`);
+                    });
                 }
             })
             .then(data => {
-                console.log('Success:', data); // Log success response (optional)
+                // Handle Formspree success
+                console.log('Formspree Success:', data);
                 contactForm.reset(); // Clear the form
-                formStatus.textContent = 'Tak for din besked – jeg vender hurtigt tilbage!'; // Updated success message
+                formStatus.textContent = 'Tak for din besked! Vi vender tilbage hurtigst muligt.'; // Success message
                 formStatus.classList.add('success');
+                // Keep button disabled after success (optional)
+                // submitButton.disabled = false; // Remove this line to keep disabled
+                // submitButton.textContent = 'Skriv til mig'; // Remove this line to keep disabled
             })
             .catch(error => {
-                console.error('Error:', error);
-                formStatus.textContent = 'Der opstod en fejl. Prøv venligst igen senere.';
+                // Handle fetch errors or errors thrown from response handling
+                console.error('Form Submission Error:', error);
+                formStatus.textContent = `Fejl: ${error.message || 'Kunne ikke sende besked. Prøv igen.'}`;
                 formStatus.classList.add('error');
             })
             .finally(() => {
-                // Re-enable button
-                submitButton.disabled = false;
-                submitButton.textContent = 'Skriv til mig';
+                // Re-enable button only if not successful (or if explicitly desired after success)
+                 if (!formStatus.classList.contains('success')) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Skriv til mig';
+                 }
             });
         });
 
