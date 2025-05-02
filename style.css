@@ -640,6 +640,8 @@ img.logo {
 }
 
 .form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
 .form-group textarea {
     width: 100%;
     padding: 12px 15px;
@@ -653,6 +655,8 @@ img.logo {
 }
 
 .form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: var(--accent-blue);
