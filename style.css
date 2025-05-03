@@ -667,6 +667,55 @@ img.logo {
     resize: vertical; /* Allow vertical resize */
     min-height: 100px;
 }
+/* === BUTTON STYLES === */
+.btn {
+    display: inline-block; /* Allow setting width/padding */
+    padding: 12px 28px; /* Vertical and horizontal padding */
+    border-radius: 50px; /* Fully rounded corners */
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid transparent; /* Base border */
+    transition: all 0.3s ease; /* Smooth transitions */
+    margin: 5px; /* Small margin for spacing */
+    min-width: 180px; /* Minimum width */
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--accent-blue); /* Blue border */
+    color: var(--accent-blue); /* Blue text */
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background-color: rgba(0, 207, 255, 0.1); /* Subtle blue background on hover/focus */
+    color: var(--text-color); /* White text on hover/focus */
+    border-color: var(--accent-blue);
+    outline: none; /* Remove default focus outline if custom style is applied */
+}
+
+.btn-primary {
+    background-color: var(--accent-purple); /* Solid purple background */
+    border-color: var(--accent-purple);
+    color: var(--text-color); /* Light text for contrast */
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #8a1aa0; /* Slightly darker purple */
+    border-color: #8a1aa0;
+    color: var(--text-color); /* Keep light text on hover */
+    outline: none; /* Remove default focus outline */
+}
+
+/* Optional: Style for larger buttons if needed */
+.btn-large {
+    padding: 15px 35px;
+    font-size: 1.1rem;
+}
 
 .form-submit {
     text-align: center;
