@@ -57,6 +57,40 @@
                     <!-- Added aria-describedby -->
                     <textarea id="user-message" name="message" rows="3" placeholder="F.eks. '3 kjoler for 500 kr.' eller 'Nye åbningstider i weekenden'" maxlength="200" required aria-label="Din besked til H3LLO (Max 200 tegn)" aria-describedby="error-message"></textarea>
                     <div id="char-count" class="char-counter">0 / 200</div>
+                    <!-- Info Tooltip Start -->
+                    <div class="info-tooltip-wrapper">
+                      <button type="button" class="info-tooltip-button"> <!-- Reverted class -->
+                        <div class="button-blur-effect"></div>
+                        <!-- Reverted span content -->
+                        <span style="position: relative; display: inline-flex; align-items: center; gap: 0.5rem;">
+                          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" style="width: 1rem; height: 1rem;">
+                            <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+                          </svg>
+                          Info / Hjælp? <!-- Reverted text (Danish) -->
+                        </span>
+                      </button>
+
+                      <div class="info-tooltip-box">
+                        <div class="info-tooltip-content">
+                          <div class="info-tooltip-header">
+                            <div class="info-tooltip-header-icon-wrapper">
+                              <svg viewBox="0 0 20 20" fill="currentColor" style="width: 1rem; height: 1rem;">
+                                <path clip-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" fill-rule="evenodd"></path>
+                              </svg>
+                            </div>
+                            <h3>Hvad skal jeg skrive?</h3>
+                          </div>
+
+                          <div class="info-tooltip-body">
+                            <p> <!-- Final Text v5 -->
+                              Skriv det vigtigste om dit opslag her. Hvad sælger du? Hvad koster det? Er der et tilbud? Skriv det som produkt + pris, f.eks. "fiskefilet med kartofler 139 kr".
+                            </p>
+                          </div>
+                          <div class="info-tooltip-arrow"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Info Tooltip End -->
                 </div>
 
                 <!-- Image Upload -->
