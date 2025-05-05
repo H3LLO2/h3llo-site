@@ -42,9 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentYearDemo.textContent = new Date().getFullYear();
     }
 
-    // Initialize attempt counter from localStorage with 12-hour reset, unless overridden
+    // Initialize attempt counter from localStorage with 2-hour reset, unless overridden
     if (!overrideLimit) {
-        const twelveHours = 12 * 60 * 60 * 1000; // Milliseconds in 12 hours
+        const twoHours = 2 * 60 * 60 * 1000; // Milliseconds in 2 hours
         let demoData = null;
         try {
             const storedData = localStorage.getItem('h3lloDemoData');
@@ -60,8 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (demoData && demoData.timestamp && typeof demoData.attempts === 'number') {
             const timeDiff = now - demoData.timestamp;
-            if (timeDiff < twelveHours) { // Check against 12 hours
-                attemptsMade = demoData.attempts; // Use stored attempts if within 12 hours
+            if (timeDiff < twoHours) { // Check against 2 hours
+                attemptsMade = demoData.attempts; // Use stored attempts if within 2 hours
             } else {
                 attemptsMade = 0; // Reset attempts if older than 12 hours
                 localStorage.setItem('h3lloDemoData', JSON.stringify({ attempts: attemptsMade, timestamp: now }));
@@ -681,7 +681,48 @@ document.addEventListener('DOMContentLoaded', () => {
             attemptCounterDisplay.style.display = 'block'; // Make sure it's visible
             attemptCounterDisplay.classList.remove('limit-reached');
         } else {
-            attemptCounterDisplay.textContent = `Du har brugt dine ${MAX_ATTEMPTS} demo forsøg.`;
+            // Limit reached - Calculate and show remaining time
+            const twoHours = 2 * 60 * 60 * 1000;
+            let demoData = null;
+            let resetMessage = `Du har brugt dine ${MAX_ATTEMPTS} demo forsøg.`; // Default message
+
+            try {
+                const storedData = localStorage.getItem('h3lloDemoData');
+                if (storedData) {
+                    demoData = JSON.parse(storedData);
+                }
+            } catch (e) {
+                console.error("Error parsing demo data for timer", e);
+            }
+
+            if (demoData && demoData.timestamp) {
+                const resetTime = demoData.timestamp + twoHours;
+                const remainingMs = resetTime - Date.now();
+
+                if (remainingMs > 0) {
+                    const totalMinutes = Math.ceil(remainingMs / (60 * 1000));
+                    const hours = Math.floor(totalMinutes / 60);
+                    const minutes = totalMinutes % 60;
+
+                    let timeString = "";
+                    if (hours > 0) {
+                        timeString += `${hours} time${hours > 1 ? 'r' : ''}`;
+                        if (minutes > 0) {
+                            timeString += ` og ${minutes} minut${minutes !== 1 ? 'ter' : ''}`;
+                        }
+                    } else if (minutes > 0) {
+                         timeString += `${minutes} minut${minutes !== 1 ? 'ter' : ''}`;
+                    } else {
+                         timeString = "et øjeblik"; // Less than a minute
+                    }
+                    resetMessage = `Du har brugt dine ${MAX_ATTEMPTS} forsøg. Prøv igen om ${timeString}.`;
+                } else {
+                    // Time is up, but counter hasn't reset yet (e.g., page not reloaded)
+                    resetMessage = `Du har brugt dine ${MAX_ATTEMPTS} forsøg. Genindlæs siden for at prøve igen.`;
+                }
+            }
+
+            attemptCounterDisplay.textContent = resetMessage;
             attemptCounterDisplay.style.display = 'block';
             attemptCounterDisplay.classList.add('limit-reached'); // Optional: Add class for styling
         }
