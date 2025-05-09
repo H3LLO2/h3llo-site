@@ -878,3 +878,160 @@ body {
 }
 /* Icon-only styles removed */
 /* Icon-only styles removed */
+/* === MODAL STYLES === */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+    padding: 20px; /* Padding for smaller screens */
+}
+
+.modal-content {
+    background-color: var(--secondary-bg);
+    padding: 30px; /* More padding */
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 500px; /* Consistent with demo container */
+    position: relative;
+    text-align: left; /* Align text to left for form */
+    border: 1px solid var(--border-color);
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2rem; /* Larger close button */
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+}
+.modal-close-button:hover {
+    color: var(--text-color);
+}
+
+.modal-content h2 {
+    text-align: center;
+    font-size: clamp(1.6rem, 3.5vw + 0.7rem, 2.2rem); /* Responsive */
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+}
+
+.modal-subtext {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+#signup-form .form-group {
+    margin-bottom: 1.25rem; /* Spacing within modal form */
+}
+
+#signup-form label { /* Keep labels consistent */
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#signup-form input[type="email"],
+#signup-form input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#signup-form input[type="email"]:focus,
+#signup-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.3);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start; /* Align items to the start for multi-line labels */
+    gap: 0.75rem;
+    margin-top: 0.5rem; /* Add some space above checkbox */
+}
+
+#signup-form input[type="checkbox"] {
+    margin-top: 4px; /* Align checkbox with first line of text */
+    width: 18px; /* Custom size */
+    height: 18px;
+    accent-color: var(--accent-blue); /* Style the checkmark color */
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+}
+#signup-form input[type="checkbox"]:focus {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+
+.checkbox-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: normal; /* Override default label weight */
+    line-height: 1.5;
+    margin-bottom: 0 !important; /* Override form-group label margin */
+}
+
+.privacy-note-modal {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+.privacy-note-modal a {
+    color: var(--accent-blue);
+    text-decoration: underline;
+}
+
+#modal-submit-btn {
+    width: 100%; /* Make button full width */
+    padding: 15px; /* Larger padding */
+    font-size: 1.1rem;
+}
+
+#modal-error-message { /* Ensure modal error messages are styled */
+    color: var(--accent-pink);
+    background-color: rgba(255, 44, 212, 0.1);
+    border: 1px solid var(--accent-pink);
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 1rem; /* Space before button */
+    /* display: none; is handled inline or by JS */
+}
+.social-logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.preview-wrapper h3 {
+    display: flex;
+    align-items: center;
+}

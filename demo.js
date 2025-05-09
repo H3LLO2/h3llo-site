@@ -10,6 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMessage = document.getElementById('error-message');
     const attemptCounterDisplay = document.getElementById('attempt-counter');
 
+    // Modal DOM Elements
+    const signupModal = document.getElementById('signup-modal');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const signupForm = document.getElementById('signup-form');
+    const modalEmailInput = document.getElementById('modal-email');
+    const modalCompanyInput = document.getElementById('modal-company');
+    const modalConsentCheckbox = document.getElementById('modal-consent');
+    const modalErrorMessage = document.getElementById('modal-error-message');
+    const modalSubmitBtn = document.getElementById('modal-submit-btn');
+
     const inputSection = document.getElementById('demo-input-section');
     const outputSection = document.getElementById('demo-output-section');
     const loadingIndicator = document.getElementById('loading-indicator');
@@ -18,23 +28,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const facebookText = document.getElementById('facebook-text');
     const facebookImages = document.getElementById('facebook-images');
     const instagramText = document.getElementById('instagram-text');
-    const instagramCarousel = document.getElementById('instagram-carousel');
+    // const instagramCarousel = document.getElementById('instagram-carousel'); // Referenced in displayResults
     const tryAgainBtn = document.getElementById('try-again-btn');
     const currentYearDemo = document.getElementById('current-year-demo');
 
-
-
     // --- Constants & State ---
-    const MAX_IMAGES = 2; // Limit to 2 images
+    const MAX_IMAGES = 1;
     const MAX_FILE_SIZE_MB = 3;
-    const MAX_ATTEMPTS = 2; // Re-add attempt limit
+    const MAX_ATTEMPTS = 1; // For the initial free try
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
-    let uploadedFiles = []; // Array to hold File objects
-    let attemptsMade = 0;
-    let overrideLimit = false; // Flag for bypass
+    let uploadedFiles = [];
+    let attemptsMade = 0; // Tracks the initial free try
+    let overrideLimit = false;
+
+    const USER_ACCESS_KEY = 'h3lloDemoUserAccess';
+    const FREE_TRY_DATA_KEY = 'h3lloDemoData';
 
     // --- Initial Setup ---
-    // Check for override parameter
     const urlParams = new URLSearchParams(window.location.search);
     overrideLimit = urlParams.get('override') === 'true';
 
@@ -42,205 +52,246 @@ document.addEventListener('DOMContentLoaded', () => {
         currentYearDemo.textContent = new Date().getFullYear();
     }
 
-    // Initialize attempt counter from localStorage with 2-hour reset, unless overridden
     if (!overrideLimit) {
-        const twoHours = 2 * 60 * 60 * 1000; // Milliseconds in 2 hours
+        const twoHours = 2 * 60 * 60 * 1000;
         let demoData = null;
         try {
-            const storedData = localStorage.getItem('h3lloDemoData');
+            const storedData = localStorage.getItem(FREE_TRY_DATA_KEY);
             if (storedData) {
                 demoData = JSON.parse(storedData);
             }
         } catch (e) {
-            console.error("Error parsing demo data from localStorage", e);
-            demoData = null; // Reset if data is corrupt
+            console.error("Error parsing free try data from localStorage", e);
+            demoData = null;
         }
 
         const now = Date.now();
-
         if (demoData && demoData.timestamp && typeof demoData.attempts === 'number') {
             const timeDiff = now - demoData.timestamp;
-            if (timeDiff < twoHours) { // Check against 2 hours
-                attemptsMade = demoData.attempts; // Use stored attempts if within 2 hours
+            if (timeDiff < twoHours) {
+                attemptsMade = demoData.attempts;
             } else {
-                attemptsMade = 0; // Reset attempts if older than 12 hours
-                localStorage.setItem('h3lloDemoData', JSON.stringify({ attempts: attemptsMade, timestamp: now }));
+                attemptsMade = 0;
+                localStorage.setItem(FREE_TRY_DATA_KEY, JSON.stringify({ attempts: attemptsMade, timestamp: now }));
             }
         } else {
-            // Initialize if no valid data found
             attemptsMade = 0;
-            localStorage.setItem('h3lloDemoData', JSON.stringify({ attempts: attemptsMade, timestamp: now }));
+            localStorage.setItem(FREE_TRY_DATA_KEY, JSON.stringify({ attempts: attemptsMade, timestamp: now }));
         }
-        // updateAttemptCounterDisplay(); // Call moved after function definition
-    } else {
-        if (attemptCounterDisplay) attemptCounterDisplay.textContent = 'Demo limit overridden.';
-        if (attemptCounterDisplay) attemptCounterDisplay.style.display = 'block'; // Show override message
     }
 
-    // checkFormValidity(); // Call moved after function definition
+    updateAttemptCounterDisplay();
+    checkFormValidity();
 
-    // --- Event Listeners ---
+    // --- Modal Event Listeners ---
+    if (modalCloseBtn) modalCloseBtn.addEventListener('click', hideSignupModal);
+    if (signupForm) signupForm.addEventListener('submit', handleSignupFormSubmit);
+    if (signupModal) {
+        signupModal.addEventListener('click', (event) => {
+            if (event.target === signupModal) hideSignupModal();
+        });
+    }
 
-    // Message Input: Character Count & Validation
-    userMessageInput.addEventListener('input', () => {
-        const currentLength = userMessageInput.value.length;
-
-
-
-        charCount.textContent = `${currentLength} / 200`;
-        checkFormValidity();
-    });
+    // --- Existing Event Listeners ---
+    if (userMessageInput) {
+        userMessageInput.addEventListener('input', () => {
+            const currentLength = userMessageInput.value.length;
+            if (charCount) charCount.textContent = `${currentLength} / 200`;
+            checkFormValidity();
+        });
+    }
 
 
     // --- Dynamic Placeholder Logic ---
     const placeholderExamples = [
-        "Nye forårsjakker!",
-        "Weekendtilbud: -20%!",
-        "Åbent til kl. 18 i dag!",
-        "Friskbagte croissanter klar nu! 🥐",
-        "Udsalg på alle sommerjakker - spar 30%!",
-        "Kaffe + croissant kun 35 kr. indtil kl. 11!",
-        "Live musik på lørdag!"
+        "Nye forårsjakker!", "Weekendtilbud: -20%!", "Åbent til kl. 18 i dag!",
+        "Friskbagte croissanter klar nu! 🥐", "Udsalg på alle sommerjakker - spar 30%!",
+        "Kaffe + croissant kun 35 kr. indtil kl. 11!", "Live musik på lørdag!"
     ];
     let placeholderInterval = null;
     let currentPlaceholderIndex = 0;
-    const defaultPlaceholder = userMessageInput.placeholder; // Store original placeholder
+    const defaultPlaceholder = userMessageInput ? userMessageInput.placeholder : "";
 
     function startPlaceholderRotation() {
-        console.log("Attempting to start placeholder rotation..."); // DEBUG
-        if (placeholderInterval) { console.log(" - Interval already running."); return; }
-        if (userMessageInput.value.trim() !== '') { console.log(" - Input not empty, not starting."); return; }
-        console.log(" - Starting interval."); // DEBUG
+        if (!userMessageInput) return;
+        if (placeholderInterval) return;
+        if (userMessageInput.value.trim() !== '') return;
 
-        // Set initial placeholder with cursor immediately
         const initialPlaceholder = placeholderExamples[currentPlaceholderIndex] + '|';
         userMessageInput.placeholder = initialPlaceholder;
-        userMessageInput.classList.remove('placeholder-hiding'); // Ensure visible
-
+        userMessageInput.classList.remove('placeholder-hiding');
         placeholderInterval = setInterval(() => {
-            // Fade out (remove cursor first)
-            userMessageInput.placeholder = userMessageInput.placeholder.replace('|', ''); // Remove cursor before fade
+            userMessageInput.placeholder = userMessageInput.placeholder.replace('|', '');
             userMessageInput.classList.add('placeholder-hiding');
-
-            // Wait for fade out, then change text (with cursor) and fade in
             setTimeout(() => {
                 currentPlaceholderIndex = (currentPlaceholderIndex + 1) % placeholderExamples.length;
-                const newPlaceholder = placeholderExamples[currentPlaceholderIndex] + '|'; // Add cursor
-                console.log("Setting placeholder:", newPlaceholder); // DEBUG
+                const newPlaceholder = placeholderExamples[currentPlaceholderIndex] + '|';
                 userMessageInput.placeholder = newPlaceholder;
-                userMessageInput.classList.remove('placeholder-hiding'); // Fade in
-            }, 250); // Slightly longer than CSS transition to ensure fade out completes
-        }, 3500); // Change every 3.5 seconds
+                userMessageInput.classList.remove('placeholder-hiding');
+            }, 250);
+        }, 3500);
     }
 
     function stopPlaceholderRotation(restoreDefault = true) {
-        console.log("Stopping placeholder rotation. Restore default:", restoreDefault); // DEBUG
+        if (!userMessageInput) return;
         clearInterval(placeholderInterval);
         placeholderInterval = null;
-        userMessageInput.classList.remove('placeholder-hiding'); // Ensure it's visible if stopped mid-fade
+        userMessageInput.classList.remove('placeholder-hiding');
         if (restoreDefault) {
-            userMessageInput.placeholder = defaultPlaceholder; // Restore original without cursor
+            userMessageInput.placeholder = defaultPlaceholder;
         } else {
-             // If keeping current text (on focus), just remove the cursor
-             userMessageInput.placeholder = userMessageInput.placeholder.replace('|', '');
+            userMessageInput.placeholder = userMessageInput.placeholder.replace('|', '');
         }
     }
-
-    // Stop rotation when user focuses or types
-    userMessageInput.addEventListener('focus', () => { console.log("Input focused"); stopPlaceholderRotation(false); }); // Keep current example on focus
-    userMessageInput.addEventListener('input', () => {
-        console.log("Input event fired"); // DEBUG
-        if (userMessageInput.value.trim() !== '') {
-            stopPlaceholderRotation(true); // Restore default if typing starts
-        } else {
-             // If user deletes everything, restart rotation after a short delay
-             setTimeout(() => {
-                 if (userMessageInput.value.trim() === '' && document.activeElement !== userMessageInput) {
-                    startPlaceholderRotation();
-                 }
-             }, 500);
-        }
-    });
-
-    // Restart rotation if field is blurred and empty
-    userMessageInput.addEventListener('blur', () => {
-        console.log("Input blurred"); // DEBUG
-        if (userMessageInput.value.trim() === '') {
-            startPlaceholderRotation();
-        }
-    });
-
-    // Initial start if empty
-    console.log("Initial placeholder rotation check"); // DEBUG
-    startPlaceholderRotation();
+    if (userMessageInput) {
+        userMessageInput.addEventListener('focus', () => stopPlaceholderRotation(false));
+        userMessageInput.addEventListener('input', () => {
+            if (userMessageInput.value.trim() !== '') {
+                stopPlaceholderRotation(true);
+            } else {
+                setTimeout(() => {
+                    if (userMessageInput.value.trim() === '' && document.activeElement !== userMessageInput) {
+                        startPlaceholderRotation();
+                    }
+                }, 500);
+            }
+        });
+        userMessageInput.addEventListener('blur', () => {
+            if (userMessageInput.value.trim() === '') startPlaceholderRotation();
+        });
+        startPlaceholderRotation();
+    }
     // --- End Dynamic Placeholder Logic ---
 
 
-    // Image Upload: Drag & Drop
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('dragover');
-    });
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('dragover');
-    });
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('dragover');
-        const files = e.dataTransfer.files;
-        handleFiles(files);
-    });
-
-    // Image Upload: Browse Button Click (Handled by label now)
-    // uploadArea.addEventListener('click', () => {
-    //     imageUploadInput.click(); // Trigger hidden file input - REMOVED
-    // });
-    imageUploadInput.addEventListener('change', (e) => {
-        const files = e.target.files;
-        handleFiles(files);
-        // Reset input value to allow re-uploading the same file after removal
-        imageUploadInput.value = null;
-    });
+    // --- Image Upload Logic ---
+    if (uploadArea) {
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files);
+        });
+    }
+    if (imageUploadInput) {
+        imageUploadInput.addEventListener('change', (e) => {
+            if (e.target && e.target.files) handleFiles(e.target.files);
+            imageUploadInput.value = null;
+        });
+    }
+    // --- End Image Upload Logic ---
 
     // Form Submission
-    demoForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        // Attempt limit check fully removed
-        if (checkFormValidity()) {
-
-            processSubmission();
-
-        }
-    });
+    if (demoForm) {
+        demoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (checkFormValidity() || overrideLimit) {
+                 processSubmission();
+            } else {
+                const freeTryAvailable = attemptsMade < MAX_ATTEMPTS;
+                const userAccessData = JSON.parse(localStorage.getItem(USER_ACCESS_KEY));
+                const hasExtraTries = userAccessData && userAccessData.triesRemaining > 0;
+                if (!freeTryAvailable && !hasExtraTries) {
+                    showSignupModal();
+                }
+            }
+        });
+    }
 
     // Try Again Button
-    tryAgainBtn.addEventListener('click', () => {
-        resetDemo();
-    });
+    if (tryAgainBtn) tryAgainBtn.addEventListener('click', resetDemo);
 
 
+    // --- Modal Functions ---
+    function showSignupModal() {
+        if (signupModal) {
+            signupModal.style.display = 'flex';
+            if (modalEmailInput) modalEmailInput.focus();
+        }
+    }
 
-    // --- Functions ---
+    function hideSignupModal() {
+        if (signupModal) {
+            signupModal.style.display = 'none';
+            if (modalErrorMessage) modalErrorMessage.style.display = 'none';
+        }
+    }
 
+    async function handleSignupFormSubmit(event) {
+        event.preventDefault();
+        if (!modalEmailInput || !modalCompanyInput || !modalConsentCheckbox || !modalSubmitBtn || !modalErrorMessage) return;
+
+        const email = modalEmailInput.value.trim();
+        const company = modalCompanyInput.value.trim();
+        const consentGiven = modalConsentCheckbox.checked;
+
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+            modalErrorMessage.textContent = 'Indtast venligst en gyldig e-mailadresse.';
+            modalErrorMessage.style.display = 'block';
+            return;
+        }
+        modalErrorMessage.style.display = 'none';
+        modalSubmitBtn.disabled = true;
+        modalSubmitBtn.textContent = 'Behandler...';
+
+        try {
+            const response = await fetch('/api/register-demo-user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, companyName: company, consentGiven })
+            });
+
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({ error: 'Ukendt serverfejl ved registrering.' }));
+                throw new Error(errData.error || `Serverfejl: ${response.status}`);
+            }
+
+            localStorage.setItem(USER_ACCESS_KEY, JSON.stringify({
+                email: email,
+                triesRemaining: 5,
+                consentGiven: consentGiven,
+                grantedTimestamp: Date.now()
+            }));
+            hideSignupModal();
+            updateAttemptCounterDisplay();
+            checkFormValidity();
+            if (submitBtn) submitBtn.textContent = 'Lav Opslag';
+
+        } catch (error) {
+            console.error("Signup form error:", error);
+            modalErrorMessage.textContent = error.message || 'Der opstod en fejl. Prøv igen.';
+            modalErrorMessage.style.display = 'block';
+        } finally {
+            modalSubmitBtn.disabled = false;
+            modalSubmitBtn.textContent = 'Lås op for 5 forsøg';
+        }
+    }
+    // --- End Modal Functions ---
+
+
+    // --- Core Functions ---
     function handleFiles(files) {
         hideError();
         let currentFileCount = uploadedFiles.length;
         for (const file of files) {
             if (currentFileCount >= MAX_IMAGES) {
                 showError(`Du kan højst uploade ${MAX_IMAGES} billeder.`);
-                break; // Stop processing more files
+                break;
             }
             if (!validateFileType(file)) {
                 showError(`Filtype ikke tilladt: ${file.name}. Brug venligst JPG eller PNG.`);
-                continue; // Skip this file
+                continue;
             }
             if (!validateFileSize(file)) {
                 showError(`Filen er for stor: ${file.name}. Max ${MAX_FILE_SIZE_MB}MB pr. fil.`);
-                continue; // Skip this file
+                continue;
             }
-
             uploadedFiles.push(file);
-            createImagePreview(file, uploadedFiles.length - 1); // Pass index for removal
+            createImagePreview(file, uploadedFiles.length - 1);
             currentFileCount++;
         }
         checkFormValidity();
@@ -259,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.onload = (e) => {
             const previewWrapper = document.createElement('div');
             previewWrapper.classList.add('img-preview-wrapper');
-            previewWrapper.dataset.index = index; // Store index
+            previewWrapper.dataset.index = index;
 
             const img = document.createElement('img');
             img.src = e.target.result;
@@ -268,109 +319,122 @@ document.addEventListener('DOMContentLoaded', () => {
             const removeBtn = document.createElement('button');
             removeBtn.classList.add('remove-img-btn');
             removeBtn.textContent = 'X';
-            removeBtn.type = 'button'; // Prevent form submission
+            removeBtn.type = 'button';
             removeBtn.onclick = () => removeImage(index);
 
             previewWrapper.appendChild(img);
             previewWrapper.appendChild(removeBtn);
-            imagePreviewsContainer.appendChild(previewWrapper);
+            if (imagePreviewsContainer) imagePreviewsContainer.appendChild(previewWrapper);
         };
         reader.readAsDataURL(file);
     }
 
     function removeImage(indexToRemove) {
-        // Remove file from array (more complex due to index changes)
-        // Easiest is to rebuild the array and previews based on remaining DOM elements
         uploadedFiles = uploadedFiles.filter((_, i) => i !== indexToRemove);
+        if (imagePreviewsContainer) {
+            const previewToRemove = imagePreviewsContainer.querySelector(`.img-preview-wrapper[data-index="${indexToRemove}"]`);
+            if (previewToRemove) imagePreviewsContainer.removeChild(previewToRemove);
 
-        // Remove preview from DOM
-        const previewToRemove = imagePreviewsContainer.querySelector(`.img-preview-wrapper[data-index="${indexToRemove}"]`);
-        if (previewToRemove) {
-            imagePreviewsContainer.removeChild(previewToRemove);
+            const remainingPreviews = imagePreviewsContainer.querySelectorAll('.img-preview-wrapper');
+            remainingPreviews.forEach((preview, newIndex) => {
+                preview.dataset.index = newIndex;
+                const btn = preview.querySelector('.remove-img-btn');
+                if (btn) btn.onclick = () => removeImage(newIndex);
+            });
         }
-
-        // Re-index remaining previews in the DOM
-        const remainingPreviews = imagePreviewsContainer.querySelectorAll('.img-preview-wrapper');
-        remainingPreviews.forEach((preview, newIndex) => {
-            preview.dataset.index = newIndex;
-            // Update the remove button's onclick handler index
-            const btn = preview.querySelector('.remove-img-btn');
-            if (btn) {
-                btn.onclick = () => removeImage(newIndex);
-            }
-        });
-
-
         checkFormValidity();
-        hideError(); // Hide any previous errors
+        hideError();
     }
 
     function checkFormValidity() {
+        if (!userMessageInput || !submitBtn) return false;
+
         const messageValid = userMessageInput.value.trim().length > 0;
         const imagesValid = uploadedFiles.length > 0 && uploadedFiles.length <= MAX_IMAGES;
 
-        const isLimitReached = !overrideLimit && attemptsMade >= MAX_ATTEMPTS;
-        const isValid = messageValid && imagesValid && !isLimitReached;
-        submitBtn.disabled = !isValid;
-
-        // Show limit message if that's the reason for disabling
-        if (messageValid && imagesValid && isLimitReached) {
-             if (typeof updateAttemptCounterDisplay === 'function') updateAttemptCounterDisplay(); // Ensure function exists before calling
-        } else if (!isLimitReached && attemptCounterDisplay?.textContent.includes('demo forsøg')) { // Check the counter display text safely
-             // Don't hide general errors, just update counter if limit was previously shown
-             if (typeof updateAttemptCounterDisplay === 'function') updateAttemptCounterDisplay(); // Show remaining attempts instead
+        if (!messageValid || !imagesValid) {
+            submitBtn.disabled = true;
+            if (attemptCounterDisplay && !attemptCounterDisplay.textContent.includes("overridden")) {
+                if (attemptCounterDisplay.innerHTML.includes("Registrer dig") || attemptCounterDisplay.textContent.includes("forsøg")) {
+                    attemptCounterDisplay.style.display = 'none';
+                }
+            }
+            return false;
         }
 
-        return isValid;
+        if (overrideLimit) {
+            submitBtn.disabled = false;
+            updateAttemptCounterDisplay();
+            return true;
+        }
+
+        const userAccessData = JSON.parse(localStorage.getItem(USER_ACCESS_KEY));
+        const freeTryAvailable = attemptsMade < MAX_ATTEMPTS;
+
+        if (freeTryAvailable) {
+            submitBtn.disabled = false;
+            updateAttemptCounterDisplay();
+            return true;
+        }
+
+        if (userAccessData && userAccessData.triesRemaining > 0) {
+            submitBtn.disabled = false;
+            updateAttemptCounterDisplay();
+            return true;
+        }
+
+        submitBtn.disabled = true;
+        if (attemptCounterDisplay) {
+            attemptCounterDisplay.innerHTML = `Dit gratis forsøg er brugt. <a href="#" id="show-signup-modal-link" class="modal-link">Registrer dig</a> for 5 ekstra forsøg.`;
+            attemptCounterDisplay.style.color = 'var(--accent-pink)';
+            attemptCounterDisplay.style.display = 'block';
+
+            const existingLink = document.getElementById('show-signup-modal-link');
+            if (existingLink) {
+                const newLink = existingLink.cloneNode(true);
+                if (existingLink.parentNode) existingLink.parentNode.replaceChild(newLink, existingLink);
+                newLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showSignupModal();
+                });
+            }
+        }
+        return false;
     }
 
     function processSubmission() {
         hideError();
-        submitBtn.disabled = true; // Disable button immediately
-        submitBtn.textContent = 'AI genererer...'; // Update button text
+        if (!submitBtn || !inputSection || !outputSection || !loadingIndicator || !outputContent) return;
 
-        // Hide input, show output area with loader
-        inputSection.style.display = 'none';
-        outputSection.style.display = 'block';
-        loadingIndicator.style.display = 'block';
-        outputContent.style.display = 'none';
+        if (!overrideLimit) {
+            const freeTryAvailable = attemptsMade < MAX_ATTEMPTS;
+            const userAccessData = JSON.parse(localStorage.getItem(USER_ACCESS_KEY));
+            const hasExtraTries = userAccessData && userAccessData.triesRemaining > 0;
 
-        // Check attempt limit again just before sending (unless overridden)
-        if (!overrideLimit && attemptsMade >= MAX_ATTEMPTS) {
-            showError(`Du har brugt dine ${MAX_ATTEMPTS} demo forsøg.`);
-            submitBtn.textContent = 'Lav Opslag'; // Reset button
-            submitBtn.disabled = true; // Keep disabled
-            inputSection.style.display = 'block'; // Show input again
-            outputSection.style.display = 'none'; // Hide output
-            return; // Stop submission
+            if (!freeTryAvailable && !hasExtraTries) {
+                showSignupModal();
+                updateAttemptCounterDisplay();
+                return;
+            }
         }
 
-        // ** API CALL **
-        // (Existing API call logic follows)
-        // to your backend, which then calls the OpenAI API.
-        // ** IMPORTANT: API Call Simulation **
-        // In a real application, DO NOT expose your OpenAI API key directly in client-side JavaScript.
-        // 1. Create a backend endpoint (e.g., using Node.js, Python/Flask, etc.).
-        // 2. Send the userMessage and potentially image data/URLs from this script to your backend endpoint.
-        // 3. Your backend server securely stores your API key and makes the call to the OpenAI API.
-        // 4. Your backend sends the generated text back to this script.
-        // 5. This script then calls displayResults() with the text received from the backend.
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'AI genererer...';
+        if (inputSection) inputSection.style.display = 'none';
+        if (outputSection) outputSection.style.display = 'block';
+        if (loadingIndicator) loadingIndicator.style.display = 'block';
+        if (outputContent) outputContent.style.display = 'none';
 
-        // Call the backend API endpoint
         fetch('/api/generate-post', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userMessage: userMessageInput.value }),
         })
         .then(response => {
             if (!response.ok) {
-                // Attempt to read error message from backend if available
                 return response.json().then(errData => {
                     throw new Error(errData.error || `HTTP error! status: ${response.status}`);
                 }).catch(() => {
-                    // Fallback if response is not JSON or reading fails
                     throw new Error(`HTTP error! status: ${response.status}`);
                 });
             }
@@ -378,15 +442,24 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             if (data.result) {
-                 // Increment attempts on successful generation (if limit active)
                 if (!overrideLimit) {
-                    attemptsMade++;
-                    // Store updated attempts and current timestamp
-                    localStorage.setItem('h3lloDemoData', JSON.stringify({ attempts: attemptsMade, timestamp: Date.now() }));
-                    if (typeof updateAttemptCounterDisplay === 'function') updateAttemptCounterDisplay();
-                    if (typeof checkFormValidity === 'function') checkFormValidity(); // Re-check validity to disable button if limit reached
+                    const freeTryWasAvailableAndUsed = attemptsMade < MAX_ATTEMPTS;
+                    if (freeTryWasAvailableAndUsed) {
+                        attemptsMade++;
+                        localStorage.setItem(FREE_TRY_DATA_KEY, JSON.stringify({ attempts: attemptsMade, timestamp: Date.now() }));
+                    } else {
+                        const userAccessData = JSON.parse(localStorage.getItem(USER_ACCESS_KEY));
+                        if (userAccessData && userAccessData.triesRemaining > 0) {
+                            userAccessData.triesRemaining--;
+                            localStorage.setItem(USER_ACCESS_KEY, JSON.stringify(userAccessData));
+                        }
+                    }
                 }
                 displayResults(data.result);
+                if (!overrideLimit) {
+                    updateAttemptCounterDisplay();
+                    checkFormValidity();
+                }
             } else {
                 throw new Error("Invalid response structure from API.");
             }
@@ -394,347 +467,256 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error("Error calling backend API:", error);
             showError(`Fejl: ${error.message || 'Kunne ikke generere opslag.'}`);
-            loadingIndicator.style.display = 'none';
-            // Reset button and show input section on error
-            submitBtn.textContent = 'Lav Opslag';
-            submitBtn.disabled = false; // Re-enable button
-            inputSection.style.display = 'block'; // Show input again
-            outputSection.style.display = 'none'; // Hide output
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+            if (submitBtn) submitBtn.textContent = 'Lav Opslag';
+            if (inputSection) inputSection.style.display = 'block';
+            if (outputSection) outputSection.style.display = 'none';
+            checkFormValidity();
         });
     }
-
-    // Placeholder for the function that would call your backend
-    async function callBackendApi(message) {
-        // const backendUrl = '/api/generate-post'; // Example backend endpoint
-        // try {
-        //     const response = await fetch(backendUrl, {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({ message: message /*, imageData: ... */ })
-        //     });
-        //     if (!response.ok) {
-        //         throw new Error(`Backend error: ${response.statusText}`);
-        //     }
-        //     const data = await response.json();
-        //     return data.generatedText; // Assuming backend returns { generatedText: "..." }
-        // } catch (error) {
-        //     console.error("Error calling backend:", error);
-        //     throw error; // Re-throw to be caught by caller
-        // }
-        // --- End of real backend call example ---
-
-        // --- Simulation for Demo ---
-        return new Promise((resolve) => {
-             setTimeout(() => {
-                const simulatedText = generateSimulatedPost(message);
-                resolve(simulatedText);
-            }, 2000); // Simulate 2 seconds loading time
-        });
-        // --- End Simulation ---
-    }
-
-    // Removed simulateApiCall and generateSimulatedPost functions
 
     function displayResults(generatedText) {
-        loadingIndicator.style.display = 'none';
-        outputContent.style.display = 'block';
-        submitBtn.textContent = 'Lav Opslag'; // Reset button text on success
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+        if (outputContent) outputContent.style.display = 'block';
+        if (submitBtn) submitBtn.textContent = 'Lav Opslag';
 
-        // --- Populate Facebook Preview ---
         const fbTextElement = document.getElementById('facebook-text');
-        const fbSeeMoreBtn = fbTextElement.nextElementSibling; // Assumes button is next sibling
-        fbTextElement.innerText = generatedText;
-        setupSeeMore(fbTextElement, fbSeeMoreBtn); // Setup "See more" for Facebook
+        if (fbTextElement) {
+            const fbSeeMoreBtn = fbTextElement.nextElementSibling;
+            fbTextElement.innerText = generatedText;
+            if (fbSeeMoreBtn) setupSeeMore(fbTextElement, fbSeeMoreBtn);
+        }
 
         const facebookImagesContainer = document.getElementById('facebook-images');
-        facebookImagesContainer.innerHTML = ''; // Clear previous images
-        uploadedFiles.forEach(file => {
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.alt = "Uploadet billede";
-            facebookImagesContainer.appendChild(img);
-        });
-        // Add class for styling single vs multiple images
-        facebookImagesContainer.className = 'post-images'; // Reset class
-        if (uploadedFiles.length === 1) {
-            facebookImagesContainer.classList.add('single-image');
+        if (facebookImagesContainer) {
+            facebookImagesContainer.innerHTML = '';
+            uploadedFiles.forEach(file => {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.alt = "Uploadet billede";
+                facebookImagesContainer.appendChild(img);
+            });
+            facebookImagesContainer.className = 'post-images';
+            if (uploadedFiles.length === 1) {
+                facebookImagesContainer.classList.add('single-image');
+            }
         }
 
-
-        // --- Populate Instagram Preview ---
         const igTextElement = document.getElementById('instagram-text');
-        const igSeeMoreBtn = igTextElement.nextElementSibling; // Assumes button is next sibling
-        igTextElement.innerText = generatedText;
-        setupSeeMore(igTextElement, igSeeMoreBtn); // Setup "See more" for Instagram
+        const igCarousel = document.getElementById('instagram-carousel'); // Get it here
 
-        const carouselContainer = instagramCarousel; // The main container div
-        carouselContainer.innerHTML = ''; // Clear previous content (including placeholders)
+        if (igTextElement && igCarousel) {
+            const igSeeMoreBtn = igTextElement.nextElementSibling;
+            igTextElement.innerText = generatedText;
+            if (igSeeMoreBtn) setupSeeMore(igTextElement, igSeeMoreBtn);
 
-        // Create an inner wrapper for slides
-        const slidesWrapper = document.createElement('div');
-        slidesWrapper.classList.add('carousel-slides-wrapper');
-        // Set wrapper width
-        const numSlides = uploadedFiles.length;
-        slidesWrapper.style.width = `${numSlides * 100}%`;
-        // console.log("Setting IG wrapper width:", slidesWrapper.style.width); // DEBUG REMOVED
+            igCarousel.innerHTML = '';
 
-        // Create and append slides with images
-        uploadedFiles.forEach((file, index) => {
-            const slideDiv = document.createElement('div');
-            slideDiv.classList.add('carousel-slide'); // Add class for styling
+            const slidesWrapper = document.createElement('div');
+            slidesWrapper.classList.add('carousel-slides-wrapper');
+            const numSlides = uploadedFiles.length;
+            slidesWrapper.style.width = `${numSlides * 100}%`;
 
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.alt = "Uploadet billede";
-            // img.dataset.index = index; // Index not strictly needed on img anymore
+            uploadedFiles.forEach((file) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.classList.add('carousel-slide');
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.alt = "Uploadet billede";
+                slideDiv.appendChild(img);
+                slidesWrapper.appendChild(slideDiv);
+            });
+            igCarousel.appendChild(slidesWrapper);
+            slidesWrapper.style.transform = 'translateX(0%)';
+            slidesWrapper.dataset.currentSlide = 0; // Initialize current slide index
 
-            slideDiv.appendChild(img); // Append img to slide div
-            slidesWrapper.appendChild(slideDiv); // Append slide div to wrapper
-        });
+            if (numSlides > 1) {
+                const controls = document.createElement('div');
+                controls.classList.add('carousel-controls');
+                const prevBtn = document.createElement('button');
+                prevBtn.classList.add('prev');
+                prevBtn.innerHTML = '‹';
+                prevBtn.onclick = () => moveCarousel(-1, slidesWrapper, numSlides, indicators);
+                const nextBtn = document.createElement('button');
+                nextBtn.classList.add('next');
+                nextBtn.innerHTML = '›';
+                nextBtn.onclick = () => moveCarousel(1, slidesWrapper, numSlides, indicators);
+                controls.appendChild(prevBtn);
+                controls.appendChild(nextBtn);
+                igCarousel.appendChild(controls);
 
-        carouselContainer.appendChild(slidesWrapper); // Add wrapper to main container
-        slidesWrapper.style.transform = 'translateX(0%)'; // Reset transform after appending
-
-        // Add Carousel Controls and Indicators if multiple images
-        if (numSlides > 1) {
-            // Controls
-            const controlsDiv = document.createElement('div');
-            controlsDiv.classList.add('carousel-controls');
-            const prevBtn = document.createElement('button');
-            prevBtn.classList.add('prev');
-            prevBtn.innerHTML = '<';
-            prevBtn.style.display = 'none'; // Initially hide prev
-            prevBtn.onclick = () => moveCarousel(-1);
-
-            const nextBtn = document.createElement('button');
-            nextBtn.classList.add('next');
-            nextBtn.innerHTML = '›'; // Use right-pointing angle bracket
-            nextBtn.style.display = 'block'; // Initially show next
-            nextBtn.onclick = () => moveCarousel(1);
-
-            controlsDiv.appendChild(prevBtn);
-            controlsDiv.appendChild(nextBtn);
-            carouselContainer.appendChild(controlsDiv); // Append controls directly to carousel container
-            currentSlide = 0; // Reset slide index
+                const indicators = document.createElement('div');
+                indicators.classList.add('carousel-indicators');
+                for (let i = 0; i < numSlides; i++) {
+                    const dot = document.createElement('span');
+                    dot.classList.add('dot');
+                    if (i === 0) dot.classList.add('active');
+                    // Pass a function that calls moveCarousel with the correct index for this dot
+                    dot.onclick = ((slideIndex) => {
+                        return () => {
+                            // Calculate direction based on current and target
+                            const currentSlide = parseInt(slidesWrapper.dataset.currentSlide || 0);
+                            moveCarousel(slideIndex - currentSlide, slidesWrapper, numSlides, indicators);
+                        };
+                    })(i);
+                    indicators.appendChild(dot);
+                }
+                igCarousel.appendChild(indicators);
+            }
         }
-
-        // Add indicators container dynamically
-        const indicatorsContainer = document.createElement('div');
-        indicatorsContainer.classList.add('carousel-indicators');
-        carouselContainer.appendChild(indicatorsContainer); // Append indicators container
-
-        // Add Carousel Controls and Indicators if multiple images
-        // REMOVED - CSS scroll snap handles navigation
-
-        // Ensure wrapper transform is reset - REMOVED (not needed for scroll snap)
-        // slidesWrapper.style.transform = 'translateX(0%)';
-
-        // Show the post-demo CTA section
-        console.log("Attempting to show CTA..."); // DEBUG
         const postDemoCta = document.getElementById('post-demo-cta');
         if (postDemoCta) {
             postDemoCta.style.display = 'block';
-            console.log("CTA display set to block."); // DEBUG
-        } else {
-            console.error("CTA element (#post-demo-cta) not found!"); // DEBUG
         }
+    }
 
-        // Scroll to the output section smoothly
-        outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    let currentIgSlideIndex = 0; // Renamed for clarity
+
+    function moveCarousel(direction, slidesWrapper, numSlides, indicatorsContainer) {
+        if (!slidesWrapper || numSlides <= 1) return;
+
+        let newIndex = parseInt(slidesWrapper.dataset.currentSlide || 0) + direction;
+
+        if (newIndex < 0) {
+            newIndex = numSlides - 1;
+        } else if (newIndex >= numSlides) {
+            newIndex = 0;
+        }
+        
+        // Calculate the percentage for translateX. Each slide is 100% / numSlides of the wrapper.
+        // So to show slide `newIndex`, we translate by `newIndex * (100 / numSlides)`.
+        // Since the slidesWrapper itself is `numSlides * 100%` wide, and each slide inside it is `100% / numSlides` of that.
+        // Simpler: each slide is 100% of the *viewport* of the carousel. So we translate by `newIndex * 100%` of viewport.
+        slidesWrapper.style.transform = `translateX(-${newIndex * 100}%)`;
+        slidesWrapper.dataset.currentSlide = newIndex;
+        currentIgSlideIndex = newIndex; // Update global tracker if needed elsewhere
+
+        if (indicatorsContainer) {
+            const dots = indicatorsContainer.querySelectorAll('.dot');
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === newIndex);
+            });
+        }
     }
 
 
-    // --- Instagram Carousel Logic ---
-    // let currentSlide = 0; // REMOVED - CSS scroll snap handles this
-    // function moveCarousel(direction) { ... } // REMOVED - CSS scroll snap handles this
-
-    // --- Facebook Carousel Logic REMOVED ---
-
-
     function resetDemo() {
-        // Correct reset logic:
+        if (userMessageInput) userMessageInput.value = '';
+        if (charCount) charCount.textContent = '0 / 200';
+        if (imagePreviewsContainer) imagePreviewsContainer.innerHTML = '';
         uploadedFiles = [];
-        imagePreviewsContainer.innerHTML = '';
-        userMessageInput.value = '';
-        charCount.textContent = '0 / 200';
+
         hideError();
-        checkFormValidity();
-
-        outputSection.style.display = 'none';
-        inputSection.style.display = 'block';
-
-        // Clear previews
-        const facebookImagesContainer = document.getElementById('facebook-images');
-        if(facebookImagesContainer) facebookImagesContainer.innerHTML = '';
-
-        // Clear IG carousel completely on reset
-        instagramCarousel.innerHTML = '';
-
-        // Reset text and "See more" state
-        const fbTextElement = document.getElementById('facebook-text');
-        const fbSeeMoreBtn = fbTextElement?.nextElementSibling;
-        if (fbTextElement) {
-            fbTextElement.innerText = '';
-            fbTextElement.classList.remove('collapsed');
-        }
-        if (fbSeeMoreBtn) fbSeeMoreBtn.style.display = 'none';
-
-        const igTextElement = document.getElementById('instagram-text');
-        const igSeeMoreBtn = igTextElement?.nextElementSibling;
-         if (igTextElement) {
-            igTextElement.innerText = '';
-            igTextElement.classList.remove('collapsed');
-        }
-        if (igSeeMoreBtn) igSeeMoreBtn.style.display = 'none';
-
-
-        // Hide CTA section again on reset
+        if (inputSection) inputSection.style.display = 'block';
+        if (outputSection) outputSection.style.display = 'none';
         const postDemoCta = document.getElementById('post-demo-cta');
         if (postDemoCta) {
             postDemoCta.style.display = 'none';
         }
+        if (submitBtn) submitBtn.textContent = 'Lav Opslag';
+
+        updateAttemptCounterDisplay();
+        checkFormValidity();
+        if (userMessageInput) startPlaceholderRotation();
     }
 
-    // --- See More Logic ---
     function setupSeeMore(textElement, buttonElement) {
         if (!textElement || !buttonElement) return;
+        const maxHeight = 60;
+        // Ensure textElement.innerText is used for calculation if scrollHeight depends on rendered text
+        textElement.style.maxHeight = 'none'; // Temporarily allow full height for accurate scrollHeight
+        const scrollHeight = textElement.scrollHeight;
 
-        // Reset state initially
-        textElement.classList.remove('collapsed');
-        buttonElement.style.display = 'none';
-        buttonElement.textContent = buttonElement.id.includes('facebook') ? 'Se mere' : 'mere'; // Reset text
 
-        // Check for overflow after rendering
-        // Use setTimeout to allow browser to render and calculate heights
-        setTimeout(() => {
-            const isOverflowing = textElement.scrollHeight > textElement.clientHeight;
+        if (scrollHeight > maxHeight) {
+            textElement.style.maxHeight = `${maxHeight}px`;
+            textElement.style.overflow = 'hidden';
+            buttonElement.style.display = 'inline-block';
+            const isInstagram = textElement.id === 'instagram-text';
+            buttonElement.textContent = isInstagram ? 'mere' : 'Se mere';
 
-            if (isOverflowing) {
-                textElement.classList.add('collapsed');
-                buttonElement.style.display = buttonElement.id.includes('instagram') ? 'inline' : 'block'; // Show button (inline for IG)
 
-                // Remove previous listener if any, then add new one
-                buttonElement.replaceWith(buttonElement.cloneNode(true)); // Simple way to remove listeners
-                const newButtonElement = textElement.nextElementSibling; // Get the new button reference
-                newButtonElement.addEventListener('click', () => {
-                    textElement.classList.toggle('collapsed');
-                    const isCollapsed = textElement.classList.contains('collapsed');
-                    newButtonElement.textContent = isCollapsed
-                        ? (buttonElement.id.includes('facebook') ? 'Se mere' : 'mere')
-                        : (buttonElement.id.includes('facebook') ? 'Se mindre' : 'mindre');
-                });
-            } else {
-                textElement.classList.remove('collapsed');
-                buttonElement.style.display = 'none';
-            }
-        }, 100); // Small delay for rendering
+            buttonElement.onclick = () => {
+                if (textElement.style.maxHeight === `${maxHeight}px`) {
+                    textElement.style.maxHeight = 'none';
+                    buttonElement.textContent = isInstagram ? 'mindre' : 'Se mindre';
+                } else {
+                    textElement.style.maxHeight = `${maxHeight}px`;
+                    buttonElement.textContent = isInstagram ? 'mere' : 'Se mere';
+                }
+            };
+        } else {
+            textElement.style.maxHeight = 'none'; // Ensure it's reset if not overflowing
+            buttonElement.style.display = 'none';
+        }
     }
-    // --- End See More Logic ---
-
 
     function showError(message) {
-        errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
+        if (errorMessage) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
     }
 
     function hideError() {
-        errorMessage.textContent = '';
-        errorMessage.style.display = 'none';
+        if (errorMessage) errorMessage.style.display = 'none';
     }
 
-
-    // --- Instagram Carousel Logic (Restored) ---
-    let currentSlide = 0; // For Instagram
-    function moveCarousel(direction) {
-        const slidesWrapper = instagramCarousel.querySelector('.carousel-slides-wrapper');
-        const totalSlides = uploadedFiles.length;
-        if (!slidesWrapper || totalSlides <= 1) return;
-
-        currentSlide += direction;
-
-        // Clamp slide index
-        if (currentSlide < 0) {
-            currentSlide = 0;
-        } else if (currentSlide >= totalSlides) {
-            currentSlide = totalSlides - 1;
-        }
-
-        // Calculate and apply the transform (This is the core logic)
-        const newTransform = `translateX(-${currentSlide * 100}%)`;
-        console.log("moveCarousel: Applying transform", newTransform, "to", slidesWrapper); // DEBUG
-        slidesWrapper.style.transform = newTransform;
-
-        // Show/hide buttons based on current slide index
-        const prevBtn = instagramCarousel.querySelector('.carousel-controls .prev');
-        const nextBtn = instagramCarousel.querySelector('.carousel-controls .next');
-        if (prevBtn) prevBtn.style.display = (currentSlide === 0) ? 'none' : 'block';
-        if (nextBtn) nextBtn.style.display = (currentSlide === totalSlides - 1) ? 'none' : 'block';
-    }
-
-// --- Attempt Counter Update ---
     function updateAttemptCounterDisplay() {
-        if (overrideLimit || !attemptCounterDisplay) return; // Don't show if overridden or element missing
+        if (!attemptCounterDisplay) return;
 
-        const remaining = MAX_ATTEMPTS - attemptsMade;
-        if (remaining > 0) {
-            attemptCounterDisplay.textContent = `Du har ${remaining} forsøg tilbage.`;
-            attemptCounterDisplay.style.display = 'block'; // Make sure it's visible
-            attemptCounterDisplay.classList.remove('limit-reached');
-        } else {
-            // Limit reached - Calculate and show remaining time
-            const twoHours = 2 * 60 * 60 * 1000;
-            let demoData = null;
-            let resetMessage = `Du har brugt dine ${MAX_ATTEMPTS} demo forsøg.`; // Default message
-
-            try {
-                const storedData = localStorage.getItem('h3lloDemoData');
-                if (storedData) {
-                    demoData = JSON.parse(storedData);
-                }
-            } catch (e) {
-                console.error("Error parsing demo data for timer", e);
-            }
-
-            if (demoData && demoData.timestamp) {
-                const resetTime = demoData.timestamp + twoHours;
-                const remainingMs = resetTime - Date.now();
-
-                if (remainingMs > 0) {
-                    const totalMinutes = Math.ceil(remainingMs / (60 * 1000));
-                    const hours = Math.floor(totalMinutes / 60);
-                    const minutes = totalMinutes % 60;
-
-                    let timeString = "";
-                    if (hours > 0) {
-                        timeString += `${hours} time${hours > 1 ? 'r' : ''}`;
-                        if (minutes > 0) {
-                            timeString += ` og ${minutes} minut${minutes !== 1 ? 'ter' : ''}`;
-                        }
-                    } else if (minutes > 0) {
-                         timeString += `${minutes} minut${minutes !== 1 ? 'ter' : ''}`;
-                    } else {
-                         timeString = "et øjeblik"; // Less than a minute
-                    }
-                    resetMessage = `Du har brugt dine ${MAX_ATTEMPTS} forsøg. Prøv igen om ${timeString}.`;
-                } else {
-                    // Time is up, but counter hasn't reset yet (e.g., page not reloaded)
-                    resetMessage = `Du har brugt dine ${MAX_ATTEMPTS} forsøg. Genindlæs siden for at prøve igen.`;
-                }
-            }
-
-            attemptCounterDisplay.textContent = resetMessage;
+        if (overrideLimit) {
+            attemptCounterDisplay.textContent = 'Demo limit overridden.';
+            attemptCounterDisplay.style.color = 'var(--text-muted)';
             attemptCounterDisplay.style.display = 'block';
-            attemptCounterDisplay.classList.add('limit-reached'); // Optional: Add class for styling
+            return;
+        }
+
+        const existingLink = attemptCounterDisplay.querySelector('a[id^="show-signup-modal-link"]');
+        if (existingLink && submitBtn && submitBtn.disabled) {
+             // If the "Registrer dig" link is showing (meaning submit is disabled due to no tries), don't change this message.
+            return;
+        }
+
+
+        const userAccessData = JSON.parse(localStorage.getItem(USER_ACCESS_KEY));
+        const freeTryAvailable = attemptsMade < MAX_ATTEMPTS;
+
+        if (freeTryAvailable) {
+            attemptCounterDisplay.textContent = `Du har ${MAX_ATTEMPTS - attemptsMade} gratis forsøg tilbage.`;
+            attemptCounterDisplay.style.color = 'var(--text-muted)';
+            attemptCounterDisplay.style.display = 'block';
+        } else if (userAccessData && userAccessData.triesRemaining > 0) {
+            attemptCounterDisplay.textContent = `Du har ${userAccessData.triesRemaining} ekstra forsøg tilbage.`;
+            attemptCounterDisplay.style.color = 'var(--text-muted)';
+            attemptCounterDisplay.style.display = 'block';
+        } else {
+            // This state (free try used, no extra tries) is primarily handled by checkFormValidity
+            // to show the "Registrer dig" link. If form is invalid for other reasons (no text/image),
+            // or if the link is already there, this specific counter message might be hidden or superseded.
+            const messageValid = userMessageInput && userMessageInput.value.trim().length > 0;
+            const imagesValid = uploadedFiles.length > 0 && uploadedFiles.length <= MAX_IMAGES;
+
+            if (!messageValid || !imagesValid) { // If form is incomplete, hide general try messages
+                 attemptCounterDisplay.style.display = 'none';
+            } else if (!existingLink) { // If form is complete, but no tries left and no link shown yet (should be rare)
+                attemptCounterDisplay.innerHTML = `Dit gratis forsøg er brugt. <a href="#" id="show-signup-modal-link-fallback" class="modal-link">Registrer dig</a> for 5 ekstra forsøg.`;
+                attemptCounterDisplay.style.color = 'var(--accent-pink)';
+                attemptCounterDisplay.style.display = 'block';
+                const fallbackLink = document.getElementById('show-signup-modal-link-fallback');
+                if (fallbackLink) {
+                    const newFallbackLink = fallbackLink.cloneNode(true);
+                    if (fallbackLink.parentNode) fallbackLink.parentNode.replaceChild(newFallbackLink, fallbackLink);
+                    newFallbackLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showSignupModal();
+                    });
+                }
+            } else if (!existingLink && submitBtn && !submitBtn.disabled) {
+                // If no link, but button is enabled (e.g. override), hide counter
+                 attemptCounterDisplay.style.display = 'none';
+            }
+            // If existingLink is present, checkFormValidity has already set the message.
         }
     }
-
-    // Initial calls after functions are defined
-    updateAttemptCounterDisplay();
-    checkFormValidity();
-
-
-
-
-    // updateAttemptCounter function removed
-
-}); // End DOMContentLoaded
+});

@@ -95,10 +95,10 @@
 
                 <!-- Image Upload -->
                 <div class="form-group">
-                    <label for="image-upload-label">2. Upload 1-2 billeder (JPG, PNG - Max 3MB/stk)</label>
+                    <label for="image-upload-label">2. Upload 1 billede (JPG, PNG - Max 3MB/stk)</label>
                     <div class="upload-area" id="upload-area" aria-label="Område til billedupload via træk-og-slip eller klik">
                          <!-- Added aria-describedby -->
-                        <input type="file" id="image-upload" name="images" accept=".jpg, .jpeg, .png" multiple aria-hidden="true" aria-describedby="error-message"> <!-- Hide from screen reader, label handles it -->
+                        <input type="file" id="image-upload" name="images" accept=".jpg, .jpeg, .png" aria-hidden="true" aria-describedby="error-message"> <!-- Hide from screen reader, label handles it -->
                         <!-- Changed p to label -->
                         <label for="image-upload" class="upload-label" id="image-upload-label">
                             Træk billeder hertil eller <span class="browse-link">vælg filer</span>
@@ -139,7 +139,7 @@
             <div id="output-content">
 
                 <div class="preview-wrapper facebook-wrapper">
-                    <h3>Facebook Eksempel</h3>
+                    <h3><img src="images/facebook_logo.png" alt="Facebook Logo" class="social-logo"> Facebook Eksempel</h3>
                     <!-- Facebook Preview -->
                     <div class="post-preview facebook-preview">
                         <div class="post-header">
@@ -167,7 +167,7 @@
                 </div>
 
                 <div class="preview-wrapper instagram-wrapper">
-                     <h3>Instagram Eksempel</h3>
+                     <h3><img src="images/Instagram_Glyph_Gradient.svg" alt="Instagram Logo" class="social-logo"> Instagram Eksempel</h3>
                     <!-- Instagram Preview -->
                     <div class="post-preview instagram-preview">
                          <!-- Dummy post above REMOVED -->
@@ -213,7 +213,7 @@
                             </div>
                             <div class="post-likes">Syntes godt om af <strong>h3llo_ai</strong> og <strong>12 andre</strong></div>
                             <div class="post-timestamp">LIGE NU</div>
-<p class="demo-disclaimer">*Demoen giver et smugkig på <span class="h3llo-gradient">H3LLO</span>'s AI-magi! Den fulde oplevelse – og det endelige design – får du i den rigtige version. I den rigtige version står Meta også for billedformateringen.</p>
+<p class="demo-disclaimer">Prøv demoen og få en forsmag på H3LLO! Den betalte version giver dig den komplette oplevelse og det fulde design.</p>
                         </div>
 
                      <!-- Dummy post below REMOVED -->
@@ -260,6 +260,32 @@
 
     <script src="demo.js"></script>
 
+    <!-- === SIGN-UP MODAL START === -->
+    <div id="signup-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close-button" aria-label="Luk">&times;</button>
+            <h2>Få 5 ekstra forsøg!</h2>
+            <p class="modal-subtext">Tak fordi du prøvede H3LLO! Demoen er ressourcekrævende for os at køre. For at få 5 yderligere forsøg, beder vi dig venligst om din e-mail og firmanavn. Dette hjælper os med at fortsætte med at tilbyde og forbedre denne service.</p>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="modal-email">E-mailadresse*</label>
+                    <input type="email" id="modal-email" name="email" placeholder="din@email.dk" required>
+                </div>
+                <div class="form-group">
+                    <label for="modal-company">Firmanavn</label>
+                    <input type="text" id="modal-company" name="company" placeholder="Dit Firma ApS">
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="modal-consent" name="consent">
+                    <label for="modal-consent" class="checkbox-label">Ja tak, jeg vil gerne modtage lejlighedsvise nyheder, funktionopdateringer og tilbud fra H3LLO via e-mail.</label>
+                </div>
+                <p class="privacy-note-modal">Ved at indsende accepterer du vores <a href="privacy.html" target="_blank">Privatlivspolitik</a>.</p>
+                <div id="modal-error-message" class="error-message" style="display: none;"></div>
+                <button type="submit" id="modal-submit-btn" class="btn btn-primary">Lås op for 5 forsøg</button>
+            </form>
+        </div>
+    </div>
+    <!-- === SIGN-UP MODAL END === -->
 
 </body>
 </html>
