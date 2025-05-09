@@ -18,7 +18,9 @@ export default async function handler(request, response) {
         email = body?.email;
         companyName = body?.companyName; // Optional
         consentGiven = body?.consentGiven; // Boolean
-        console.log('[API LOG] Received body.consentGiven:', body?.consentGiven, '| Type:', typeof body?.consentGiven); // DEBUG LINE
+        console.log('[API LOG] Received request.body:', JSON.stringify(body)); // Log the whole body
+        console.log('[API LOG] body.name:', body?.name, '| Type:', typeof body?.name);
+        console.log('[API LOG] body.consentGiven:', body?.consentGiven, '| Type:', typeof body?.consentGiven);
     } catch (error) {
         console.error('Error parsing request body:', error);
         return response.status(400).json({ error: 'Invalid request body. Expecting JSON.' });

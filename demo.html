@@ -268,12 +268,16 @@
             <p class="modal-subtext">Tak fordi du prøvede H3LLO! Demoen er ressourcekrævende for os at køre. For at få 5 yderligere forsøg, beder vi dig venligst om din e-mail og firmanavn. Dette hjælper os med at fortsætte med at tilbyde og forbedre denne service.</p>
             <form id="signup-form">
                 <div class="form-group">
+                    <label for="modal-name">Navn*</label>
+                    <input type="text" id="modal-name" name="name" placeholder="Dit Navn" required>
+                </div>
+                <div class="form-group">
                     <label for="modal-email">E-mailadresse*</label>
                     <input type="email" id="modal-email" name="email" placeholder="din@email.dk" required>
                 </div>
                 <div class="form-group">
                     <label for="modal-company">Firmanavn</label>
-                    <input type="text" id="modal-company" name="company" placeholder="Dit Firma ApS">
+                    <input type="text" id="modal-company" name="company" placeholder="Dit Firma ApS (Valgfrit)">
                 </div>
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="modal-consent" name="consent">

@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signupModal = document.getElementById('signup-modal');
     const modalCloseBtn = document.getElementById('modal-close-btn');
     const signupForm = document.getElementById('signup-form');
+    const modalNameInput = document.getElementById('modal-name'); // Added for Name field
     const modalEmailInput = document.getElementById('modal-email');
     const modalCompanyInput = document.getElementById('modal-company');
     const modalConsentCheckbox = document.getElementById('modal-consent');
@@ -223,12 +224,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleSignupFormSubmit(event) {
         event.preventDefault();
-        if (!modalEmailInput || !modalCompanyInput || !modalConsentCheckbox || !modalSubmitBtn || !modalErrorMessage) return;
+        // Added modalNameInput to the check
+        if (!modalNameInput || !modalEmailInput || !modalCompanyInput || !modalConsentCheckbox || !modalSubmitBtn || !modalErrorMessage) return;
 
+        const name = modalNameInput.value.trim(); // Get name value
         const email = modalEmailInput.value.trim();
         const company = modalCompanyInput.value.trim();
         const consentGiven = modalConsentCheckbox.checked;
 
+        // Added validation for name
+        if (!name) {
+            modalErrorMessage.textContent = 'Indtast venligst dit navn.';
+            modalErrorMessage.style.display = 'block';
+            return;
+        }
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
             modalErrorMessage.textContent = 'Indtast venligst en gyldig e-mailadresse.';
             modalErrorMessage.style.display = 'block';
@@ -242,7 +251,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/api/register-demo-user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, companyName: company, consentGiven })
+                // Added name to the body
+                body: JSON.stringify({ name, email, companyName: company, consentGiven })
             });
 
             if (!response.ok) {
