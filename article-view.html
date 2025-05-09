@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - H3LLO</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="style.css">
+    <!-- Favicons from index.html -->
+    <link rel="icon" href="images/For%20Web/Favicons/browser.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/For%20Web/Favicons/iPhone.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles specific to article view if needed, but try to use style.css */
+        .article-body-content {
+            background-color: var(--secondary-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+            color: var(--text-muted); /* Default text color for content */
+        }
+        .article-body-content h1,
+        .article-body-content h2,
+        .article-body-content h3,
+        .article-body-content h4,
+        .article-body-content h5,
+        .article-body-content h6 {
+            color: var(--text-color); /* Headings within article should be brighter */
+            margin-bottom: 1rem;
+        }
+        .article-body-content p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        .article-body-content a {
+            color: var(--accent-pink);
+        }
+        .article-body-content a:hover {
+            color: var(--accent-blue);
+        }
+        .article-body-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+        }
+        .article-meta-info {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .article-title-main { /* For the main H1 of the article page */
+             margin-bottom: 0.5rem !important; /* Override general h1 margin if needed */
+        }
+    </style>
+</head>
+<body>
+    <nav class="sticky-nav" role="navigation" aria-label="Hovednavigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-link">
+                <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo" class="nav-logo" style="height: 40px;">
+            </a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="demo.html">Try Demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Article Header (Title will be set by JS) -->
+    <header class="hero" style="min-height: 20vh; padding-top: 100px; padding-bottom: 20px;">
+        <div class="container">
+            <h1 id="articleDisplayTitle" class="article-title-main">Loading Article...</h1>
+        </div>
+    </header>
+
+    <main role="main">
+        <section id="article-content-section" style="padding-top: 1rem; padding-bottom: 3rem;">
+            <div class="container">
+                <div id="articleMeta" class="article-meta-info">
+                    <!-- Meta info like date/author will be loaded here -->
+                </div>
+                <div id="articleBodyContainer" class="article-body-content">
+                    <p class="loading-text" style="text-align:center; color: var(--text-muted); font-size: 1.2rem;">Fetching content...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+             <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo Hvid" class="logo footer-logo" loading="lazy">
+            <p>© <span id="current-year"></span> – H3LLO</p>
+            <div class="footer-contact">
+                <p><a href="privacy.html">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        async function fetchArticle() {
+            const articleDisplayTitle = document.getElementById('articleDisplayTitle');
+            const articleBodyContainer = document.getElementById('articleBodyContainer');
+            const articleMetaContainer = document.getElementById('articleMeta');
+            const loadingText = articleBodyContainer.querySelector('.loading-text');
+
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('slug');
+
+            if (!slug) {
+                articleDisplayTitle.textContent = 'Error';
+                articleBodyContainer.innerHTML = '<p style="text-align:center; color: var(--accent-pink);">No article slug provided.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/articles/slug/${slug}`);
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        document.title = 'Article Not Found - H3LLO';
+                        articleDisplayTitle.textContent = 'Article Not Found';
+                        articleBodyContainer.innerHTML = '<p style="text-align:center; color: var(--accent-pink);">The article you are looking for could not be found.</p>';
+                    } else {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return;
+                }
+                const article = await response.json();
+
+                document.title = `${article.seoTitle || 'Article'} - H3LLO`;
+                const metaDescriptionTag = document.querySelector('meta[name="description"]');
+                if (metaDescriptionTag) {
+                    metaDescriptionTag.setAttribute('content', article.metaDescription || '');
+                }
+
+                articleDisplayTitle.textContent = article.seoTitle;
+
+                let metaHTML = '';
+                if (article.publicationDate) {
+                    metaHTML += `Published on: ${new Date(article.publicationDate).toLocaleDateString()}`;
+                }
+                if (article.authorName) {
+                    metaHTML += `${metaHTML ? ' | ' : ''}By: ${article.authorName}`;
+                }
+                articleMetaContainer.innerHTML = metaHTML;
+
+                if (loadingText) {
+                    loadingText.remove();
+                }
+                articleBodyContainer.innerHTML = article.finalHtmlContent;
+
+            } catch (error) {
+                console.error('Error fetching article:', error);
+                document.title = 'Error Loading Article - H3LLO';
+                articleDisplayTitle.textContent = 'Error Loading Article';
+                if (loadingText) {
+                    loadingText.remove();
+                }
+                articleBodyContainer.innerHTML = '<p style="text-align:center; color: var(--accent-pink);">Could not load article. Please try again later.</p>';
+            }
+        }
+
+        fetchArticle();
+    </script>
+</body>
+</html>

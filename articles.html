@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles - H3LLO</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Favicons from index.html -->
+    <link rel="icon" href="images/For%20Web/Favicons/browser.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/For%20Web/Favicons/iPhone.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="sticky-nav" role="navigation" aria-label="Hovednavigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-link">
+                <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo" class="nav-logo" style="height: 40px;">
+            </a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="demo.html">Try Demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero" style="min-height: 30vh; padding-top: 100px; padding-bottom: 40px;">
+        <div class="container">
+            <h1>Articles</h1>
+            <p class="subline">Read the latest news and insights from H3LLO.</p>
+        </div>
+    </header>
+
+    <main role="main">
+        <section id="article-list-section" style="padding-top: 3rem; padding-bottom: 3rem; background-color: var(--secondary-bg);">
+            <div class="container">
+                <div id="articlesContainer" class="steps" style="grid-template-columns: 1fr; gap: 1.5rem;">
+                    <!-- Articles will be loaded here by JavaScript -->
+                    <p class="loading-text" style="text-align:center; color: var(--text-muted); font-size: 1.2rem;">Loading articles...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+             <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo Hvid" class="logo footer-logo" loading="lazy">
+            <p>© <span id="current-year"></span> – H3LLO</p>
+            <div class="footer-contact">
+                <p><a href="privacy.html">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        async function fetchArticles() {
+            const articlesContainer = document.getElementById('articlesContainer');
+            const loadingText = articlesContainer.querySelector('.loading-text');
+            try {
+                const response = await fetch('/api/articles');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const articles = await response.json();
+
+                if (loadingText) {
+                    loadingText.remove();
+                }
+
+                if (articles.length === 0) {
+                    articlesContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted);">No articles found.</p>';
+                    return;
+                }
+
+                let articlesHTML = '';
+                articles.forEach(article => {
+                    // Using a structure similar to .step cards from style.css
+                    articlesHTML += `
+                        <article class="step" style="text-align: left;">
+                            <h3><a href="article-view.html?slug=${article.slug}" style="color: var(--accent-blue);">${article.seoTitle || article.title}</a></h3>
+                            ${article.metaDescription ? `<p style="color: var(--text-muted);">${article.metaDescription}</p>` : ''}
+                            <a href="article-view.html?slug=${article.slug}" class="btn btn-secondary" style="margin-top: 1rem;">Read More</a>
+                        </article>
+                    `;
+                });
+                articlesContainer.innerHTML = articlesHTML;
+            } catch (error) {
+                console.error('Error fetching articles:', error);
+                 if (loadingText) {
+                    loadingText.remove();
+                }
+                articlesContainer.innerHTML = '<p style="text-align:center; color: var(--accent-pink);">Could not load articles. Please try again later.</p>';
+            }
+        }
+
+        fetchArticles();
+    </script>
+</body>
+</html>
