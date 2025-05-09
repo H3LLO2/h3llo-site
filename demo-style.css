@@ -459,6 +459,37 @@ body {
     cursor: pointer;
 }
 
+/* Social Media Logos in Preview Headers */
+.social-logo {
+    height: 20px; /* Adjust size as needed */
+    width: auto;
+    margin-right: 8px;
+    vertical-align: middle; /* Align with header text */
+}
+
+/* "See More" Button Styling */
+.post-text-wrapper { /* Ensure wrapper allows inline flow */
+    display: block; /* Or inline, depending on how text truncation is handled */
+}
+
+.see-more-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    padding: 0;
+    margin-left: 5px; /* Space after the text */
+    cursor: pointer;
+    font-size: inherit; /* Match surrounding text */
+    font-family: inherit;
+    text-decoration: none;
+    display: inline; /* To flow with text, JS might override when shown */
+    font-weight: normal; /* Typically not bold */
+}
+
+.see-more-btn:hover {
+    text-decoration: underline;
+    color: var(--text-color); /* Slightly lighten on hover */
+}
 /* Facebook Specific */
 .facebook-preview {
     border: 1px solid var(--border-color);
