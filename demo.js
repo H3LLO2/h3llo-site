@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('submit-btn');
     const errorMessage = document.getElementById('error-message');
     const attemptCounterDisplay = document.getElementById('attempt-counter');
+    const successMessage = document.getElementById('success-message'); // Added for success messages
 
     // Modal DOM Elements
     const signupModal = document.getElementById('signup-modal');
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Constants & State ---
     const MAX_IMAGES = 1;
-    const MAX_FILE_SIZE_MB = 3;
+    const MAX_FILE_SIZE_MB = 10;
     const MAX_ATTEMPTS = 1; // For the initial free try
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
     let uploadedFiles = [];
@@ -267,6 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 grantedTimestamp: Date.now()
             }));
             hideSignupModal();
+            showSuccessMessage('Tak! Du har nu 5 ekstra forsøg. Prøv demoen igen.'); // Show success message
             updateAttemptCounterDisplay();
             checkFormValidity();
             if (submitBtn) submitBtn.textContent = 'Lav Opslag';
@@ -670,6 +672,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function hideError() {
         if (errorMessage) errorMessage.style.display = 'none';
+    }
+
+    function showSuccessMessage(message) {
+        if (successMessage) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                if (successMessage) successMessage.style.display = 'none';
+            }, 5000);
+        }
     }
 
     function updateAttemptCounterDisplay() {

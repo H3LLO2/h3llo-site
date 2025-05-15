@@ -95,7 +95,7 @@
 
                 <!-- Image Upload -->
                 <div class="form-group">
-                    <label for="image-upload-label">2. Upload 1 billede (JPG, PNG - Max 3MB/stk)</label>
+                    <label for="image-upload-label">2. Upload 1 billede (JPG, PNG - Max 10MB/stk)</label>
                     <div class="upload-area" id="upload-area" aria-label="Område til billedupload via træk-og-slip eller klik">
                          <!-- Added aria-describedby -->
                         <input type="file" id="image-upload" name="images" accept=".jpg, .jpeg, .png" aria-hidden="true" aria-describedby="error-message"> <!-- Hide from screen reader, label handles it -->
@@ -121,6 +121,7 @@
                 </p>
                  <!-- Added role="alert" -->
                  <div id="error-message" class="error-message" role="alert" style="display: none;"></div>
+                 <div id="success-message" class="success-message" role="status" style="display: none;"></div>
             </form>
         </section>
         <!-- === INPUT SECTION END === -->
