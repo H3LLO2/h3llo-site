@@ -643,7 +643,22 @@ body {
 .demo-footer a:hover {
     color: var(--accent-pink);
 }
+.demo-footer .logo { /* Style for the footer logo */
+    height: 50px;    /* Consistent height with header logo */
+    width: auto;       /* Maintain aspect ratio */
+    max-width: 100%;   /* Prevent overflow, scale down if container is smaller */
+    display: block;    /* Allow margin auto for centering */
+    margin: 0 auto 1rem auto; /* Center logo and add bottom margin */
+}
 
+/* Responsive adjustments for smaller screens (mobile) */
+@media (max-width: 550px) {
+    .demo-container {
+        padding: 20px 15px; /* Reduce padding: 20px top/bottom, 15px left/right */
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
 /* === RESPONSIVE (Tablet+) === */
 @media (min-width: 768px) {
     .demo-container {
