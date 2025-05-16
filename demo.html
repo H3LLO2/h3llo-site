@@ -7,7 +7,7 @@
     <title>Prøv H3LLO - Interaktiv Demo</title>
     <meta name="description" content="Prøv H3LLO's AI-drevne social media værktøj interaktivt. Upload billeder, skriv en besked, og se et eksempel på dit opslag.">
     <!-- Link to existing styles for consistency (optional, adjust path if needed) -->
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="style.css"> <!-- Uncommented -->
     <!-- Link to demo-specific styles -->
     <link rel="stylesheet" href="demo-style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +35,25 @@
 </script>
 </head>
 <body>
+    <nav class="sticky-nav" role="navigation" aria-label="Hovednavigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-link"> <!-- Changed href to index.html -->
+                <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo" class="nav-logo">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+            <ul id="nav-menu">
+                <li><a href="index.html#hvordan-det-virker">Sådan virker det</a></li> <!-- Updated to link to index.html sections -->
+                <li><a href="kampagnepris.html">Kampagnepris</a></li>
+                <li><a href="articles.html">Artikler</a></li>
+                <li><a href="demo.html">Prøv Demo</a></li>
+                <li><a href="index.html#kunder">Kunder</a></li> <!-- Updated to link to index.html sections -->
+                <li><a href="index.html#kontakt">Kontakt</a></li> <!-- Updated to link to index.html sections -->
+                <li><a href="demo.html" class="nav-demo-btn">Prøv Demo</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <!-- === DEMO CONTAINER START === -->
     <div class="demo-container">
@@ -292,5 +311,18 @@
     </div>
     <!-- === SIGN-UP MODAL END === -->
 
+    <script>
+        // Mobile navigation toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('nav-ul-active');
+                const isExpanded = navMenu.classList.contains('nav-ul-active');
+                navToggle.setAttribute('aria-expanded', isExpanded);
+            });
+        }
+    </script>
 </body>
 </html>

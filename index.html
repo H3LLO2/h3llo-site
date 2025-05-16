@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
 <!-- Start cookieyes banner --> <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/e471ad70bb2ef73755864942/script.js"></script> <!-- End cookieyes banner -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="H3LLO automatiserer social media opslag for lokale butikker i Aarhus. Send billeder og en besked – H3LLO laver opslaget og poster det for dig. Spar tid og nå flere kunder.">
-    <title>H3LLO - Nem Social Media Automation til Lokale Butikker i Aarhus</title>
+    <meta name="description" content="Send et billede og en besked – H3LLO poster automatisk for dig. Prøv gratis.">
+    <title>H3LLO – Få Facebook & Insta på autopilot</title>
     <!-- Canonical URL -->
     <link rel="canonical" href="https://h3llo.dk/" /> <!-- Adjust if URL is different -->
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="H3LLO – Nem markedsføring for din butik">
-    <meta property="og:description" content="Automatiser dine opslag på Facebook og Instagram. Bare send en besked og et billede.">
+    <meta property="og:title" content="H3LLO – Få Facebook & Insta på autopilot">
+    <meta property="og:description" content="Send et billede og en besked – H3LLO poster automatisk for dig. Prøv gratis.">
     <meta property="og:image" content="images/h3llo-og-preview.jpg"> <!-- Adjust path to your preview image -->
     <meta property="og:url" content="https://h3llo.dk/"> <!-- Adjust if URL is different -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="H3LLO">
 <!-- Security Headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <!-- Basic Content Security Policy (CSP) - Needs refinement based on actual resources -->
@@ -34,11 +35,11 @@
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "H3LLO", // Replace with your organization name
-      "url": "https://h3llo.dk/", // Replace with your website URL
-      "logo": "https://h3llo.dk/images/For%20Web/Color%20logo%20-%20no%20background.svg", // Replace with your logo URL
-      "description": "H3LLO automatiserer social media opslag for lokale butikker i Aarhus. Spar tid og nå flere kunder.", // Optional: Add description
-      "address": { // Optional: Add address if relevant
+      "name": "H3LLO",
+      "url": "https://h3llo.dk/",
+      "logo": "https://h3llo.dk/images/For%20Web/Color%20logo%20-%20no%20background.svg",
+      "description": "Send et billede og en besked – H3LLO poster automatisk for dig. Prøv gratis.",
+      "address": {
         "@type": "PostalAddress",
         "addressLocality": "Aarhus",
         "addressCountry": "DK"
@@ -74,7 +75,10 @@
             <a href="#" class="nav-logo-link">
                 <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo" class="nav-logo">
             </a>
-            <ul>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+            <ul id="nav-menu">
                 <li><a href="#hvordan-det-virker">Sådan virker det</a></li>
 <li><a href="kampagnepris.html">Kampagnepris</a></li>
 <li><a href="articles.html">Artikler</a></li>
@@ -414,6 +418,18 @@
     <!-- === FOOTER END === -->
 
     <script>
+        // Mobile navigation toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('nav-ul-active');
+                const isExpanded = navMenu.classList.contains('nav-ul-active');
+                navToggle.setAttribute('aria-expanded', isExpanded);
+            });
+        }
+
         // Set current year in footer
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
