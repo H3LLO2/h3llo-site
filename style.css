@@ -9,11 +9,15 @@
     --accent-blue: #00CFFF;
     --accent-purple: #9C27B0;
     --accent-pink: #FF2CD4;
-    --glow-pink: rgba(255, 44, 212, 0.7);
-    --glow-blue: rgba(0, 207, 255, 0.7);
+    --glow-pink: rgba(255, 44, 212, 0.35); /* Reduced glow */
+    --glow-blue: rgba(0, 207, 255, 0.35); /* Reduced glow */
     --font-family: 'Poppins', sans-serif;
-    --border-radius: 10px;
-    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --border-radius: 8px; /* Consistent radius */
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Subtler shadow */
+    --button-padding: 12px 24px;
+    --label-padding: 6px 12px;
+    --section-padding: 80px 20px; /* More air */
+    --animation-duration: 0.5s;
 }
 
 * {
@@ -129,15 +133,18 @@ section {
 }
 
 .btn-primary {
-    background: var(--primary-gradient);
+    background: linear-gradient(90deg, #00B8E0 0%, #8A23A0 50%, #E028BE 100%); /* Subtler gradient */
     color: var(--text-color);
     box-shadow: 0 0 0px var(--glow-pink); /* Initial state for glow */
+    padding: var(--button-padding);
+    border-radius: var(--border-radius);
 }
 
 .btn-primary:hover,
 .btn-primary:focus { /* Add focus state for accessibility */
-    transform: translateY(-3px) scale(1.02); /* Add scale */
-    box-shadow: 0 5px 20px var(--glow-pink); /* Pink glow */
+    transform: translateY(-2px) scale(1.01); /* More subtle hover */
+    box-shadow: 0 3px 15px var(--glow-pink); /* Pink glow */
+    background: linear-gradient(90deg, #00A0C0 0%, #7A1F90 50%, #D020AE 100%); /* Slightly darker on hover */
     text-decoration: none;
     color: var(--text-color);
 }
@@ -147,24 +154,26 @@ section {
     color: var(--accent-blue);
     border: 2px solid var(--accent-blue);
     box-shadow: 0 0 0px var(--glow-blue); /* Initial state for glow */
+    padding: var(--button-padding);
+    border-radius: var(--border-radius);
 }
 
 .btn-secondary:hover,
 .btn-secondary:focus { /* Add focus state */
-    background-color: rgba(0, 207, 255, 0.1);
-    transform: translateY(-3px) scale(1.02); /* Add scale */
-    box-shadow: 0 5px 20px var(--glow-blue); /* Blue glow */
+    background-color: rgba(0, 207, 255, 0.05); /* Subtler hover bg */
+    transform: translateY(-2px) scale(1.01); /* More subtle hover */
+    box-shadow: 0 3px 15px var(--glow-blue); /* Blue glow */
     text-decoration: none;
     color: var(--accent-blue);
 }
 
 .cta-buttons {
-    margin-top: 2rem;
+    margin-top: 2.5rem; /* More air */
     text-align: center;
     display: flex;
     flex-wrap: wrap; /* Allow buttons to wrap on small screens */
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem; /* More air */
 }
 
 /* === LOGO STYLES === */
@@ -197,6 +206,18 @@ img.logo {
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Animation for elements to pop in on scroll */
+.pop-in {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+    transition: opacity var(--animation-duration) ease-out, transform var(--animation-duration) ease-out;
+}
+
+.pop-in.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
 }
 
 /* === AI BADGE STYLES === */
@@ -455,6 +476,681 @@ img.logo {
     text-align: center; /* Explicitly center text */
 }
 /* === VIDEO SECTION END === */
+
+
+/* === NEW TESTIMONIALS SECTION (Pricing Page) === */
+.testimonials-sektion {
+    padding: var(--section-padding);
+    background-color: var(--secondary-bg);
+    display: flex;
+    flex-direction: column; /* Mobile: stack vertically */
+    align-items: center; /* Mobile: center cards */
+    gap: 24px; /* Mobile: space between stacked cards */
+    max-width: 1200px; /* Max width for the container */
+    margin-left: auto; /* Center the container */
+    margin-right: auto; /* Center the container */
+}
+
+.testimonial-card { /* Updated class name */
+    background-color: var(--bg-color);
+    border-radius: var(--border-radius);
+    padding: 24px; /* Mobile padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrer ALT indhold */
+    text-align: center; /* Centrer ALT tekst */
+    width: 100%;
+    max-width: 95%; /* Mobile: max 95% of viewport */
+    min-height: auto; /* Ensure cards don't stretch if align-items: stretch is on parent */
+    box-shadow: var(--card-shadow);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInCard var(--animation-duration) ease-out forwards;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.testimonial-logo { /* Updated class name, applied to img directly */
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin-bottom: 24px; /* Spacing: logo → navn */
+}
+
+.testimonial-name { /* Updated class name */
+    font-size: 1.1rem; /* Approx 17.6px, max 20px */
+    font-weight: 600; /* Semi-bold */
+    color: var(--text-color);
+    margin-bottom: 24px; /* Spacing: navn → quote-ikon */
+    line-height: 1.4;
+}
+
+.testimonial-quote-icon { /* Updated class name */
+    font-size: 1.5rem; /* Approx 24px */
+    color: var(--accent-blue);
+    margin-bottom: 24px; /* Spacing: quote-ikon → citat */
+    line-height: 1;
+}
+
+.testimonial-citat { /* Updated class name */
+    font-size: 1.125rem; /* Min 18px */
+    line-height: 1.6; /* 150-160% */
+    color: var(--text-muted);
+    margin-bottom: 24px; /* Luft under citat */
+    width: 100%; /* Ensure it can be centered if text is short */
+    /* max-width for line length control will be in media query */
+}
+
+.testimonial-citat .highlight { /* Target .highlight span */
+    color: var(--accent-pink);
+    font-weight: 600; /* Or inherit if span is inside a p that's already bolded */
+}
+
+/* Desktop layout for testimonials */
+@media (min-width: 768px) {
+    .testimonials-sektion {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start; /* Changed from stretch to prevent unnatural height changes */
+        gap: 32px;
+    }
+    .testimonial-card { /* Updated class name */
+        padding: 32px; /* Desktop padding */
+        flex-basis: calc(33.333% - (2 * 32px / 3)); /* Adjusts for 32px gap */
+        max-width: 380px; /* Max width for desktop card, e.g. 340-400px range */
+        min-width: 320px; /* Min width to prevent squishing */
+        min-height: auto; /* Ensure cards don't stretch if align-items: stretch was on parent */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .testimonial-card:hover { /* Updated class name */
+        transform: translateY(-5px); /* Let lift, no scale */
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    .testimonial-citat { /* Updated class name */
+        /* max-width: 80%; Removed to allow text to flow more freely within card padding */
+        /* Text will be centered by text-align: center on .testimonial-card */
+        width: 100%; /* Ensure it takes available space for centering */
+        margin-left: auto; /* Still useful if there's an implicit block behavior */
+        margin-right: auto; /* Still useful */
+    }
+}
+
+@media (min-width: 1024px) {
+    .testimonials-sektion {
+        gap: 40px;
+    }
+    .testimonial-card { /* Updated class name */
+        flex-basis: calc(33.333% - (2 * 40px / 3));
+        /* max-width: 400px; can remain */
+    }
+}
+
+/* === PRICING TABLE STYLES === */
+/* ... other pricing styles ... */
+
+.pricing-kolonne .beskrivelse {
+    text-align: left; /* Ensure description text is left-aligned */
+    /* Add any other specific styling for description if needed */
+}
+
+
+@keyframes fadeInCard {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* === PRICING PAGE SPECIFIC STYLES === */
+.hero-kampagne {
+    text-align: center;
+    padding: var(--section-padding); /* Use variable */
+    padding-top: 60px; /* Adjust top specifically if needed */
+    padding-bottom: 40px; /* Adjust bottom specifically */
+    background-color: var(--secondary-bg);
+}
+
+.hero-kampagne .badge {
+    display: inline-block;
+    background-color: var(--accent-pink);
+    color: white;
+    padding: var(--label-padding); /* Use variable */
+    border-radius: 20px; /* Or var(--border-radius) if consistent */
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem; /* More air */
+    margin-top: 1rem; /* Added margin to prevent touching header */
+}
+
+.hero-kampagne h1 {
+    margin-bottom: 1rem; /* More air */
+    font-size: clamp(2rem, 4.5vw + 1rem, 3.2rem);
+}
+
+.hero-kampagne .underoverskrift {
+    font-size: clamp(1rem, 2vw + 0.5rem, 1.2rem);
+    color: var(--text-muted);
+    max-width: 65ch;
+    margin: 0 auto 2rem auto; /* More air */
+}
+
+.campaign-counter-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px 25px;
+    border-radius: var(--border-radius);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px; /* Slightly more gap */
+    margin-top: 2rem; /* More air */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Subtler shadow */
+}
+
+.pulsing-dot {
+    width: 10px; /* Slightly smaller */
+    height: 10px; /* Slightly smaller */
+    background-color: #28a745; /* Green for live/active */
+    border-radius: 50%;
+    animation: pulseDot 1.3s infinite ease-in-out;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.7); /* Subtle glow for dot */
+}
+
+.counter-text {
+    font-size: 1.05rem; /* Slightly adjusted */
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.live-indicator {
+    background-color: transparent; /* Remove background */
+    color: var(--accent-green, #28a745); /* Use a green, define if not present */
+    padding: 2px 6px; /* Adjust padding */
+    border-radius: var(--border-radius);
+    font-size: 0.7rem; /* Smaller */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--accent-green, #28a745); /* Border instead of bg */
+    opacity: 0.8; /* Less prominent */
+}
+
+.counter-subtext {
+    font-size: 0.8rem; /* Smaller */
+    color: var(--text-muted);
+    margin-top: 0.8rem; /* More air */
+    margin-bottom: 0;
+    display: block;
+    width: 100%;
+    text-align: center;
+    opacity: 0.7; /* Less prominent */
+}
+
+.campaign-counter-wrapper { /* Optional: wrap counter and subtext */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.pricing-tabel {
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+    justify-content: center;
+    gap: 32px; /* Minimum 32px gap */
+    padding: var(--section-padding);
+    align-items: stretch; /* Makes cards same height if they are in a row */
+}
+
+.pricing-kolonne {
+    background-color: var(--secondary-bg);
+    padding: 2rem; /* Consistent padding */
+    border-radius: var(--border-radius); /* Consistent radius */
+    border: 1px solid var(--border-color);
+    width: 100%; /* Full width on mobile, before max-width kicks in */
+    max-width: 380px; /* Consistent max-width for cards */
+    display: flex;
+    flex-direction: column;
+    text-align: center; /* Default alignment, will be overridden for specific elements on mobile */
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 16px 0; /* Consistent vertical margin, gap handles horizontal */
+    position: relative; /* For absolute positioned labels like NYHED */
+    opacity: 0; /* Initial state for pop-in */
+    transform: translateY(20px); /* Initial state for pop-in */
+    /* animation will be applied by Intersection Observer */
+}
+
+.pricing-kolonne:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* Titles */
+.pricing-kolonne h2 {
+    font-size: clamp(1.6rem, 2.5vw + 0.8rem, 2rem);
+    color: var(--text-color);
+    margin-bottom: 0.75rem; /* Space below title */
+    font-weight: 600;
+    display: flex; /* Use flex to align title and package type */
+    flex-direction: column; /* Stack them vertically by default */
+    align-items: center; /* Center them */
+    justify-content: center;
+}
+
+.pricing-kolonne h2 .package-type {
+    font-size: 0.6em; /* Smaller relative to the h2 */
+    color: var(--text-muted);
+    font-weight: 400; /* Lighter font weight */
+    margin-top: 0.2em; /* Small space below main title part */
+    display: block; /* Ensure it takes its own line if needed */
+}
+
+/* Subtitle for Autopilot */
+.pricing-kolonne .overskrift-sub {
+    font-size: 0.9rem;
+    color: var(--text-muted); /* More subdued */
+    font-weight: 500;
+    margin-top: -0.5rem; /* Pull closer to title */
+    margin-bottom: 1.5rem; /* Space before price */
+    min-height: 1.5em; /* Ensure space even if empty for alignment */
+}
+/* Hide subtitle on standard H3LLO card if structure is identical */
+.pricing-kolonne:not(.autopilot) .overskrift-sub {
+    display: none; /* Or visibility: hidden; if space needs to be kept for alignment */
+}
+
+
+/* NYHED Label */
+.best-deal-label {
+    background-color: var(--accent-pink);
+    color: white;
+    padding: 6px 12px;
+    border-radius: calc(var(--border-radius) / 2); /* Smaller radius for label */
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    position: absolute;
+    top: 24px; /* margin-top max 24px from card top */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    /* Removed clip-path for simpler label */
+}
+
+/* Description - already left-aligned by a previous change, ensure consistent spacing */
+.pricing-kolonne .beskrivelse {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem; /* Consistent spacing */
+    flex-grow: 1; /* Allow description to take space */
+    min-height: 60px; /* Adjust as needed for content balance */
+    line-height: 1.6;
+    text-align: left; /* Explicitly left, will be centered on mobile */
+}
+
+/* Price */
+.pricing-kolonne .pris {
+    font-size: clamp(1.8rem, 3vw + 1rem, 2.2rem);
+    font-weight: 600; /* Adjusted boldness */
+    color: var(--accent-pink); /* Default for H3LLO */
+    margin-top: 1rem; /* Space above price */
+    margin-bottom: 8px; /* 8px space AFTER price, before first label */
+}
+.pricing-kolonne.autopilot .pris {
+    color: var(--accent-blue); /* Specific color for Autopilot */
+}
+
+/* Price Labels (under price) */
+.price-label { /* Common style for both labels */
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-top: 0; /* Reset top margin, bottom margin of previous element controls space */
+}
+.price-label.accent-label { /* "KUN 500 pladser..." */
+    color: var(--accent-pink);
+    font-weight: 600;
+    margin-bottom: 8px; /* 8px space AFTER this label */
+}
+.price-label.gift-label { /* "🎁 Gratis personlig..." */
+    color: var(--text-color); /* Neutral/light */
+    font-weight: 500;
+    margin-bottom: 0; /* Button's top margin will create the 24px space */
+}
+
+/* CTA Buttons */
+.pricing-kolonne .button {
+    background: var(--primary-gradient); /* Default gradient */
+    color: white;
+    padding: 12px 24px; /* Consistent padding */
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem; /* Consistent font size */
+    display: block; /* Make it block to control width/centering via margin */
+    width: 100%; /* Full width within padding */
+    max-width: 280px; /* Max width for button */
+    margin: 24px auto 24px auto; /* Explicit 24px top and bottom, auto left/right for centering */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-position 0.3s ease;
+    background-size: 200% auto; /* For gradient hover effect */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.pricing-kolonne .button:hover, .pricing-kolonne .button:focus {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 4px 15px var(--glow-pink);
+    background-position: right center;
+    color: white;
+    text-decoration: none;
+}
+.pricing-kolonne.autopilot .button { /* Specific gradient for Autopilot button */
+    background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+    background-size: 200% auto;
+}
+.pricing-kolonne.autopilot .button:hover, .pricing-kolonne.autopilot .button:focus {
+    box-shadow: 0 4px 15px var(--glow-blue);
+}
+
+/* Trial Info Text */
+.pricing-kolonne .trial-info {
+    font-size: 0.8rem; /* Small, discreet font */
+    color: var(--text-muted);
+    margin-top: -12px; /* Pull closer to button */
+    margin-bottom: 16px; /* Consistent 16px space before feature list */
+    line-height: 1.4;
+    min-height: 0; /* Reset min-height if not needed */
+}
+
+/* Feature List */
+.includes-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px; /* Consistent 16px space above list */
+    margin-bottom: 1rem; /* Space below list */
+    text-align: left; /* Align text to left */
+    font-size: 0.9rem; /* Consistent font size */
+}
+.includes-list li {
+    margin-bottom: 0.75rem; /* Consistent spacing between items */
+    display: flex;
+    align-items: flex-start; /* Align icon/emoji with top of text */
+    gap: 0.75rem; /* Space between icon/emoji and text */
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.includes-list li::before {
+    content: "✓"; /* Default checkmark, can be styled or replaced */
+    color: var(--accent-green, #28a745); /* Use a green color */
+    font-weight: bold;
+    margin-right: 0.25em; /* Space after checkmark */
+}
+/* Removed tooltip-trigger specific styling from list items */
+/* Ensure all list items get a checkmark now, as special conditions are removed */
+.includes-list li::before {
+    content: "✓";
+    color: var(--accent-green, #28a745);
+    font-weight: bold;
+    /* margin-right is already set, ensure it's appropriate */
+}
+/* Removed all .tooltip-trigger and .tooltip-text styles */
+
+/* Mobile Centering and Spacing */
+@media (max-width: 767px) {
+    .pricing-tabel {
+        gap: 32px; /* Ensure minimum 32px gap on mobile */
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center; /* Center cards in the column */
+    }
+    .pricing-kolonne {
+        margin-left: auto; /* Center card if not full width */
+        margin-right: auto; /* Center card if not full width */
+        max-width: 90%; /* Allow cards to be wider on mobile if needed */
+        padding: 1.5rem; /* Adjust padding for mobile */
+    }
+    .pricing-kolonne h2,
+    .pricing-kolonne .overskrift-sub,
+    .pricing-kolonne .beskrivelse, /* Center description text on mobile */
+    .pricing-kolonne .pris,
+    .price-label,
+    .pricing-kolonne .trial-info {
+        text-align: center; /* Center these elements */
+    }
+    .pricing-kolonne .beskrivelse {
+        margin-left: auto; /* Center block if max-width is applied */
+        margin-right: auto; /* Center block if max-width is applied */
+    }
+    .includes-list {
+        /* text-align: center; Removed - centering of the block is handled by margin and max-width */
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 300px; /* Constrain list width for better centering. Adjust if needed. */
+        padding-left: 0; /* Ensure no extra padding that might affect visual left alignment */
+    }
+    .includes-list li {
+        /* justify-content: center; Removed - items should start from the left of the li */
+        text-align: left; /* Keep text within list item left-aligned */
+        /* display: flex, align-items: flex-start, gap are inherited and correct */
+    }
+    .best-deal-label {
+        top: 16px; /* Adjust NYHED label for mobile */
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+    /* Ensure consistent spacing between elements within a card on mobile */
+    .pricing-kolonne > * {
+        margin-bottom: 16px; /* Default bottom margin for direct children */
+    }
+    .pricing-kolonne > *:last-child {
+        margin-bottom: 0;
+    }
+    .pricing-kolonne .button {
+        /* margin: 24px auto; is already set for desktop, mobile will inherit if width is 100% */
+        /* Explicitly ensure 24px top/bottom for mobile if overridden by generic selector */
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
+    .price-label { /* General price label on mobile */
+        margin-bottom: 8px; /* 8px between labels */
+    }
+    .price-label.gift-label { /* Last price label before button */
+         margin-bottom: 0; /* Button's margin-top handles space */
+    }
+    .pricing-kolonne .pris { /* Price element itself */
+        margin-bottom: 8px; /* Space after price, before first label */
+    }
+    .pricing-kolonne .trial-info {
+        margin-top: -12px; /* Pull closer to button, consistent with desktop */
+        margin-bottom: 16px; /* Consistent with desktop */
+    }
+    .includes-list {
+        margin-top: 16px; /* Consistent with desktop */
+    }
+}
+.pricing-kolonne.autopilot .best-deal-label {
+     background-color: var(--accent-blue);
+     color: var(--bg-color); /* Dark text on light blue for contrast */
+}
+
+
+.faq-sektion {
+    padding: var(--section-padding);
+    max-width: 760px; /* Adjusted */
+    margin: 2rem auto; /* More air */
+}
+
+.faq-sektion h2 {
+    margin-bottom: 2.5rem; /* Adjusted */
+}
+
+.faq-item {
+    background-color: var(--secondary-bg);
+    margin-bottom: 1.25rem; /* More air */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+.faq-item:hover {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 15px rgba(156, 39, 176, 0.1);
+}
+
+
+.faq-item summary {
+    padding: 1.1rem 1.5rem; /* Adjusted */
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 1rem; /* Smaller FAQ question text */
+    transition: background-color 0.2s ease;
+}
+.faq-item summary:hover {
+    background-color: rgba(255,255,255,0.02); /* Very subtle hover */
+    color: var(--accent-blue);
+}
+
+.faq-item summary::after {
+    content: '+'; /* Changed to plus/minus */
+    font-size: 1.2em; /* Larger icon */
+    transition: transform 0.3s ease-out;
+    color: var(--accent-blue);
+    font-weight: 300; /* Lighter weight for icon */
+}
+
+.faq-item[open] summary::after {
+    content: '–'; /* Minus sign */
+    transform: rotate(0deg); /* No rotation needed for plus/minus */
+}
+.faq-item[open] summary {
+    background-color: rgba(0, 207, 255, 0.05); /* Slight bg change when open */
+    color: var(--accent-blue);
+}
+
+
+.faq-item p {
+    padding: 0.5rem 1.5rem 1.25rem 1.5rem; /* Adjusted padding */
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.88rem; /* Smaller FAQ answer text */
+    line-height: 1.65; /* Adjusted */
+}
+
+
+/* Pulsing dot animation */
+@keyframes pulseDot {
+    0%, 100% {
+        transform: scale(0.9); /* Start smaller */
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.2); /* Pulse larger */
+        opacity: 1;
+    }
+}
+
+/* Pop-in animation for pricing cards - to be triggered by JS Intersection Observer */
+.pricing-kolonne.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 767px) {
+    .hero-kampagne {
+        padding-top: 40px;
+        padding-bottom: 30px;
+    }
+    .hero-kampagne h1 {
+        font-size: clamp(1.8rem, 7vw + 0.5rem, 2.5rem); /* Adjusted for mobile */
+    }
+    .campaign-counter-container {
+        flex-direction: row; /* Keep horizontal on mobile if space allows */
+        flex-wrap: wrap; /* Allow wrap if needed */
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 15px; /* Smaller padding */
+    }
+    .counter-text {
+        font-size: 0.95rem; /* Smaller */
+    }
+    .live-indicator {
+        font-size: 0.65rem; /* Smaller */
+        padding: 2px 5px;
+    }
+    .counter-subtext {
+        font-size: 0.75rem; /* Smaller */
+        margin-top: 6px;
+        width: auto; /* Don't force full width if counter is wrapped */
+    }
+
+    .pricing-tabel {
+        gap: 1.5rem;
+        padding-left: 10px; /* Less padding */
+        padding-right: 10px; /* Less padding */
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .pricing-kolonne {
+        max-width: calc(100% - 20px); /* Ensure some side spacing */
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1.5rem;
+        padding: 1.8rem 1.2rem; /* Smaller padding */
+        margin-top: 1rem; /* Mobile margin */
+    }
+     .pricing-kolonne.autopilot {
+        padding-top: 3rem; /* Adjust for label on mobile */
+        margin-top: 1rem; /* Mobile margin */
+    }
+
+    .pricing-kolonne .button {
+        width: calc(100% - 20px); /* Ensure button is easily tappable, with slight inset */
+        max-width: 300px; /* Max width for button on mobile */
+        margin-left: auto;
+        margin-right: auto;
+        padding: 12px 18px; /* Smaller padding */
+        font-size: 0.95rem; /* Ensure readable button text */
+    }
+    .best-deal-label {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        clip-path: polygon(3% 0, 97% 0, 100% 100%, 0% 100%); /* Adjust shape for mobile */
+    }
+
+    .faq-sektion {
+        padding: 30px 10px; /* Less padding */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .faq-item summary {
+        padding: 0.9rem 1rem; /* Smaller padding */
+        font-size: 0.9rem; /* Smaller text */
+    }
+    .faq-item summary::after {
+        font-size: 1em;
+    }
+    .faq-item p {
+        font-size: 0.82rem; /* Smaller text */
+        padding: 0.5rem 1rem 1rem 1rem; /* Smaller padding */
+    }
+
+    /* Testimonials on mobile */
+    .testimonials-sektion {
+        padding: 30px 10px; /* Less padding */
+        gap: 1.5rem;
+    }
+    .testimonial {
+        width: calc(100% - 20px); /* Full width with some margin */
+        padding: 1.5rem 1rem; /* Smaller padding */
+    }
+    .testimonial-logo img.testimonial-company-logo {
+        max-height: 40px; /* Smaller logo */
+    }
+    .testimonial-quote p {
+        font-size: 1rem; /* Slightly smaller */
+    }
+}
 
 
 /* === TESTIMONIALS SECTION START === */
@@ -1370,3 +2066,1010 @@ body {
     }
 
 }
+/* === SOMMERKAMPAGNE SPECIFIC STYLES === */
+body.campaign-body { /* Apply to body if a specific class is added to body for campaign pages */
+    background-color: #050505; /* Even darker for campaign - more daring */
+    color: #F5F5F5; /* Slightly off-white for better readability */
+    font-family: 'Roboto', 'Arial', sans-serif; /* Sharp, modern font */
+    font-weight: 400; /* Base weight */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0; /* Ensure no default body margin interferes */
+    /* Override general body padding-top if it exists from sticky nav etc. for this specific page */
+    padding-top: 0 !important;
+}
+
+/*
+.campaign-page {
+    max-width: 760px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #0D0D0D;
+    border: 1px solid #303030;
+    border-radius: 10px;
+    box-shadow: 0 10px 35px rgba(0,0,0, 0.65);
+    text-align: center;
+}
+
+.campaign-header h1 {
+    font-size: clamp(2.2rem, 5vw + 0.5rem, 3.2rem);
+    color: #FFFFFF;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 35px;
+    line-height: 1.3;
+    font-weight: 900;
+}
+
+.campaign-counter-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #1A1A1A;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #282828;
+}
+
+.counter-container {
+    display: flex;
+    align-items: center;
+    font-size: 1.25rem;
+    color: #E8E8E8;
+    font-weight: 700;
+}
+*/
+
+.live-dot {
+    width: 14px; /* Larger dot */
+    height: 14px; /* Larger dot */
+    background-color: #FF453A; /* Slightly adjusted red */
+    border-radius: 50%;
+    margin-right: 12px; /* Increased spacing */
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.85); /* Adjusted scale */
+        box-shadow: 0 0 0 0 rgba(255, 69, 58, 0.8); /* Adjusted shadow */
+    }
+    70% {
+        transform: scale(1.05); /* Adjusted scale */
+        box-shadow: 0 0 0 12px rgba(255, 69, 58, 0); /* Adjusted shadow */
+    }
+    100% {
+        transform: scale(0.85); /* Adjusted scale */
+        box-shadow: 0 0 0 0 rgba(255, 69, 58, 0); /* Adjusted shadow */
+    }
+}
+
+/*
+#signup-counter-text {
+    margin-right: 10px;
+    letter-spacing: 0.5px;
+}
+
+#signup-counter {
+    font-weight: 900;
+    color: var(--accent-blue);
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+}
+
+.campaign-bonus,
+.campaign-trial {
+    margin-bottom: 35px;
+    padding: 25px;
+    background-color: #121212;
+    border-left: 5px solid var(--accent-purple);
+    border-radius: 0 6px 6px 0;
+    text-align: left;
+}
+
+.campaign-bonus h2,
+.campaign-trial h2 {
+    font-size: clamp(1.5rem, 3.5vw + 0.5rem, 2rem);
+    color: var(--accent-pink);
+    margin-bottom: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.campaign-bonus p,
+.campaign-trial p {
+    font-size: 1.05rem;
+    color: #D0D0D0;
+    line-height: 1.6;
+    max-width: none;
+}
+
+.campaign-cta {
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 20px 45px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-pink));
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    font-weight: 900;
+    text-decoration: none;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.25s ease, box-shadow 0.3s ease, background-position 0.5s ease;
+    box-shadow: 0 5px 20px rgba(0, 207, 255, 0.35), 0 5px 20px rgba(255, 44, 212, 0.25);
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+}
+
+.cta-button:hover,
+.cta-button:focus {
+    background-position: 100% 50%;
+    color: #FFFFFF;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 207, 255, 0.5), 0 8px 25px rgba(255, 44, 212, 0.35);
+    outline: none;
+}
+*/
+
+.campaign-footer {
+    margin-top: 50px; /* Increased margin */
+    padding-top: 25px; /* Increased padding */
+    border-top: 1px solid #303030; /* Consistent border color */
+}
+
+.campaign-footer p {
+    font-size: 0.95rem; /* Slightly larger */
+    color: #888; /* Slightly lighter */
+    text-align: center;
+    max-width: none;
+    line-height: 1.5;
+}
+/* === NEW ASYMMETRICAL GRID LAYOUT FOR SOMMERKAMPAGNE === */
+
+.asymmetric-grid-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); /* 12-column grid */
+    grid-template-rows: auto auto auto; /* Define rows as needed, auto for content height */
+    gap: 20px; 
+    padding: 20px; 
+    width: 100%;
+    max-width: 1200px; 
+    margin: auto; /* Center the grid container */
+    flex-grow: 1; /* Allows the grid to take available space */
+}
+
+.content-block {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.03); /* Subtle background for blocks */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color); /* Subtle border for structure */
+}
+
+/* Block A: The Hook */
+.block-a-hook {
+    grid-column: 1 / span 7; 
+    grid-row: 1 / span 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: flex-start; /* Align content to the start */
+}
+
+.block-a-hook h1 {
+    font-size: clamp(2.2rem, 5vw + 0.5rem, 3.2rem); 
+    color: #FFFFFF;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    font-weight: 700; 
+    line-height: 1.3;
+    text-align: left;
+}
+
+.block-a-hook .cta-button {
+    display: inline-block;
+    padding: 15px 35px;
+    background: var(--accent-blue); 
+    color: var(--bg-color);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 10px; /* Reduced margin from h1 */
+    align-self: flex-start; 
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.block-a-hook .cta-button:hover {
+    background: var(--accent-pink);
+    color: var(--text-color);
+    transform: scale(1.05);
+}
+
+
+/* Block B: The Value & Assurance */
+.block-b-value-assurance {
+    grid-column: 8 / span 5; 
+    grid-row: 1 / span 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.block-b-value-assurance h2 {
+    font-size: clamp(1.3rem, 3vw + 0.4rem, 1.8rem); 
+    color: var(--accent-pink);
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-align: left; 
+}
+.block-b-value-assurance p {
+    font-size: 1rem;
+    color: #D0D0D0;
+    line-height: 1.6;
+    max-width: none;
+    text-align: left;
+    margin-bottom: 10px;
+}
+.block-b-value-assurance .bonus-content {
+    margin-bottom: 20px;
+}
+
+
+/* Block C: The Urgency */
+.block-c-urgency {
+    grid-column: 1 / span 4; 
+    grid-row: 2 / span 1;
+    margin-top: 20px; /* Space from Block A if it's taller */
+    display: flex; /* To align counter items */
+    align-items: center; /* Vertically center items in the block */
+    justify-content: flex-start; /* Align counter to the left */
+}
+.block-c-urgency .counter-container { /* Styles for the div inside block-c */
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem; 
+    color: #E8E8E8;
+    font-weight: 600; 
+    background-color: rgba(0,0,0,0.2); /* Slight background for counter itself */
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+}
+.block-c-urgency .live-dot { 
+    width: 12px;
+    height: 12px;
+    background-color: #FF453A;
+    border-radius: 50%;
+    margin-right: 10px;
+    animation: pulse 1.5s infinite ease-in-out; 
+}
+.block-c-urgency #signup-counter-text {
+    margin-right: 8px;
+}
+.block-c-urgency #signup-counter {
+    font-weight: 700; 
+    color: var(--accent-blue);
+    font-size: 1.3rem; 
+}
+
+/* Footer adjustment */
+.campaign-footer {
+    width: 100%;
+    text-align: center;
+    padding: 25px 20px; /* Adjusted padding */
+    margin-top: auto; 
+    /* background-color: var(--secondary-bg); Re-evaluate if needed, campaign-body bg is dark */
+    border-top: 1px solid #303030; /* Kept from original */
+}
+.campaign-footer p {
+    font-size: 0.95rem; 
+    color: #888; 
+    text-align: center;
+    max-width: none;
+    line-height: 1.5;
+    margin-bottom: 0; /* Remove default p margin if it's the only element */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 992px) { 
+    .asymmetric-grid-container {
+        grid-template-columns: 1fr; /* Stack all blocks */
+        grid-template-rows: auto auto auto; /* Each block gets its own row */
+        gap: 25px; /* Increased gap for stacked layout */
+    }
+    .block-a-hook {
+        grid-column: 1 / -1; 
+        grid-row: 1;
+        align-items: center; /* Center content in stacked view */
+    }
+    .block-a-hook h1 {
+        text-align: center;
+    }
+    .block-a-hook .cta-button {
+        align-self: center; 
+    }
+
+    .block-b-value-assurance {
+        grid-column: 1 / -1; 
+        grid-row: 2;
+        align-items: center; /* Center content */
+    }
+     .block-b-value-assurance h2, .block-b-value-assurance p {
+        text-align: center;
+    }
+
+    .block-c-urgency {
+        grid-column: 1 / -1; 
+        grid-row: 3;
+        justify-content: center; /* Center counter in stacked view */
+        margin-top: 0; /* Reset margin-top as it's stacked now */
+    }
+}
+
+@media (max-width: 767px) { 
+    .asymmetric-grid-container {
+        padding: 15px;
+        gap: 20px;
+    }
+    .block-a-hook h1 {
+        font-size: clamp(1.8rem, 6vw + 0.5rem, 2.6rem); 
+    }
+    .block-a-hook .cta-button {
+        padding: 12px 30px;
+        font-size: 1rem;
+        width: 100%; /* Full width button on mobile */
+        max-width: 320px; /* Max width for the button */
+        align-self: center;
+    }
+    .block-b-value-assurance h2 {
+        font-size: clamp(1.2rem, 4vw + 0.4rem, 1.6rem);
+    }
+     .block-b-value-assurance p {
+        font-size: 0.95rem;
+    }
+    .block-c-urgency .counter-container {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+    .block-c-urgency #signup-counter {
+        font-size: 1.2rem;
+    }
+}
+
+/* Minimalist Dynamic Background Idea (Subtle) - Adjusted for Daring */
+body.campaign-body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: /* Using accent colors for the subtle pattern */
+        linear-gradient(45deg, rgba(0, 207, 255, 0.03) 25%, transparent 25%), /* Accent Blue */
+        linear-gradient(-45deg, rgba(0, 207, 255, 0.03) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255, 44, 212, 0.03) 75%), /* Accent Pink */
+        linear-gradient(-45deg, transparent 75%, rgba(255, 44, 212, 0.03) 75%);
+    background-size: 70px 70px; /* Slightly larger pattern */
+    opacity: 0.35; /* Slightly less opacity to be more subtle */
+    animation: subtleShift 80s linear infinite; /* Slower animation */
+}
+
+@keyframes subtleShift {
+    0% { background-position: 0 0; }
+    100% { background-position: 280px 280px; } /* Adjust for seamless loop with background-size (70*4) */
+}
+
+/* Ensure campaign styles take precedence if needed */
+.campaign-page h1, .campaign-page h2, .campaign-page p {
+    /* Add !important if strictly necessary, but prefer specificity */
+}
+
+/* Typography for campaign - ensure font is loaded if using a new one */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap'); /* Added 900 weight */
+
+/* Thank you page specific adjustments - can be expanded */
+.thank-you-page-content {
+    /* Styles for thank you page content if different from main campaign page */
+    padding: 50px; /* Increased padding */
+    text-align: center;
+}
+.thank-you-page-content h1 {
+    color: var(--accent-blue); /* Example: Blue heading for thank you */
+    font-size: 2.5rem; /* Increased size */
+    font-weight: 700;
+}
+.thank-you-page-content p {
+    font-size: 1.15rem; /* Increased size */
+    color: #D8D8D8; /* Brighter */
+    line-height: 1.6;
+}
+/* === SOMMERKAMPAGNE SPECIFIC STYLES === */
+
+/* General Section Styling for "Air" */
+.hero-kampagne,
+.pricing-tabel,
+.testimonials-sektion,
+.faq-sektion {
+    padding: var(--section-padding);
+    opacity: 0;
+    transform: translateY(15px);
+    animation: fadeInPop var(--animation-duration) ease-out forwards;
+}
+
+.pricing-tabel { animation-delay: 0.2s; }
+.testimonials-sektion { animation-delay: 0.4s; }
+.faq-sektion { animation-delay: 0.6s; }
+
+@keyframes fadeInPop {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Hero / Kampagnesektion */
+.hero-kampagne {
+    background: var(--secondary-bg);
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* For aesthetics, not strictly layout */
+    padding-top: calc(var(--section-padding) - 20px); /* Adjust top for more space */
+    padding-bottom: calc(var(--section-padding) + 20px); /* More space at bottom */
+}
+
+.hero-kampagne .badge {
+    display: inline-block;
+    background-color: var(--accent-pink);
+    color: var(--text-color);
+    padding: 8px 18px; /* Adjusted label padding */
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 2.5rem; /* More air */
+    box-shadow: 0 2px 6px var(--glow-pink); /* Even subtler glow */
+}
+
+.hero-kampagne h1 {
+    font-size: clamp(2.1rem, 5.5vw, 3.4rem); /* Slightly larger */
+    color: var(--text-color);
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    margin-bottom: 1.8rem; /* More air */
+    line-height: 1.25; /* Clean lines */
+}
+
+.hero-kampagne .underoverskrift {
+    font-size: clamp(1rem, 2.2vw, 1.15rem); /* Refined size */
+    color: var(--text-muted);
+    max-width: 60ch; /* Good readability */
+    margin: 0 auto 3rem auto; /* More air */
+    font-weight: 400;
+    line-height: 1.75; /* More air in text */
+}
+
+.campaign-counter-container {
+    margin-top: 1.5rem; /* Reduced top margin as subtext will add space */
+    padding: 15px 25px; /* More padding */
+    background-color: rgba(0,0,0,0.25);
+    border-radius: var(--border-radius);
+    display: inline-flex;
+    flex-direction: column; /* Stack text and subtext */
+    align-items: center;
+    gap: 8px; /* Gap between main counter line and subtext */
+    border: 1px solid var(--accent-purple);
+    box-shadow: 0 0 8px var(--glow-purple);
+    position: relative;
+}
+.campaign-counter-main-line {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between dot, text, live indicator */
+}
+
+
+.pulsing-dot {
+    width: 9px; /* Slightly smaller */
+    height: 9px;
+    background-color: var(--accent-pink);
+    border-radius: 50%;
+    animation: pulseDot 1.7s infinite ease-in-out; /* Slightly slower */
+}
+
+@keyframes pulseDot {
+    0%, 100% {
+        transform: scale(0.75);
+        box-shadow: 0 0 0 0 rgba(255, 44, 212, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 5px rgba(255, 44, 212, 0);
+    }
+}
+
+.campaign-counter-container .counter-text {
+    font-size: clamp(1rem, 2.5vw, 1.25rem); /* Readable but not too large */
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.campaign-counter-container .live-indicator {
+    font-size: 0.7rem; /* Smaller, more discreet */
+    font-weight: 500; /* Lighter */
+    color: var(--text-muted);
+    text-transform: uppercase;
+    background-color: rgba(255,255,255,0.03); /* Very subtle */
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.campaign-counter-container .counter-subtext {
+    font-size: 0.75rem; /* Discreet */
+    color: var(--text-muted);
+    /* margin-top is handled by gap in flex container */
+    display: block;
+    width: 100%;
+    text-align: center;
+    line-height: 1.4;
+}
+
+
+/* Pricing-tabel */
+.pricing-tabel {
+    background-color: var(--bg-color);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.5rem; /* More air */
+}
+
+.pricing-kolonne {
+    background-color: var(--secondary-bg);
+    padding: 2.5rem 2rem; /* More padding for air */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--animation-duration) ease, box-shadow var(--animation-duration) ease;
+    opacity: 0;
+    transform: translateY(25px) scale(0.97); /* Adjusted pop-in */
+    animation: popInCard var(--animation-duration) cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Added easing */
+}
+
+.pricing-kolonne:nth-child(1) { animation-delay: 0.25s; } /* Stagger */
+.pricing-kolonne:nth-child(2) { animation-delay: 0.45s; }
+
+
+@keyframes popInCard {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.pricing-kolonne:hover {
+    transform: translateY(-8px) scale(1.03); /* Enhanced pop */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25), 0 0 18px var(--glow-purple, var(--accent-purple));
+}
+
+.pricing-kolonne h2 {
+    font-size: clamp(1.5rem, 3.8vw, 1.9rem); /* Refined size */
+    color: var(--text-color);
+    text-align: left;
+    margin-bottom: 0.4rem;
+    background: none;
+    line-height: 1.3;
+}
+.pricing-kolonne .overskrift-sub {
+    font-size: 0.95rem; /* Clearer sub-headline */
+    color: var(--text-muted);
+    margin-bottom: 1.8rem; /* More air */
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+
+.pricing-kolonne .beskrivelse {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem; /* More air */
+    flex-grow: 1;
+    max-width: none;
+    line-height: 1.65; /* More air in text */
+}
+
+.pricing-kolonne .pris {
+    font-size: clamp(1.7rem, 4.8vw, 2.3rem); /* Refined size */
+    font-weight: 700;
+    color: var(--accent-blue);
+    margin-bottom: 1.2rem;
+}
+
+.pricing-kolonne .button {
+    display: inline-block;
+    padding: 14px 28px; /* Consistent button padding */
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--animation-duration) ease;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    background: linear-gradient(95deg, var(--accent-blue) 0%, var(--accent-pink) 100%);
+    color: var(--text-color);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* Subtler base shadow */
+    margin-top: auto;
+    background-size: 250% 100%; /* Larger size for smoother gradient move */
+    background-position: 0% 50%;
+}
+
+.pricing-kolonne .button:hover,
+.pricing-kolonne .button:focus {
+    transform: translateY(-3px) scale(1.02); /* Subtle lift and scale */
+    box-shadow: 0 5px 18px var(--glow-pink);
+    background-position: 100% 50%;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.pricing-kolonne.autopilot .button {
+   background: linear-gradient(95deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+}
+.pricing-kolonne.autopilot .button:hover,
+.pricing-kolonne.autopilot .button:focus {
+    box-shadow: 0 5px 18px var(--glow-purple);
+}
+
+
+.trial-info {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 1.2rem; /* More air */
+    margin-bottom: 1.8rem;
+    line-height: 1.5;
+}
+
+.includes-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1.2rem;
+}
+
+.includes-list li {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.7rem; /* Slightly more air */
+    padding-left: 24px;
+    position: relative;
+    line-height: 1.55; /* More air in list items */
+}
+
+.includes-list li::before {
+    content: '✓';
+    color: var(--accent-blue);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
+.pricing-kolonne.autopilot {
+    border: 2px solid var(--accent-pink);
+    position: relative;
+    box-shadow: 0 5px 18px var(--glow-pink);
+}
+
+.best-deal-label {
+    position: absolute;
+    top: -16px; /* Adjusted for padding */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-pink);
+    color: var(--text-color);
+    padding: 7px 16px; /* Consistent label padding */
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    z-index: 1;
+}
+
+/* Testimonials Section */
+.testimonials-sektion {
+    background-color: var(--secondary-bg);
+    text-align: center;
+    padding-bottom: calc(var(--section-padding) + 20px); /* More space at bottom */
+}
+
+.testimonials-sektion h2 {
+    font-size: clamp(1.7rem, 4.2vw, 2.3rem); /* Refined size */
+    color: var(--text-color);
+    margin-bottom: 3.5rem; /* More air */
+}
+
+.testimonial-band {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem; /* More air */
+    max-width: 860px; /* Adjusted width */
+    margin: 0 auto;
+}
+
+.testimonial {
+    background-color: var(--bg-color);
+    padding: 2rem 1.8rem; /* More padding */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.2rem; /* Adjusted gap */
+    box-shadow: var(--card-shadow);
+    transition: transform var(--animation-duration) ease, box-shadow var(--animation-duration) ease;
+}
+.testimonial:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.testimonial-logo {
+    flex-shrink: 0;
+}
+.testimonial-logo span {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.95rem; /* Slightly larger */
+}
+.testimonial-logo img {
+    max-height: 45px;
+    width: auto;
+    opacity: 0.85; /* Slightly more visible */
+}
+
+
+.testimonial-quote p {
+    font-size: 1.05rem; /* Elegant and readable */
+    color: var(--text-muted);
+    line-height: 1.65; /* More air */
+    margin-bottom: 0;
+    max-width: 55ch; /* Good readability for quotes */
+}
+.testimonial-quote strong {
+    color: var(--accent-blue);
+    font-weight: 600; /* Semibold is often good for highlights */
+}
+
+
+/* FAQ Sektion */
+.faq-sektion {
+    background-color: var(--bg-color);
+}
+
+.faq-sektion h2 {
+    text-align: center;
+    margin-bottom: 2.5rem; /* More air */
+    color: var(--text-color);
+    font-size: clamp(1.7rem, 4.2vw, 2.3rem);
+}
+
+.faq-item {
+    background-color: var(--secondary-bg);
+    margin-bottom: 0.8rem; /* Slightly more air */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: background-color 0.2s ease;
+}
+.faq-item:hover {
+    background-color: rgba(255,255,255,0.02); /* Very subtle hover for item */
+}
+
+.faq-item summary {
+    padding: 1.1rem 1.35rem; /* Adjusted padding for elegance */
+    font-weight: 500;
+    font-size: 0.9rem; /* Smaller for elegance */
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.15s ease; /* Faster summary hover */
+}
+
+.faq-item summary:hover {
+    background-color: rgba(255,255,255,0.04);
+}
+
+.faq-item summary::after {
+    content: '+';
+    font-size: 1.2rem; /* Refined icon size */
+    color: var(--accent-blue);
+    transition: transform 0.25s ease;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+.faq-item[open] summary {
+    background-color: rgba(255,255,255,0.02); /* Slight bg change when open */
+}
+
+.faq-item p {
+    padding: 0.2rem 1.35rem 1.1rem 1.35rem; /* Adjusted padding, less top */
+    font-size: 0.83rem; /* Smaller for elegance */
+    color: var(--text-muted);
+    max-width: none;
+    margin-bottom: 0;
+    line-height: 1.65; /* More air */
+}
+
+
+/* Responsiveness */
+@media (min-width: 768px) { /* Tablet and up */
+    .hero-kampagne,
+    .pricing-tabel,
+    .testimonials-sektion,
+    .faq-sektion {
+        padding-left: 50px; /* More air on sides */
+        padding-right: 50px;
+    }
+
+    .pricing-tabel {
+        grid-template-columns: 1fr 1fr;
+        max-width: 1024px; /* Wider for more air */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .testimonial {
+        flex-direction: row;
+        text-align: left;
+        align-items: flex-start;
+        gap: 2rem; /* More air */
+        padding: 2.2rem 2rem; /* More padding */
+    }
+    .testimonial-logo {
+        margin-top: 3px;
+    }
+
+    .faq-sektion {
+        max-width: 760px; /* Wider for more air */
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 992px) { /* Larger desktops */
+    .hero-kampagne h1 {
+        font-size: 3.6rem;
+    }
+    .hero-kampagne .underoverskrift {
+        font-size: 1.25rem; /* Refined */
+    }
+    .campaign-counter-container .counter-text {
+        font-size: 1.35rem; /* Refined */
+    }
+    .pricing-tabel {
+        gap: 4rem; /* More air */
+    }
+    .pricing-kolonne {
+        padding: 3rem 2.2rem; /* More padding */
+    }
+    .testimonial-band {
+        gap: 3.5rem; /* More air */
+    }
+}
+
+/* Mobile Specific Optimizations */
+@media (max-width: 767px) {
+    .hero-kampagne,
+    .pricing-tabel,
+    .testimonials-sektion,
+    .faq-sektion {
+        padding-left: 15px; /* Tighter padding on mobile */
+        padding-right: 15px;
+    }
+    .hero-kampagne {
+        padding-top: calc(var(--section-padding) - 30px);
+        padding-bottom: calc(var(--section-padding) + 10px);
+    }
+    .hero-kampagne h1 {
+        font-size: clamp(1.8rem, 6vw, 2.5rem); /* Adjusted for mobile */
+        line-height: 1.2;
+    }
+    .hero-kampagne .underoverskrift {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .campaign-counter-container {
+        padding: 12px 18px;
+    }
+    .campaign-counter-container .counter-text {
+        font-size: 0.95rem;
+    }
+    .campaign-counter-container .live-indicator {
+        font-size: 0.65rem;
+        padding: 2px 4px;
+    }
+     .campaign-counter-container .counter-subtext {
+        font-size: 0.7rem;
+    }
+
+    .pricing-tabel {
+        gap: 2.5rem; /* Less gap on mobile */
+    }
+    .pricing-kolonne {
+        padding: 2rem 1.5rem; /* Less padding on mobile */
+    }
+    .pricing-kolonne .button {
+        padding: 12px 24px; /* Ensure thumb reach */
+        width: 100%; /* Full width for easier tap */
+        max-width: 300px; /* Max width for aesthetics */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .trial-info {
+        font-size: 0.75rem;
+    }
+    .includes-list li {
+        font-size: 0.8rem;
+    }
+
+    .testimonial-band {
+        gap: 2rem;
+    }
+    .testimonial {
+        padding: 1.5rem 1.2rem;
+    }
+    .testimonial-quote p {
+        font-size: 0.95rem;
+    }
+
+    .faq-sektion h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        margin-bottom: 2rem;
+    }
+    .faq-item summary {
+        padding: 0.9rem 1.1rem;
+        font-size: 0.85rem;
+    }
+    .faq-item p {
+        padding: 0.2rem 1.1rem 0.9rem 1.1rem;
+        font-size: 0.8rem;
+    }
+}
+
+
+/* Ensure button class from HTML is styled if it's not .btn */
+.button {
+    display: inline-block;
+    padding: var(--button-padding);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--animation-duration) ease;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Ensure pricing buttons use existing .btn-primary or similar if desired */
+/* .pricing-kolonne .btn-primary { ... } */

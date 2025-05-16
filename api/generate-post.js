@@ -96,7 +96,7 @@ Eksempel 16 (Længere - Generel Velkomst/Om Os): Velkommen hos [Virksomhedsnavn]
   // 6. Call OpenAI API
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4-turbo-preview", // Or "gpt-3.5-turbo"
+      model: "gpt-4.1", // Or "gpt-3.5-turbo"
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }

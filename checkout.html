@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - H3LLO</title>
+    <link rel="stylesheet" href="style.css"> <!-- Added stylesheet link -->
+    <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh; /* Adjusted to give space for quote */
+            margin: 0;
+            background-color: var(--bg-color, #0D0D0D); /* Fallback color */
+            color: var(--text-color, #F9FAFB);
+            font-family: var(--font-family, 'Poppins', sans-serif);
+            padding: 20px;
+        }
+        .social-proof-checkout {
+            text-align: center;
+            margin-bottom: 25px; /* Space above Stripe element */
+            padding: 15px;
+            background-color: var(--secondary-bg, #1A1A1A);
+            border-radius: var(--border-radius, 8px);
+            border: 1px solid var(--border-color, #333);
+            max-width: 500px; /* Limit width */
+            box-shadow: var(--card-shadow, 0 4px 15px rgba(0, 0, 0, 0.15));
+        }
+        .social-proof-checkout p {
+            font-size: 1rem;
+            color: var(--text-muted, #bbb);
+            margin: 0;
+            line-height: 1.6;
+        }
+        .social-proof-checkout cite {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--accent-blue, #00CFFF);
+            margin-top: 8px;
+            font-style: normal;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="social-proof-checkout">
+        <p>"Det her er det letteste, vi har prøvet. H3LLO virker bare."</p>
+        <cite>– Re-Love Aarhus</cite>
+    </div>
+    <stripe-pricing-table pricing-table-id="prctbl_1RPJzyKifPDopKmbscVRsDUL"
+    publishable-key="pk_live_51Qn6WFKifPDopKmbXBAnp0WKuw4ElPekk0eWOmTs2BmxrI3MUDchdrTRz6qn2KhineKyU4elyhcIsqGCcZgf0hyL00Awe6xbu0">
+    </stripe-pricing-table>
+</body>
+</html>

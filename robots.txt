@@ -2,5 +2,11 @@
 User-agent: *
 Allow: /
 
+# Disallow campaign-specific pages
+Disallow: /sommer-kampagne-preview-xyz789.html
+Disallow: /thank-you-h3llo.html
+Disallow: /thank-you-h3llo-bundle.html
+Disallow: /thank-you-h3llo-startklar.html
+
 # Sitemap (add URL once generated)
 # Sitemap: https://your-domain.com/sitemap.xml
