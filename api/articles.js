@@ -51,23 +51,32 @@ export default async function handler(request, response) {
   } else if (request.method === 'POST') {
     // 2. Get data from the request body
   const {
+    articleId: requestArticleId, // Use requestArticleId to avoid shadowing
     title,
     rawContent,
     authorName,
     sourceUrl,
     submissionPlatform,
-    tags, // Assuming tags is an array of strings
-    // suggestedPublicationDate is not directly used in the article object based on design for POST
+    tags,
     initialStatus,
-    // Fields from design not explicitly in old request body, but could be added:
-    // metaKeywords, slug (though slug is usually generated or set in PUT), authorId, categoryId, featuredImageUrl
+    finalHtmlContent,
+    seoTitle,
+    metaDescription,
+    metaKeywords,
+    slug,
+    publicationDate,
+    featuredImageUrl,
+    featuredImageAltText,
+    canonicalUrl,
+    authorId,
+    categoryId
   } = request.body;
 
   // 3. Validate required fields
-  if (!title || !rawContent) {
+  if (!title || !rawContent || !slug) {
     return response.status(400).json({
       error: "Missing required fields",
-      details: "The following fields are required: title, rawContent"
+      details: "The following fields are required: title, rawContent, slug"
     });
   }
 
@@ -101,11 +110,21 @@ export default async function handler(request, response) {
     return response.status(400).json({ error: "Invalid data format", details: "Field 'initialStatus' must be of type 'string'." });
   }
 
-  // 5. Generate a unique articleId
-  const articleId = Date.now().toString(36) + Math.random().toString(36).substring(2);
+  // 5. Use provided articleId or generate a unique one
+  const articleId = requestArticleId || Date.now().toString(36) + Math.random().toString(36).substring(2);
+
+  // 6. Check if articleId already exists
+  const existingArticle = await kv.get(`article:${articleId}`);
+  if (existingArticle) {
+    return response.status(409).json({
+      error: "Article ID already exists",
+      details: `Article with ID '${articleId}' already exists. Use PUT to update.`
+    });
+  }
+
   const currentDate = new Date().toISOString();
 
-  // 6. Construct the article object
+  // 7. Construct the article object
   const articleObject = {
     articleId,
     title,
@@ -113,47 +132,66 @@ export default async function handler(request, response) {
     initialSubmissionDate: currentDate,
     lastUpdatedDate: currentDate,
     status: initialStatus || "pending_review",
-    // Optional fields from request body
-    ...(authorName && { authorName }),
-    ...(sourceUrl && { sourceUrl }),
-    ...(submissionPlatform && { submissionPlatform }),
-    ...(tags && { tags }), // Ensure tags are included if provided
-    // Fields from schema with no direct input yet, to be set to null or default
-    finalHtmlContent: null,
-    seoTitle: null,
-    metaDescription: null,
-    metaKeywords: [], // Default to empty array as per schema
-    slug: null, // Slug might be generated later or on PUT
-    publicationDate: null,
-    featuredImageUrl: null,
-    canonicalUrl: null,
-    authorId: null,
-    categoryId: null,
+    finalHtmlContent: finalHtmlContent || null,
+    seoTitle: seoTitle || null,
+    metaDescription: metaDescription || null,
+    metaKeywords: metaKeywords || [],
+    slug: slug || null,
+    publicationDate: publicationDate || null,
+    featuredImageUrl: featuredImageUrl || null,
+    featuredImageAltText: featuredImageAltText || null,
+    canonicalUrl: canonicalUrl || null,
+    authorName: authorName || null,
+    authorId: authorId || null,
+    categoryId: categoryId || null,
+    sourceUrl: sourceUrl || null,
+    submissionPlatform: submissionPlatform || null,
+    tags: tags || [],
   };
 
   try {
-    // 7. Store the article object in Vercel KV
+    // 8. Store the article object in Vercel KV
     await kv.set(`article:${articleId}`, articleObject);
 
-    // As per design doc: If a slug is generated at this stage (e.g., from the title), also:
-    // await kv.set('slug:<generatedSlug>', articleId); (Check for slug uniqueness first)
-    // For now, we are not generating slug on POST as per simpler interpretation of task.
-    // Slug management will be more robustly handled in PUT.
+    // 9. Handle slug mapping
+    const slugKey = `slug:${slug}`;
+    const existingSlug = await kv.get(slugKey);
+    if (existingSlug && existingSlug !== articleId) {
+      return response.status(409).json({
+        error: "Slug already exists",
+        details: `Slug '${slug}' is already in use by article ID '${existingSlug}'.`
+      });
+    }
+    await kv.set(slugKey, articleId);
 
-    // As per design doc: If tags are provided:
-    // For each tag in articleObject.tags: await kv.sadd('tag:<tagName>', articleId);
+    // 10. Handle tags
     if (articleObject.tags && articleObject.tags.length > 0) {
       for (const tag of articleObject.tags) {
         await kv.sadd(`tag:${tag}`, articleId);
       }
     }
 
-    // 8. Return successful response
+    // 11. Handle published/scheduled status
+    if (articleObject.status === "published" || articleObject.status === "scheduled") {
+      if (!articleObject.publicationDate) {
+        return response.status(400).json({
+          error: "Missing publicationDate",
+          details: "publicationDate is required when status is 'published' or 'scheduled'."
+        });
+      }
+      await kv.zadd('articles_published_by_date', {
+        score: new Date(articleObject.publicationDate).getTime(),
+        member: articleId
+      });
+    }
+
+    // 12. Return successful response
     response.setHeader('Content-Type', 'application/json');
     return response.status(201).json({
-      message: "Article submitted successfully and stored.",
+      message: "Article submitted and published successfully.",
       articleId: articleId,
-      status: articleObject.status
+      status: articleObject.status,
+      url: `/articles/${slug}`
     });
 
   } catch (error) {
