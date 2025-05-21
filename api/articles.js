@@ -131,7 +131,7 @@ export default async function handler(request, response) {
     rawContent,
     initialSubmissionDate: currentDate,
     lastUpdatedDate: currentDate,
-    status: initialStatus || "pending_review",
+    status: initialStatus || "pending_review", // Use initialStatus from request body
     finalHtmlContent: finalHtmlContent || null,
     seoTitle: seoTitle || null,
     metaDescription: metaDescription || null,
