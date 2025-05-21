@@ -173,16 +173,19 @@ export default async function handler(request, response) {
 
     // 11. Handle published/scheduled status
     if (articleObject.status === "published" || articleObject.status === "scheduled") {
-      if (!articleObject.publicationDate) {
-        return response.status(400).json({
-          error: "Missing publicationDate",
-          details: "publicationDate is required when status is 'published' or 'scheduled'."
+      const pubDate = articleObject.publicationDate ? new Date(articleObject.publicationDate).getTime() : new Date().getTime();
+      try {
+        await kv.zadd('articles_published_by_date', {
+          score: pubDate,
+          member: articleId
+        });
+      } catch (zaddError) {
+        console.error("Error adding to sorted set:", zaddError);
+        return response.status(500).json({
+          error: "Failed to add to sorted set",
+          details: zaddError.message
         });
       }
-      await kv.zadd('articles_published_by_date', {
-        score: new Date(articleObject.publicationDate).getTime(),
-        member: articleId
-      });
     }
 
     // 12. Return successful response
