@@ -2,7 +2,11 @@
 import { kv } from '@vercel/kv';
 
 export default async function handler(request, response) {
-  if (request.method === 'POST') {
+  console.log(`[api/articles] Handler invoked. Method: '${request.method}', Path: '${request.url}'`); // KRITISK LOG-LINJE
+
+  if (request.method === 'GET') {
+    // ... (resten af GET-logikken)
+  } else if (request.method === 'POST') {
     // LOGGING: Print the entire request body
     console.log("Received request body in /api/articles:", JSON.stringify(request.body, null, 2));
 
