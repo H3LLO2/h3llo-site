@@ -79,7 +79,12 @@ export default async function handler(request, response) {
       featuredImageAltText,
       canonicalUrl,
       authorId,
-      categoryId
+      categoryId,
+      // --- START PÅ TILFØJELSE: Nye felter fra n8n ---
+      articleCustomType,
+      articleCustomChallenge,
+      articleCustomGeo
+      // --- SLUT PÅ TILFØJELSE ---
     } = request.body;
 
   // 3. Validate required fields
@@ -157,6 +162,11 @@ export default async function handler(request, response) {
     sourceUrl: sourceUrl || null,
     submissionPlatform: submissionPlatform || null,
     tags: tags || [],
+    // --- START PÅ TILFØJELSE: Nye felter til at gemme i KV ---
+    type: articleCustomType || null,
+    challenge: articleCustomChallenge || null,
+    geo: articleCustomGeo || null
+    // --- SLUT PÅ TILFØJELSE ---
   };
 
   try {
