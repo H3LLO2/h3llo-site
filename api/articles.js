@@ -63,8 +63,8 @@ export default async function handler(request, response) {
   if (tags && (!Array.isArray(tags) || !tags.every(tag => typeof tag === 'string'))) {
     return response.status(400).json({ error: "Invalid data format", details: "Field 'tags' must be an array of strings." });
   }
-  if (initialStatus && typeof initialStatus !== 'string') {
-    return response.status(400).json({ error: "Invalid data format", details: "Field 'initialStatus' must be of type 'string'." });
+  if (status && typeof status !== 'string') {
+    return response.status(400).json({ error: "Invalid data format", details: "Field 'status' must be of type 'string'." });
   }
 
   // 5. Use provided articleId or generate a unique one
