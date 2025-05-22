@@ -1,76 +1,33 @@
 // File: api/articles.js
 import { kv } from '@vercel/kv';
 
-// Define the serverless function handler
 export default async function handler(request, response) {
-  if (request.method === 'GET') {
-    // Logic for GET /api/articles (List Published Articles)
-    const { page = 1, limit = 10 } = request.query;
-    const pageNum = parseInt(page, 10);
-    const limitNum = parseInt(limit, 10);
+  if (request.method === 'POST') {
+    // LOGGING: Print the entire request body
+    console.log("Received request body in /api/articles:", JSON.stringify(request.body, null, 2));
 
-    if (isNaN(pageNum) || pageNum < 1 || isNaN(limitNum) || limitNum < 1) {
-      return response.status(400).json({ error: 'Invalid pagination parameters' });
-    }
-
-    const startIndex = (pageNum - 1) * limitNum;
-    const endIndex = startIndex + limitNum - 1;
-
-    try {
-      // Retrieve articleIds from the sorted set
-      const articleIds = await kv.zrange('articles_published_by_date', startIndex, endIndex, { rev: true });
-
-      if (!articleIds || articleIds.length === 0) {
-        return response.status(200).json({ data: [], pagination: { page: pageNum, limit: limitNum, totalPages: 0, totalItems: 0 } });
-      }
-
-      // Fetch full article objects using mget
-      const articles = await kv.mget(...articleIds.map(id => `article:${id}`));
-      
-      // Filter out any null articles (if an ID in the sorted set doesn't have a corresponding article)
-      // and ensure they are indeed published (though articles_published_by_date should only contain published/scheduled)
-      const publishedArticles = articles.filter(article => article && article.status === 'published');
-
-      // Optionally, get total count for pagination metadata
-      const totalPublishedArticles = await kv.zcard('articles_published_by_date');
-
-      return response.status(200).json({
-        data: publishedArticles,
-        pagination: {
-          page: pageNum,
-          limit: limitNum,
-          totalPages: Math.ceil(totalPublishedArticles / limitNum),
-          totalItems: totalPublishedArticles
-        }
-      });
-
-    } catch (error) {
-      console.error('Error fetching published articles:', error);
-      return response.status(500).json({ error: 'Internal Server Error' });
-    }
-  } else if (request.method === 'POST') {
-    // 2. Get data from the request body
-  const {
-    articleId: requestArticleId, // Use requestArticleId to avoid shadowing
-    title,
-    rawContent,
-    authorName,
-    sourceUrl,
-    submissionPlatform,
-    tags,
-    initialStatus,
-    finalHtmlContent,
-    seoTitle,
-    metaDescription,
-    metaKeywords,
-    slug,
-    publicationDate,
-    featuredImageUrl,
-    featuredImageAltText,
-    canonicalUrl,
-    authorId,
-    categoryId
-  } = request.body;
+    // Destructure 'status' from the request body
+    const {
+      articleId: requestArticleId,
+      title,
+      rawContent,
+      authorName,
+      sourceUrl,
+      submissionPlatform,
+      tags,
+      status, // Dette er feltet, vi forventer fra n8n
+      finalHtmlContent,
+      seoTitle,
+      metaDescription,
+      metaKeywords,
+      slug,
+      publicationDate,
+      featuredImageUrl,
+      featuredImageAltText,
+      canonicalUrl,
+      authorId,
+      categoryId
+    } = request.body;
 
   // 3. Validate required fields
   if (!title || !rawContent || !slug) {
@@ -131,7 +88,7 @@ export default async function handler(request, response) {
     rawContent,
     initialSubmissionDate: currentDate,
     lastUpdatedDate: currentDate,
-    status: initialStatus || "pending_review", // Use initialStatus from request body
+    status: status || "pending_review", // Bruger 'status' fra payload, ellers default
     finalHtmlContent: finalHtmlContent || null,
     seoTitle: seoTitle || null,
     metaDescription: metaDescription || null,
