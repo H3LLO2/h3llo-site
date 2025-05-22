@@ -697,6 +697,13 @@ img.logo {
 
 /* === MEDIA QUERIES === */
 @media (max-width: 768px) {
+    .container {
+        max-width: 100%; /* Allow container to fill screen */
+        width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
     .steps {
         grid-template-columns: 1fr; /* Stack on smaller screens */
     }
@@ -713,6 +720,87 @@ img.logo {
     .pricing-table {
         flex-direction: column; /* Stack pricing cards on smaller screens */
         align-items: center;
+    }
+
+    .pricing-card {
+        width: 100%; /* Make pricing cards full width */
+        max-width: 400px; /* Limit max width */
+    }
+
+    .video-wrapper {
+        max-width: 100%; /* Make video responsive */
+    }
+
+    /* Mobile menu styles */
+    .nav-toggle {
+        display: none; /* Hide by default */
+        background: none;
+        border: none;
+        color: var(--text-color);
+        cursor: pointer;
+        font-size: 1.5rem;
+        padding: 0;
+    }
+
+    .hamburger-icon {
+        display: block;
+        width: 30px;
+        height: 3px;
+        background-color: var(--text-color);
+        margin: 6px 0;
+        transition: all 0.3s ease;
+    }
+
+    .hamburger-icon::before,
+    .hamburger-icon::after {
+        content: '';
+        display: block;
+        width: 30px;
+        height: 3px;
+        background-color: var(--text-color);
+        position: absolute;
+        transition: all 0.3s ease;
+    }
+
+    .hamburger-icon::before {
+        transform: translateY(-9px);
+    }
+
+    .hamburger-icon::after {
+        transform: translateY(9px);
+    }
+
+    .sticky-nav ul {
+        display: flex;
+        gap: 2rem;
+    }
+
+    #nav-menu {
+        display: block;
+    }
+
+    @media (max-width: 768px) {
+        .sticky-nav ul {
+            display: none; /* Hide nav links on smaller screens */
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: rgba(13, 13, 13, 0.95);
+            padding: 1rem;
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .sticky-nav ul.nav-ul-active {
+            display: flex; /* Show nav links when active */
+        }
+
+        .nav-toggle {
+            display: block; /* Show hamburger icon on smaller screens */
+        }
     }
 }
 
