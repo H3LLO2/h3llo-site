@@ -65,19 +65,22 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const articles = await response.json();
+                const responseData = await response.json();
+                console.log("Data received from API:", responseData);
 
-                if (loadingText) {
-                    loadingText.remove();
-                }
+               const articlesToDisplay = responseData.data;
 
-                if (articles.length === 0) {
-                    articlesContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted);">No articles found.</p>';
-                    return;
-                }
+               if (loadingText) {
+                   loadingText.remove();
+               }
 
-                let articlesHTML = '';
-                articles.forEach(article => {
+               if (!articlesToDisplay || articlesToDisplay.length === 0) {
+                   articlesContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted);">No articles found.</p>';
+                   return;
+               }
+
+               let articlesHTML = '';
+               articlesToDisplay.forEach(article => {
                     // Using a structure similar to .step cards from style.css
                     articlesHTML += `
                         <article class="step" style="text-align: left;">
