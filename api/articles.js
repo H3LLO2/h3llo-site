@@ -5,7 +5,56 @@ export default async function handler(request, response) {
   console.log(`[api/articles] Handler invoked. Method: '${request.method}', Path: '${request.url}'`); // KRITISK LOG-LINJE
 
   if (request.method === 'GET') {
-    // ... (resten af GET-logikken)
+    console.log('[GET /api/articles] Entered GET handler.');
+    const { page = 1, limit = 10 } = request.query;
+    console.log(`[GET /api/articles] Page: ${page}, Limit: ${limit}`);
+
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+
+    if (isNaN(pageNum) || pageNum < 1 || isNaN(limitNum) || limitNum < 1 || limitNum > 100) { // Add max limit
+      console.error('[GET /api/articles] Invalid pagination parameters.');
+      return response.status(400).json({ error: 'Invalid pagination parameters. Max limit is 100.' });
+    }
+
+    const startIndex = (pageNum - 1) * limitNum;
+    const endIndex = startIndex + limitNum - 1;
+    console.log(`[GET /api/articles] Fetching article IDs from index ${startIndex} to ${endIndex}.`);
+
+    try {
+      const articleIds = await kv.zrange('articles_published_by_date', startIndex, endIndex, { rev: true });
+      console.log(`[GET /api/articles] Fetched ${articleIds ? articleIds.length : 0} article IDs.`);
+
+      if (!articleIds || articleIds.length === 0) {
+        console.log('[GET /api/articles] No articles found for this page.');
+        return response.status(200).json({ data: [], pagination: { page: pageNum, limit: limitNum, totalPages: 0, totalItems: 0 } });
+      }
+
+      console.log('[GET /api/articles] Fetching full article objects using mget.');
+      const articles = await kv.mget(...articleIds.map(id => `article:${id}`));
+      console.log(`[GET /api/articles] Fetched ${articles ? articles.length : 0} full article objects.`);
+
+      const publishedArticles = articles.filter(article => article && article.status === 'published');
+      console.log(`[GET /api/articles] Filtered down to ${publishedArticles.length} published articles.`);
+
+      const totalPublishedArticles = await kv.zcard('articles_published_by_date');
+      console.log(`[GET /api/articles] Total published articles in KV: ${totalPublishedArticles}.`);
+
+      console.log('[GET /api/articles] Sending success response.');
+      return response.status(200).json({
+        data: publishedArticles,
+        pagination: {
+          page: pageNum,
+          limit: limitNum,
+          totalPages: Math.ceil(totalPublishedArticles / limitNum),
+          totalItems: totalPublishedArticles
+        }
+      });
+
+    } catch (error) {
+      console.error('[GET /api/articles] Error during GET processing:', error);
+      return response.status(500).json({ error: 'Internal Server Error while fetching articles.' });
+    }
   } else if (request.method === 'POST') {
     // LOGGING: Print the entire request body
     console.log("Received request body in /api/articles:", JSON.stringify(request.body, null, 2));
