@@ -60,13 +60,20 @@
 <body>
     <nav class="sticky-nav" role="navigation" aria-label="Hovednavigation">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo-link">
-                <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo" class="nav-logo" style="height: 40px;">
+            <a href="#" class="nav-logo-link">
+                <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo" class="nav-logo">
             </a>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="articles.html">Articles</a></li>
-                <li><a href="demo.html">Try Demo</a></li>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+            <ul id="nav-menu">
+                <li><a href="#hvordan-det-virker">Sådan virker det</a></li>
+                <li><a href="kampagnepris.html">Kampagnepris</a></li>
+                <li><a href="articles.html">Artikler</a></li>
+                <li><a href="demo.html">Prøv Demo</a></li>
+                <li><a href="#kunder">Kunder</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
+                <li><a href="demo.html" class="nav-demo-btn">Prøv Demo</a></li>
             </ul>
         </div>
     </nav>
