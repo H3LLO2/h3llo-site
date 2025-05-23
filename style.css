@@ -498,346 +498,2674 @@ img.logo {
     display: flex;
     flex-direction: column;
     align-items: center; /* Centrer ALT indhold */
+    text-align: center; /* Centrer ALT tekst */
+    width: 100%;
+    max-width: 95%; /* Mobile: max 95% of viewport */
+    min-height: auto; /* Ensure cards don't stretch if align-items: stretch is on parent */
+    box-shadow: var(--card-shadow);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInCard var(--animation-duration) ease-out forwards;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.testimonial-card img {
-    width: 80px; /* Mindre billeder */
-    height: 80px;
+.testimonial-logo { /* Updated class name, applied to img directly */
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
     border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 12px; /* Mere luft under billedet */
+    margin-bottom: 24px; /* Spacing: logo → navn */
 }
 
-.testimonial-card p {
-    text-align: center;
-    font-style: italic;
+.testimonial-name { /* Updated class name */
+    font-size: 1.1rem; /* Approx 17.6px, max 20px */
+    font-weight: 600; /* Semi-bold */
+    color: var(--text-color);
+    margin-bottom: 24px; /* Spacing: navn → quote-ikon */
+    line-height: 1.4;
+}
+
+.testimonial-quote-icon { /* Updated class name */
+    font-size: 1.5rem; /* Approx 24px */
+    color: var(--accent-blue);
+    margin-bottom: 24px; /* Spacing: quote-ikon → citat */
+    line-height: 1;
+}
+
+.testimonial-citat { /* Updated class name */
+    font-size: 1.125rem; /* Min 18px */
+    line-height: 1.6; /* 150-160% */
     color: var(--text-muted);
-    margin-bottom: 16px; /* Mere luft under citatet */
+    margin-bottom: 24px; /* Luft under citat */
+    width: 100%; /* Ensure it can be centered if text is short */
+    /* max-width for line length control will be in media query */
 }
 
-.testimonial-card .author {
-    font-weight: bold;
-    color: var(--text-color);
+.testimonial-citat .highlight { /* Target .highlight span */
+    color: var(--accent-pink);
+    font-weight: 600; /* Or inherit if span is inside a p that's already bolded */
+}
+
+/* Desktop layout for testimonials */
+@media (min-width: 768px) {
+    .testimonials-sektion {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start; /* Changed from stretch to prevent unnatural height changes */
+        gap: 32px;
+    }
+    .testimonial-card { /* Updated class name */
+        padding: 32px; /* Desktop padding */
+        flex-basis: calc(33.333% - (2 * 32px / 3)); /* Adjusts for 32px gap */
+        max-width: 380px; /* Max width for desktop card, e.g. 340-400px range */
+        min-width: 320px; /* Min width to prevent squishing */
+        min-height: auto; /* Ensure cards don't stretch if align-items: stretch was on parent */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .testimonial-card:hover { /* Updated class name */
+        transform: translateY(-5px); /* Let lift, no scale */
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    .testimonial-citat { /* Updated class name */
+        /* max-width: 80%; Removed to allow text to flow more freely within card padding */
+        /* Text will be centered by text-align: center on .testimonial-card */
+        width: 100%; /* Ensure it takes available space for centering */
+        margin-left: auto; /* Still useful if there's an implicit block behavior */
+        margin-right: auto; /* Still useful */
+    }
+}
+
+@media (min-width: 1024px) {
+    .testimonials-sektion {
+        gap: 40px;
+    }
+    .testimonial-card { /* Updated class name */
+        flex-basis: calc(33.333% - (2 * 40px / 3));
+        /* max-width: 400px; can remain */
+    }
+}
+
+/* === PRICING TABLE STYLES === */
+/* ... other pricing styles ... */
+
+.pricing-kolonne .beskrivelse {
+    text-align: left; /* Ensure description text is left-aligned */
+    /* Add any other specific styling for description if needed */
+}
+
+
+@keyframes fadeInCard {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* === PRICING PAGE SPECIFIC STYLES === */
+.hero-kampagne {
     text-align: center;
+    padding: var(--section-padding); /* Use variable */
+    padding-top: 60px; /* Adjust top specifically if needed */
+    padding-bottom: 40px; /* Adjust bottom specifically */
+    background-color: var(--secondary-bg);
 }
 
-/* === PRICING PAGE STYLES === */
-.pricing-page {
-    background-color: var(--bg-color);
+.hero-kampagne .badge {
+    display: inline-block;
+    background-color: var(--accent-pink);
+    color: white;
+    padding: var(--label-padding); /* Use variable */
+    border-radius: 20px; /* Or var(--border-radius) if consistent */
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem; /* More air */
+    margin-top: 1rem; /* Added margin to prevent touching header */
+}
+
+.hero-kampagne h1 {
+    margin-bottom: 1rem; /* More air */
+    font-size: clamp(2rem, 4.5vw + 1rem, 3.2rem);
+}
+
+.hero-kampagne .underoverskrift {
+    font-size: clamp(1rem, 2vw + 0.5rem, 1.2rem);
+    color: var(--text-muted);
+    max-width: 65ch;
+    margin: 0 auto 2rem auto; /* More air */
+}
+
+.campaign-counter-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px 25px;
+    border-radius: var(--border-radius);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px; /* Slightly more gap */
+    margin-top: 2rem; /* More air */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Subtler shadow */
+}
+
+.pulsing-dot {
+    width: 10px; /* Slightly smaller */
+    height: 10px; /* Slightly smaller */
+    background-color: #28a745; /* Green for live/active */
+    border-radius: 50%;
+    animation: pulseDot 1.3s infinite ease-in-out;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.7); /* Subtle glow for dot */
+}
+
+.counter-text {
+    font-size: 1.05rem; /* Slightly adjusted */
+    font-weight: 600;
     color: var(--text-color);
-    padding: var(--section-padding);
 }
 
-.pricing-page h2 {
+.live-indicator {
+    background-color: transparent; /* Remove background */
+    color: var(--accent-green, #28a745); /* Use a green, define if not present */
+    padding: 2px 6px; /* Adjust padding */
+    border-radius: var(--border-radius);
+    font-size: 0.7rem; /* Smaller */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--accent-green, #28a745); /* Border instead of bg */
+    opacity: 0.8; /* Less prominent */
+}
+
+.counter-subtext {
+    font-size: 0.8rem; /* Smaller */
+    color: var(--text-muted);
+    margin-top: 0.8rem; /* More air */
+    margin-bottom: 0;
+    display: block;
+    width: 100%;
     text-align: center;
-    margin-bottom: 3rem;
+    opacity: 0.7; /* Less prominent */
 }
 
-.pricing-table {
+.campaign-counter-wrapper { /* Optional: wrap counter and subtext */
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.pricing-tabel {
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
     justify-content: center;
-    gap: 2rem;
-    max-width: 1200px;
+    gap: 32px; /* Minimum 32px gap */
+    padding: var(--section-padding);
+    align-items: stretch; /* Makes cards same height if they are in a row */
+}
+
+.pricing-kolonne {
+    background-color: var(--secondary-bg);
+    padding: 2rem; /* Consistent padding */
+    border-radius: var(--border-radius); /* Consistent radius */
+    border: 1px solid var(--border-color);
+    width: 100%; /* Full width on mobile, before max-width kicks in */
+    max-width: 380px; /* Consistent max-width for cards */
+    display: flex;
+    flex-direction: column;
+    text-align: center; /* Default alignment, will be overridden for specific elements on mobile */
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 16px 0; /* Consistent vertical margin, gap handles horizontal */
+    position: relative; /* For absolute positioned labels like NYHED */
+    opacity: 0; /* Initial state for pop-in */
+    transform: translateY(20px); /* Initial state for pop-in */
+    /* animation will be applied by Intersection Observer */
+}
+
+.pricing-kolonne:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* Titles */
+.pricing-kolonne h2 {
+    font-size: clamp(1.6rem, 2.5vw + 0.8rem, 2rem);
+    color: var(--text-color);
+    margin-bottom: 0.75rem; /* Space below title */
+    font-weight: 600;
+    display: flex; /* Use flex to align title and package type */
+    flex-direction: column; /* Stack them vertically by default */
+    align-items: center; /* Center them */
+    justify-content: center;
+}
+
+.pricing-kolonne h2 .package-type {
+    font-size: 0.6em; /* Smaller relative to the h2 */
+    color: var(--text-muted);
+    font-weight: 400; /* Lighter font weight */
+    margin-top: 0.2em; /* Small space below main title part */
+    display: block; /* Ensure it takes its own line if needed */
+}
+
+/* Subtitle for Autopilot */
+.pricing-kolonne .overskrift-sub {
+    font-size: 0.9rem;
+    color: var(--text-muted); /* More subdued */
+    font-weight: 500;
+    margin-top: -0.5rem; /* Pull closer to title */
+    margin-bottom: 1.5rem; /* Space before price */
+    min-height: 1.5em; /* Ensure space even if empty for alignment */
+}
+/* Hide subtitle on standard H3LLO card if structure is identical */
+.pricing-kolonne:not(.autopilot) .overskrift-sub {
+    display: none; /* Or visibility: hidden; if space needs to be kept for alignment */
+}
+
+
+/* NYHED Label */
+.best-deal-label {
+    background-color: var(--accent-pink);
+    color: white;
+    padding: 6px 12px;
+    border-radius: calc(var(--border-radius) / 2); /* Smaller radius for label */
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    position: absolute;
+    top: 24px; /* margin-top max 24px from card top */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    /* Removed clip-path for simpler label */
+}
+
+/* Description - already left-aligned by a previous change, ensure consistent spacing */
+.pricing-kolonne .beskrivelse {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem; /* Consistent spacing */
+    flex-grow: 1; /* Allow description to take space */
+    min-height: 60px; /* Adjust as needed for content balance */
+    line-height: 1.6;
+    text-align: left; /* Explicitly left, will be centered on mobile */
+}
+
+/* Price */
+.pricing-kolonne .pris {
+    font-size: clamp(1.8rem, 3vw + 1rem, 2.2rem);
+    font-weight: 600; /* Adjusted boldness */
+    color: var(--accent-pink); /* Default for H3LLO */
+    margin-top: 1rem; /* Space above price */
+    margin-bottom: 8px; /* 8px space AFTER price, before first label */
+}
+.pricing-kolonne.autopilot .pris {
+    color: var(--accent-blue); /* Specific color for Autopilot */
+}
+
+/* Price Labels (under price) */
+.price-label { /* Common style for both labels */
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-top: 0; /* Reset top margin, bottom margin of previous element controls space */
+}
+.price-label.accent-label { /* "KUN 500 pladser..." */
+    color: var(--accent-pink);
+    font-weight: 600;
+    margin-bottom: 8px; /* 8px space AFTER this label */
+}
+.price-label.gift-label { /* "🎁 Gratis personlig..." */
+    color: var(--text-color); /* Neutral/light */
+    font-weight: 500;
+    margin-bottom: 0; /* Button's top margin will create the 24px space */
+}
+
+/* CTA Buttons */
+.pricing-kolonne .button {
+    background: var(--primary-gradient); /* Default gradient */
+    color: white;
+    padding: 12px 24px; /* Consistent padding */
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem; /* Consistent font size */
+    display: block; /* Make it block to control width/centering via margin */
+    width: 100%; /* Full width within padding */
+    max-width: 280px; /* Max width for button */
+    margin: 24px auto 24px auto; /* Explicit 24px top and bottom, auto left/right for centering */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-position 0.3s ease;
+    background-size: 200% auto; /* For gradient hover effect */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.pricing-kolonne .button:hover, .pricing-kolonne .button:focus {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 4px 15px var(--glow-pink);
+    background-position: right center;
+    color: white;
+    text-decoration: none;
+}
+.pricing-kolonne.autopilot .button { /* Specific gradient for Autopilot button */
+    background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+    background-size: 200% auto;
+}
+.pricing-kolonne.autopilot .button:hover, .pricing-kolonne.autopilot .button:focus {
+    box-shadow: 0 4px 15px var(--glow-blue);
+}
+
+/* Trial Info Text */
+.pricing-kolonne .trial-info {
+    font-size: 0.8rem; /* Small, discreet font */
+    color: var(--text-muted);
+    margin-top: -12px; /* Pull closer to button */
+    margin-bottom: 16px; /* Consistent 16px space before feature list */
+    line-height: 1.4;
+    min-height: 0; /* Reset min-height if not needed */
+}
+
+/* Feature List */
+.includes-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px; /* Consistent 16px space above list */
+    margin-bottom: 1rem; /* Space below list */
+    text-align: left; /* Align text to left */
+    font-size: 0.9rem; /* Consistent font size */
+}
+.includes-list li {
+    margin-bottom: 0.75rem; /* Consistent spacing between items */
+    display: flex;
+    align-items: flex-start; /* Align icon/emoji with top of text */
+    gap: 0.75rem; /* Space between icon/emoji and text */
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.includes-list li::before {
+    content: "✓"; /* Default checkmark, can be styled or replaced */
+    color: var(--accent-green, #28a745); /* Use a green color */
+    font-weight: bold;
+    margin-right: 0.25em; /* Space after checkmark */
+}
+/* Removed tooltip-trigger specific styling from list items */
+/* Ensure all list items get a checkmark now, as special conditions are removed */
+.includes-list li::before {
+    content: "✓";
+    color: var(--accent-green, #28a745);
+    font-weight: bold;
+    /* margin-right is already set, ensure it's appropriate */
+}
+/* Removed all .tooltip-trigger and .tooltip-text styles */
+
+/* Mobile Centering and Spacing */
+@media (max-width: 767px) {
+    .pricing-tabel {
+        gap: 32px; /* Ensure minimum 32px gap on mobile */
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center; /* Center cards in the column */
+    }
+    .pricing-kolonne {
+        margin-left: auto; /* Center card if not full width */
+        margin-right: auto; /* Center card if not full width */
+        max-width: 90%; /* Allow cards to be wider on mobile if needed */
+        padding: 1.5rem; /* Adjust padding for mobile */
+    }
+    .pricing-kolonne h2,
+    .pricing-kolonne .overskrift-sub,
+    .pricing-kolonne .beskrivelse, /* Center description text on mobile */
+    .pricing-kolonne .pris,
+    .price-label,
+    .pricing-kolonne .trial-info {
+        text-align: center; /* Center these elements */
+    }
+    .pricing-kolonne .beskrivelse {
+        margin-left: auto; /* Center block if max-width is applied */
+        margin-right: auto; /* Center block if max-width is applied */
+    }
+    .includes-list {
+        /* text-align: center; Removed - centering of the block is handled by margin and max-width */
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 300px; /* Constrain list width for better centering. Adjust if needed. */
+        padding-left: 0; /* Ensure no extra padding that might affect visual left alignment */
+    }
+    .includes-list li {
+        /* justify-content: center; Removed - items should start from the left of the li */
+        text-align: left; /* Keep text within list item left-aligned */
+        /* display: flex, align-items: flex-start, gap are inherited and correct */
+    }
+    .best-deal-label {
+        top: 16px; /* Adjust NYHED label for mobile */
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+    /* Ensure consistent spacing between elements within a card on mobile */
+    .pricing-kolonne > * {
+        margin-bottom: 16px; /* Default bottom margin for direct children */
+    }
+    .pricing-kolonne > *:last-child {
+        margin-bottom: 0;
+    }
+    .pricing-kolonne .button {
+        /* margin: 24px auto; is already set for desktop, mobile will inherit if width is 100% */
+        /* Explicitly ensure 24px top/bottom for mobile if overridden by generic selector */
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
+    .price-label { /* General price label on mobile */
+        margin-bottom: 8px; /* 8px between labels */
+    }
+    .price-label.gift-label { /* Last price label before button */
+         margin-bottom: 0; /* Button's margin-top handles space */
+    }
+    .pricing-kolonne .pris { /* Price element itself */
+        margin-bottom: 8px; /* Space after price, before first label */
+    }
+    .pricing-kolonne .trial-info {
+        margin-top: -12px; /* Pull closer to button, consistent with desktop */
+        margin-bottom: 16px; /* Consistent with desktop */
+    }
+    .includes-list {
+        margin-top: 16px; /* Consistent with desktop */
+    }
+}
+.pricing-kolonne.autopilot .best-deal-label {
+     background-color: var(--accent-blue);
+     color: var(--bg-color); /* Dark text on light blue for contrast */
+}
+
+
+.faq-sektion {
+    padding: var(--section-padding);
+    max-width: 760px; /* Adjusted */
+    margin: 2rem auto; /* More air */
+}
+
+.faq-sektion h2 {
+    margin-bottom: 2.5rem; /* Adjusted */
+}
+
+.faq-item {
+    background-color: var(--secondary-bg);
+    margin-bottom: 1.25rem; /* More air */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+.faq-item:hover {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 15px rgba(156, 39, 176, 0.1);
+}
+
+
+.faq-item summary {
+    padding: 1.1rem 1.5rem; /* Adjusted */
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 1rem; /* Smaller FAQ question text */
+    transition: background-color 0.2s ease;
+}
+.faq-item summary:hover {
+    background-color: rgba(255,255,255,0.02); /* Very subtle hover */
+    color: var(--accent-blue);
+}
+
+.faq-item summary::after {
+    content: '+'; /* Changed to plus/minus */
+    font-size: 1.2em; /* Larger icon */
+    transition: transform 0.3s ease-out;
+    color: var(--accent-blue);
+    font-weight: 300; /* Lighter weight for icon */
+}
+
+.faq-item[open] summary::after {
+    content: '–'; /* Minus sign */
+    transform: rotate(0deg); /* No rotation needed for plus/minus */
+}
+.faq-item[open] summary {
+    background-color: rgba(0, 207, 255, 0.05); /* Slight bg change when open */
+    color: var(--accent-blue);
+}
+
+
+.faq-item p {
+    padding: 0.5rem 1.5rem 1.25rem 1.5rem; /* Adjusted padding */
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.88rem; /* Smaller FAQ answer text */
+    line-height: 1.65; /* Adjusted */
+}
+
+
+/* Pulsing dot animation */
+@keyframes pulseDot {
+    0%, 100% {
+        transform: scale(0.9); /* Start smaller */
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.2); /* Pulse larger */
+        opacity: 1;
+    }
+}
+
+/* Pop-in animation for pricing cards - to be triggered by JS Intersection Observer */
+.pricing-kolonne.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 767px) {
+    .hero-kampagne {
+        padding-top: 40px;
+        padding-bottom: 30px;
+    }
+    .hero-kampagne h1 {
+        font-size: clamp(1.8rem, 7vw + 0.5rem, 2.5rem); /* Adjusted for mobile */
+    }
+    .campaign-counter-container {
+        flex-direction: row; /* Keep horizontal on mobile if space allows */
+        flex-wrap: wrap; /* Allow wrap if needed */
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 15px; /* Smaller padding */
+    }
+    .counter-text {
+        font-size: 0.95rem; /* Smaller */
+    }
+    .live-indicator {
+        font-size: 0.65rem; /* Smaller */
+        padding: 2px 5px;
+    }
+    .counter-subtext {
+        font-size: 0.75rem; /* Smaller */
+        margin-top: 6px;
+        width: auto; /* Don't force full width if counter is wrapped */
+    }
+
+    .pricing-tabel {
+        gap: 1.5rem;
+        padding-left: 10px; /* Less padding */
+        padding-right: 10px; /* Less padding */
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .pricing-kolonne {
+        max-width: calc(100% - 20px); /* Ensure some side spacing */
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1.5rem;
+        padding: 1.8rem 1.2rem; /* Smaller padding */
+        margin-top: 1rem; /* Mobile margin */
+    }
+     .pricing-kolonne.autopilot {
+        padding-top: 3rem; /* Adjust for label on mobile */
+        margin-top: 1rem; /* Mobile margin */
+    }
+
+    .pricing-kolonne .button {
+        width: calc(100% - 20px); /* Ensure button is easily tappable, with slight inset */
+        max-width: 300px; /* Max width for button on mobile */
+        margin-left: auto;
+        margin-right: auto;
+        padding: 12px 18px; /* Smaller padding */
+        font-size: 0.95rem; /* Ensure readable button text */
+    }
+    .best-deal-label {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        clip-path: polygon(3% 0, 97% 0, 100% 100%, 0% 100%); /* Adjust shape for mobile */
+    }
+
+    .faq-sektion {
+        padding: 30px 10px; /* Less padding */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .faq-item summary {
+        padding: 0.9rem 1rem; /* Smaller padding */
+        font-size: 0.9rem; /* Smaller text */
+    }
+    .faq-item summary::after {
+        font-size: 1em;
+    }
+    .faq-item p {
+        font-size: 0.82rem; /* Smaller text */
+        padding: 0.5rem 1rem 1rem 1rem; /* Smaller padding */
+    }
+
+    /* Testimonials on mobile */
+    .testimonials-sektion {
+        padding: 30px 10px; /* Less padding */
+        gap: 1.5rem;
+    }
+    .testimonial {
+        width: calc(100% - 20px); /* Full width with some margin */
+        padding: 1.5rem 1rem; /* Smaller padding */
+    }
+    .testimonial-logo img.testimonial-company-logo {
+        max-height: 40px; /* Smaller logo */
+    }
+    .testimonial-quote p {
+        font-size: 1rem; /* Slightly smaller */
+    }
+}
+
+
+/* === TESTIMONIALS SECTION START === */
+.testimonials {
+    background-color: var(--bg-color);
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: single column */
+    gap: 2.5rem; /* Increased gap */
+}
+
+.testimonial-card {
+    background-color: var(--secondary-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    border-left: 6px solid; /* Restored */
+    border-image: var(--primary-gradient) 1; /* Restored */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adjusted base shadow */
+    display: flex;
+    flex-direction: column; /* Stack image and content vertically on mobile */
+    gap: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-3px); /* Adjusted hover transform */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Added hover shadow */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Alternating testimonial styles */
+.testimonial-card:nth-child(even) {
+    background-color: #222; /* Slightly different background */
+    border-image: linear-gradient(90deg, var(--accent-purple) 0%, var(--accent-blue) 100%) 1; /* Different gradient border */
+}
+
+.testimonial-card:nth-child(even) blockquote::before {
+    color: var(--accent-blue); /* Match border */
+}
+
+
+.testimonial-image {
+    flex-shrink: 0;
+    width: 80px; /* Size for logo/image */
+    height: 80px;
+    border-radius: 50%; /* Circular image/logo */
+    overflow: hidden;
+    margin: 0 auto 1rem auto; /* Center on mobile */
+    background-color: var(--secondary-bg); /* Use secondary background */
+    padding: 5px; /* Add padding around the logo */
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    /* padding: 5px; */ /* REMOVED - Let object-fit handle sizing */
+}
+
+.testimonial-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensure logo fits without cropping */
+}
+
+.testimonial-content {
+    flex-grow: 1;
+    text-align: center; /* Center text on mobile */
+}
+
+.testimonial-content blockquote {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+    position: relative;
+    padding-left: 2.5rem; /* Space for quote mark */
+    text-align: left; /* Align quote text left */
+}
+
+.testimonial-content blockquote::before {
+    content: '“';
+    font-size: 4rem; /* Larger quote mark */
+    font-family: Georgia, serif;
+    color: var(--accent-pink); /* Use accent color */
+    opacity: 0.6;
+    position: absolute;
+    left: 0;
+    top: -0.5rem;
+    line-height: 1;
+}
+
+.testimonial-content cite {
+    font-weight: 600;
+    display: block;
+    margin-top: 1rem;
+    color: var(--text-color);
+    font-style: normal;
+}
+
+.testimonial-content .location {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    display: block; /* Ensure it's on its own line */
+}
+/* === TESTIMONIALS SECTION END === */
+
+
+/* === ABOUT SECTION START === */
+.about-section {
+    background-color: var(--secondary-bg);
+    text-align: center;
+}
+
+.about-content {
+    max-width: 700px;
     margin: 0 auto;
 }
 
-.pricing-card {
-    background-color: var(--secondary-bg);
-    border-radius: var(--border-radius);
-    padding: 2rem;
+.about-content p {
+    color: var(--text-color); /* Make text less muted */
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* Optional: Styles for an image if added */
+.about-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1.5rem auto;
+    border: 3px solid var(--accent-purple);
+}
+
+.signature {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-top: 1.5rem;
+    font-size: 1rem;
+}
+/* === ABOUT SECTION END === */
+
+
+/* === CONTACT FORM SECTION START === */
+.contact-section {
+    background-color: var(--bg-color);
     text-align: center;
-    width: 300px; /* Fixed width for cards */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid var(--border-color);
 }
 
-.pricing-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.pricing-card h3 {
-    font-size: 1.75rem;
-    margin-bottom: 0.75rem;
-    color: var(--text-color);
-}
-
-.pricing-card .price {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--accent-blue);
-    margin-bottom: 1rem;
-}
-
-.pricing-card .features {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 1.5rem;
-}
-
-.pricing-card .features li {
-    margin-bottom: 0.75rem;
+.contact-section > .container > p:not(.contact-intro) { /* Target only direct paragraph children, excluding intro */
+    max-width: 600px;
+    margin: 0 auto 1.5rem auto;
     color: var(--text-muted);
 }
 
-.pricing-card .btn {
-    width: 100%;
-}
-
-/* === CONTACT SECTION === */
-.contact-section {
-    background-color: var(--secondary-bg);
-    padding: var(--section-padding);
+.contact-intro {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem !important; /* Ensure spacing */
     text-align: center;
-}
-
-.contact-section h2 {
-    margin-bottom: 2rem;
+    font-size: 1.1rem; /* Slightly larger */
 }
 
 .contact-form {
     max-width: 600px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    margin: 2rem auto;
+    background-color: var(--secondary-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    text-align: left;
 }
 
-.contact-form input,
-.contact-form textarea {
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    border: none;
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-family);
     font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group textarea:focus {
     outline: none;
-    transition: box-shadow 0.3s ease;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.3);
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-    box-shadow: 0 0 5px var(--glow-blue);
+.form-group textarea {
+    resize: vertical; /* Allow vertical resize */
+    min-height: 100px;
 }
-
-.contact-form textarea {
-    resize: vertical;
-    height: 150px;
-}
-
-.contact-form button {
-    padding: var(--button-padding);
-    cursor: pointer;
-}
-
-/* === FOOTER STYLES === */
-.site-footer {
-    background-color: var(--bg-color);
-    color: var(--text-muted);
+/* === BUTTON STYLES === */
+.btn {
+    display: inline-block; /* Allow setting width/padding */
+    padding: 12px 28px; /* Vertical and horizontal padding */
+    border-radius: 50px; /* Fully rounded corners */
+    font-size: 1rem;
+    font-weight: 600;
     text-align: center;
-    padding: 2rem 0;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid transparent; /* Base border */
+    transition: all 0.3s ease; /* Smooth transitions */
+    margin: 5px; /* Small margin for spacing */
+    min-width: 180px; /* Minimum width */
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--accent-blue); /* Blue border */
+    color: var(--accent-blue); /* Blue text */
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background-color: rgba(0, 207, 255, 0.1); /* Subtle blue background on hover/focus */
+    color: var(--text-color); /* White text on hover/focus */
+    border-color: var(--accent-blue);
+    outline: none; /* Remove default focus outline if custom style is applied */
+}
+
+.btn-primary {
+    background-color: var(--accent-purple); /* Solid purple background */
+    border-color: var(--accent-purple);
+    color: var(--text-color); /* Light text for contrast */
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #8a1aa0; /* Slightly darker purple */
+    border-color: #8a1aa0;
+    color: var(--text-color); /* Keep light text on hover */
+    outline: none; /* Remove default focus outline */
+}
+
+/* Optional: Style for larger buttons if needed */
+.btn-large {
+    padding: 15px 35px;
+    font-size: 1.1rem;
+}
+
+.form-submit {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.form-submit .btn {
+    min-width: 150px; /* Ensure button has decent width */
+}
+
+.form-tooltip {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    margin-bottom: 0; /* Remove default p margin */
+}
+
+/* Form Status Messages */
+.form-status {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: 600;
+    display: none; /* Hidden by default */
+    text-align: center;
+}
+
+.form-status.success {
+    background-color: rgba(0, 207, 255, 0.15); /* Light blue background */
+    color: var(--accent-blue);
+    border: 1px solid var(--accent-blue);
+    display: block;
+}
+
+.form-status.error {
+    background-color: rgba(255, 44, 212, 0.15); /* Light pink background */
+    color: var(--accent-pink);
+    border: 1px solid var(--accent-pink);
+    display: block;
+}
+
+.alternative-contact {
+    margin-top: 3rem;
+    padding-top: 2rem;
     border-top: 1px solid var(--border-color);
 }
 
-.site-footer a {
-    color: var(--accent-pink);
+.alternative-contact p {
+    margin: 0 auto 0.75rem auto; /* Center block and add bottom margin */
+    color: var(--text-color);
+    text-align: center; /* Ensure text is centered */
+    font-weight: 600; /* Make it slightly bolder */
+    font-size: 1.05rem; /* Slightly larger */
+    max-width: none; /* Remove any potential width restriction */
+}
+/* === CONTACT FORM SECTION END === */
+
+
+/* === FOOTER START === */
+.site-footer {
+    background-color: var(--secondary-bg);
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 60px; /* More space before footer */
+    border-top: 1px solid var(--border-color);
 }
 
-.site-footer a:hover {
+.site-footer .container {
+    padding: 0; /* Remove extra padding */
+}
+
+/* Ensure copyright paragraph text is centered */
+.site-footer .container > p {
+    text-align: center;
+    max-width: none; /* Ensure it can span width to center */
+}
+.site-footer p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+}
+
+.site-footer p a {
+    color: var(--text-muted);
+}
+
+.site-footer p a:hover {
     color: var(--accent-blue);
 }
+/* === FOOTER END === */
 
-.footer-contact {
-    margin-top: 1rem;
+
+/* === RESPONSIVE DESIGN === */
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    .container {
+        padding: 70px 0; /* Increase vertical padding */
+    }
+
+    .steps {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+        gap: 1.5rem;
+    }
+
+    .value-points {
+        grid-template-columns: 1fr 1fr; /* Two columns */
+        gap: 1.5rem;
+        max-width: 800px;
+    }
+
+    .testimonial-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsive grid */
+        gap: 2rem;
+    }
+
+    .testimonial-card {
+        flex-direction: row; /* Image and content side-by-side */
+        text-align: left; /* Align content left */
+        align-items: center; /* Vertically align items */
+    }
+
+    .testimonial-image {
+        margin: 0; /* Reset margin */
+    }
+
+    .testimonial-content {
+        text-align: left; /* Align text left */
+    }
 }
 
-/* === NAVIGATION STYLES === */
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    .container {
+        padding: 80px 0;
+    }
+
+    .steps {
+        gap: 2rem; /* Increase gap for desktop */
+    }
+
+    .testimonial-grid {
+         grid-template-columns: repeat(3, 1fr); /* Force 3 columns on larger screens */
+         gap: 2.5rem;
+    }
+}
+/* === H3LLO Gradient Text Style === */
+.h3llo-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700; /* Make it bold like the logo often is */
+}
+/* === SMART SECTION STYLES === */
+.smart-section .container {
+    text-align: center; /* Center align text within this section's container */
+}
+
+.smart-section .container p {
+    margin-left: auto; /* Ensure paragraph blocks are centered */
+    margin-right: auto;
+}
+.smart-intro {
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem !important; /* Add more space below intro */
+    max-width: 60ch !important; /* Limit width */
+}
+
+.smart-benefits {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: 1.5rem;
+    max-width: 700px; /* Adjust max-width as needed */
+    margin: 0 auto 2.5rem auto; /* Center grid and add bottom margin */
+    text-align: left; /* Align text left within items */
+}
+
+.benefit-item {
+    display: flex;
+    align-items: flex-start; /* Align icon top */
+    gap: 1rem;
+    background-color: var(--secondary-bg);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--accent-blue);
+}
+
+.benefit-item .icon {
+    color: var(--accent-blue);
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 1.7; /* Match paragraph line-height */
+}
+
+.benefit-item p {
+    margin-bottom: 0; /* Remove default bottom margin */
+    max-width: none; /* Remove max-width limit */
+    margin-left: 0; /* Reset auto margin */
+    margin-right: 0; /* Reset auto margin */
+}
+
+.smart-outro {
+    font-style: italic;
+    color: var(--text-color); /* Make it stand out slightly */
+    max-width: 60ch !important; /* Limit width */
+}
+
+/* Responsive adjustments for benefits grid */
+@media (min-width: 768px) {
+    .smart-benefits {
+        grid-template-columns: 1fr 1fr; /* Two columns on tablet and up */
+    }
+}
+/* === ABOUT SECTION STYLES === */
+.about-section .about-content {
+    max-width: 70ch; /* Limit width for readability */
+    margin-left: auto; /* Center the content block */
+    margin-right: auto;
+}
+
+.about-section .about-content p {
+    margin-bottom: 1.5rem; /* Increase space between paragraphs */
+    /* Ensure paragraphs within inherit max-width or are block */
+    margin-left: 0; /* Reset paragraph margin if needed */
+    margin-right: 0;
+}
+
+.about-section .about-content p.signature {
+    margin-top: 2rem; /* Add more space above signature */
+    margin-bottom: 0; /* Remove bottom margin from signature */
+    text-align: right; /* Align signature to the right */
+}
+/* === GENERAL SECTION SPACING === */
+/* REMOVED global section padding - Apply padding per section */
+/* section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+} */
+
+/* Ensure specific sections have padding */
+.hero { padding: 80px 0 40px 0; } /* Keep existing */
+.how-it-works { padding: 80px 0; }
+.product-value { padding: 80px 0; }
+.video-section { padding: 80px 0; }
+.smart-section { padding: 80px 0; }
+.testimonials { padding: 80px 0; }
+.about-section { padding: 80px 0; }
+.founder-story { padding: 80px 0; } /* Added for new section */
+.interactive-demo-section { padding: 60px 0; } /* Keep existing reduced */
+.contact-section { padding: 60px 0; } /* Keep existing reduced */
+
+
+/* Add container padding back ONLY where section padding isn't suitable */
+.site-footer .container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+/* Add other specific container padding overrides if needed */
+
+
+/* Reduced padding for specific sections */
+.interactive-demo-section, /* New class for demo */
+.contact-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+/* === INTERACTIVE DEMO SECTION === */
+.interactive-demo-section {
+    background-color: var(--secondary-bg); /* Distinct background */
+    text-align: center; /* Center all content */
+}
+
+.interactive-demo-section .container {
+    /* Container already centered by default */
+}
+
+.interactive-demo-section h2 {
+    margin-bottom: 1rem; /* Less space below heading */
+}
+
+.demo-subtext {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 60ch; /* Limit width */
+    margin: 0 auto 2rem auto; /* Center block and add bottom margin */
+}
+
+.demo-preview-image {
+    max-width: 400px; /* Limit image size */
+    margin: 0 auto 2.5rem auto; /* Center image and add bottom margin */
+    border-radius: 15px; /* Optional: rounded corners for image */
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.demo-preview-image img {
+    width: 100%;
+    display: block;
+}
+
+.btn-large {
+    padding: 18px 40px; /* Larger padding */
+    font-size: 1.1rem; /* Larger font size */
+}
+/* === MOBILE OPTIMIZATIONS (max-width: 767px) === */
+@media (max-width: 767px) {
+    /* 1. Header/Hero */
+    .hero .logo {
+        height: 50px; /* Slightly smaller logo on mobile */
+    }
+
+    h1 {
+        /* Clamp already handles responsiveness */
+    }
+    h2 {
+       font-size: clamp(1.6rem, 5vw + 0.5rem, 2.2rem); /* Adjust clamp for smaller screens if needed */
+       margin-bottom: 2rem;
+    }
+     h3 {
+       font-size: clamp(1.1rem, 3vw + 0.5rem, 1.4rem);
+    }
+
+    /* Ensure buttons stack nicely if needed */
+    .cta-buttons {
+        gap: 0.5rem; /* Reduce gap slightly */
+    }
+
+    /* 2. How it works - Already defaults to 1 column */
+
+    /* 3. Product Value - Already defaults to 1 column */
+
+    /* 4. Video & Demo */
+    .demo-preview-image {
+        max-width: 280px; /* Smaller preview on mobile */
+    }
+
+    /* 5. Testimonials - Already defaults to 1 column */
+    .testimonial-card {
+        padding: 1.5rem; /* Slightly less padding */
+        /* Flex direction already column */
+    }
+     .testimonial-image {
+        width: 60px; /* Smaller logo */
+        height: 60px;
+    }
+
+    /* 6. About Section */
+    .about-content p {
+        font-size: 1.05rem; /* Slightly larger text for readability */
+        /* max-width ensures good line length */
+    }
+
+    /* 7. Contact Form */
+    .contact-form input[type="text"],
+    .contact-form textarea {
+        width: 100%; /* Full width inputs */
+    }
+
+    /* 8. Footer */
+    .site-footer {
+        text-align: center;
+    }
+    .site-footer .container {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .footer-logo {
+        height: 35px; /* Smaller footer logo */
+        margin-left: auto; /* Ensure centered */
+        margin-right: auto;
+    }
+}
+/* Corner Demo Button */
+.btn-corner-demo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100; /* Ensure it's above other header content */
+    padding: 8px 18px; /* Smaller padding */
+    font-size: 0.9rem; /* Smaller font */
+}
+
+/* Adjust position on smaller screens if needed */
+@media (max-width: 767px) {
+    .btn-corner-demo {
+        top: 15px;
+        right: 15px;
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+    /* Optional: Add padding to body/header to prevent overlap with badge */
+    body {
+        padding-top: 50px; /* Adjust if top badge exists */
+    }
+    .top-badge {
+        top: 65px; /* Push badge down below button */
+    }
+}
+/* === STICKY NAVIGATION STYLES === */
 .sticky-nav {
-    position: sticky;
+    position: fixed;
     top: 0;
-    background-color: rgba(13, 13, 13, 0.95); /* Slightly transparent */
-    z-index: 100; /* Ensure it stays on top */
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
-    backdrop-filter: blur(5px); /* Add a subtle blur */
+    left: 0;
+    width: 100%;
+    background-color: rgba(13, 13, 13, 0.9); /* Semi-transparent dark background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    padding: 10px 0;
+    z-index: 1000; /* Ensure it's above other content */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: top 0.3s ease; /* Smooth transition if hiding/showing */
 }
 
-.nav-container {
+.sticky-nav .nav-container {
+    width: 90%;
+    max-width: 1140px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative; /* For positioning the mobile menu */
 }
 
-.nav-logo-link {
+.sticky-nav .nav-logo-link {
     display: inline-block;
 }
 
-.nav-logo {
-    height: 40px;
+.sticky-nav .nav-logo {
+    height: 35px; /* Adjust logo size */
+    width: auto;
+    display: block;
 }
 
 .sticky-nav ul {
     list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    gap: 15px; /* Spacing between links */
+}
+
+.sticky-nav ul li {
+    display: inline-block;
 }
 
 .sticky-nav ul li a {
     color: var(--text-color);
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.sticky-nav ul li a:hover {
+.sticky-nav ul li a:hover,
+.sticky-nav ul li a:focus {
+    background-color: rgba(255, 255, 255, 0.1);
     color: var(--accent-blue);
+    outline: none; /* Remove default focus outline, rely on background change */
 }
 
-/* === MEDIA QUERIES === */
-@media (max-width: 768px) {
-    .container {
-        max-width: 100%; /* Allow container to fill screen */
-        width: 100%;
-        padding-left: 15px;
-        padding-right: 15px;
+/* Style for the Demo button in the nav */
+.sticky-nav .nav-demo-btn {
+    background-color: var(--accent-blue);
+    color: var(--bg-color);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.sticky-nav .nav-demo-btn:hover,
+.sticky-nav .nav-demo-btn:focus {
+    background-color: var(--accent-pink);
+    color: var(--text-color);
+    box-shadow: 0 0 10px var(--glow-pink);
+}
+
+/* Adjust body padding to prevent content from hiding behind sticky nav */
+body {
+    padding-top: 70px; /* Adjust based on nav height */
+}
+
+/* Mobile Navigation Styles */
+.nav-toggle {
+    display: none; /* Hidden by default, shown on mobile */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001; /* Above nav background */
+}
+
+.hamburger-icon {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-color);
+    position: relative;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--text-color);
+    transition: transform 0.3s ease, top 0.3s ease, bottom 0.3s ease;
+}
+
+.hamburger-icon::before {
+    top: -8px;
+}
+
+.hamburger-icon::after {
+    bottom: -8px;
+}
+
+/* Active state for hamburger icon (X shape) */
+.nav-toggle[aria-expanded="true"] .hamburger-icon {
+    background-color: transparent; /* Middle line disappears */
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger-icon::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger-icon::after {
+    transform: rotate(-45deg);
+    bottom: 0;
+}
+
+
+@media (max-width: 767px) {
+    .sticky-nav .nav-toggle {
+        display: block; /* Show hamburger button */
     }
 
-    .steps {
-        grid-template-columns: 1fr; /* Stack on smaller screens */
-    }
-
-    .value-points {
-        grid-template-columns: 1fr; /* Stack on smaller screens */
-    }
-
-    .cta-buttons {
-        flex-direction: column; /* Stack buttons on smaller screens */
-        align-items: center;
-    }
-
-    .pricing-table {
-        flex-direction: column; /* Stack pricing cards on smaller screens */
-        align-items: center;
-    }
-
-    .pricing-card {
-        width: 100%; /* Make pricing cards full width */
-        max-width: 400px; /* Limit max width */
-    }
-
-    .video-wrapper {
-        max-width: 100%; /* Make video responsive */
-    }
-
-    /* Mobile menu styles */
-    .nav-toggle {
-        display: none; /* Hide by default */
-        background: none;
-        border: none;
-        color: var(--text-color);
-        cursor: pointer;
-        font-size: 1.5rem;
-        padding: 0;
-    }
-
-    .hamburger-icon {
-        display: block;
-        width: 30px;
-        height: 3px;
-        background-color: var(--text-color);
-        margin: 6px 0;
-        transition: all 0.3s ease;
-    }
-
-    .hamburger-icon::before,
-    .hamburger-icon::after {
-        content: '';
-        display: block;
-        width: 30px;
-        height: 3px;
-        background-color: var(--text-color);
+    .sticky-nav ul#nav-menu { /* Target by ID for specificity */
+        display: flex; /* Use flex for column layout */
+        flex-direction: column;
         position: absolute;
-        transition: all 0.3s ease;
+        top: 100%; /* Position below the nav bar */
+        left: 0;
+        width: 100%;
+        background-color: rgba(13, 13, 13, 0.95); /* Slightly more opaque for readability */
+        backdrop-filter: blur(10px);
+        padding: 0; /* Remove padding, will be on li a */
+        transform: scaleY(0);
+        transform-origin: top;
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out, visibility 0s linear 0.3s;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
 
-    .hamburger-icon::before {
-        transform: translateY(-9px);
+    .sticky-nav ul#nav-menu.nav-ul-active { /* Class toggled by JS */
+        transform: scaleY(1);
+        opacity: 1;
+        visibility: visible;
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        padding: 10px 0; /* Add padding back when active */
     }
 
-    .hamburger-icon::after {
-        transform: translateY(9px);
+    .sticky-nav ul#nav-menu li {
+        display: block; /* Stack list items */
+        width: 100%;
+        text-align: center;
     }
 
-    .sticky-nav ul {
-        display: flex;
-        gap: 2rem;
+    .sticky-nav ul#nav-menu li a {
+        display: block; /* Make links take full width */
+        padding: 15px 20px; /* Larger tap targets */
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .sticky-nav ul#nav-menu li:last-child a {
+        border-bottom: none;
     }
 
-    #nav-menu {
-        display: block;
+    .sticky-nav .nav-container {
+        justify-content: space-between; /* Logo left, toggle right */
     }
-
-    @media (max-width: 768px) {
-        .sticky-nav ul {
-            display: none; /* Hide nav links on smaller screens */
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: rgba(13, 13, 13, 0.95);
-            padding: 1rem;
-            text-align: center;
-            flex-direction: column;
-            align-items: center;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .sticky-nav ul.nav-ul-active {
-            display: flex; /* Show nav links when active */
-        }
-
-        .nav-toggle {
-            display: block; /* Show hamburger icon on smaller screens */
-        }
+     body {
+        padding-top: 60px; /* Adjust if nav height changes */
+    }
+    .sticky-nav {
+        padding: 8px 0;
+    }
+    .sticky-nav .nav-logo {
+        height: 30px;
     }
 }
+/* === USE CASE EXAMPLES START === */
+.examples-section {
+    background-color: var(--secondary-bg); /* Match How it Works section */
+    padding: 50px 0;
+}
 
-/* === UTILITY CLASSES === */
-.text-center {
+.example-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: single column */
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+
+.example-card {
+    background-color: var(--bg-color);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+}
+
+.example-card .example-input {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.example-card .example-input strong {
+    color: var(--accent-blue); /* Highlight "Input" */
+}
+
+.example-card .example-output p:first-child { /* Style "H3LLO Output:" */
+    font-weight: 600;
+    color: var(--accent-pink);
+    margin-bottom: 0.5rem;
+}
+
+.example-card .example-output p:last-child { /* Style the actual output text */
+    color: var(--text-color);
+    margin-bottom: 0; /* Remove bottom margin on last paragraph */
+    white-space: pre-wrap; /* Preserve line breaks if any */
+}
+
+/* Responsive adjustments for examples */
+@media (min-width: 768px) {
+    .example-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Multi-column layout */
+    }
+}
+/* === USE CASE EXAMPLES END === */
+.example-card .example-image {
+    margin-top: 1rem; /* Space above image */
+    margin-bottom: 1rem; /* Space below image */
+    text-align: center; /* Center image if needed */
+}
+
+.example-card .example-image img {
+    max-width: 100%; /* Ensure image fits card */
+    height: auto;
+    border-radius: 5px; /* Optional: slightly rounded corners */
+    border: 1px solid var(--border-color); /* Optional: subtle border */
+}
+.footer-contact {
     text-align: center;
-}
-
-.mt-1 { margin-top: 1rem; }
-.mt-2 { margin-top: 2rem; }
-.mb-1 { margin-bottom: 1rem; }
-.mb-2 { margin-bottom: 2rem; }
-
-/* === ARTICLES STYLES === */
-#article-list-section .step {
-    text-align: left;
-}
-
-#article-list-section .step h3 a {
-    color: var(--accent-blue);
-    text-decoration: none;
-}
-
-#article-list-section .step p {
+    margin-top: 1rem; /* Add some space above contact details */
+    font-size: 0.9rem; /* Slightly smaller font for footer details */
     color: var(--text-muted);
 }
 
-/* === ARTICLE VIEW STYLES === */
-.article-body-content {
+.footer-contact p {
+    margin-bottom: 0.25rem; /* Reduce space between lines in footer contact */
+    max-width: none; /* Allow footer text to span width */
+    color: inherit; /* Inherit muted color */
+}
+
+.footer-contact a {
+    color: var(--text-muted); /* Muted link color */
+    text-decoration: underline;
+}
+
+.footer-contact a:hover,
+.footer-contact a:focus {
+    color: var(--accent-blue); /* Brighter on hover/focus */
+}
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+/* Style for horizontal scroll indicator */
+.scroll-indicator {
+    display: none; /* Hidden by default */
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem; /* Space below indicator */
+}
+    /* Make examples scroll horizontally */
+    .example-grid {
+        display: flex;          /* Align cards horizontally */
+        overflow-x: auto;       /* Enable horizontal scrolling */
+        gap: 1.5rem;            /* Space between cards */
+        padding: 1rem 0 1.5rem 0; /* Add some padding, especially bottom for scrollbar */
+        /* Hide scrollbar visually if desired (optional, browser support varies) */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .example-grid::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+
+    .example-grid .example-card {
+        flex: 0 0 85%; /* Don't shrink, base width 85% of viewport */
+        max-width: 320px; /* Max width for a card */
+        scroll-snap-align: start; /* Optional: Snap scrolling */
+    }
+
+    /* Ensure the container allows snapping if using snap-align */
+    .example-grid {
+       /* scroll-snap-type: x mandatory; */ /* Uncomment for mandatory snapping */
+.scroll-indicator {
+        display: block; /* Show on mobile */
+    }
+    }
+
+    /* Add other mobile-specific styles here */
+    .hero {
+        min-height: 70vh; /* Slightly shorter hero on mobile */
+        padding-top: 60px;
+    }
+    h1 { font-size: clamp(2rem, 6vw + 1rem, 3rem); } /* Adjust H1 size */
+    h2 { font-size: clamp(1.6rem, 5vw + 0.8rem, 2.4rem); margin-bottom: 2rem;} /* Adjust H2 size/margin */
+
+    /* Mobile Hero Adjustments */
+    .hero p.reassurance,
+    .hero p.hero-explanation { /* Also hide hero explanation */
+        display: none;
+    }
+    .hero .cta-buttons {
+        margin-top: 2.5rem; /* Increase top margin to push buttons down */
+    }
+    .top-badge {
+        position: static; /* Override absolute positioning */
+        display: block; /* Ensure it takes block space */
+        width: fit-content; /* Allow centering with margin auto */
+        margin: 10px auto 0 auto; /* Add top margin, center horizontally */
+        padding: 4px 15px; /* Adjust padding: less vertical, more horizontal */
+        font-size: 0.75rem; /* Slightly smaller font */
+        /* top: 10px; REMOVED */
+        left: auto; /* Reset */
+        transform: none; /* Reset */
+    }
+
+}
+/* === SOMMERKAMPAGNE SPECIFIC STYLES === */
+body.campaign-body { /* Apply to body if a specific class is added to body for campaign pages */
+    background-color: #050505; /* Even darker for campaign - more daring */
+    color: #F5F5F5; /* Slightly off-white for better readability */
+    font-family: 'Roboto', 'Arial', sans-serif; /* Sharp, modern font */
+    font-weight: 400; /* Base weight */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0; /* Ensure no default body margin interferes */
+    /* Override general body padding-top if it exists from sticky nav etc. for this specific page */
+    padding-top: 0 !important;
+}
+
+/*
+.campaign-page {
+    max-width: 760px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #0D0D0D;
+    border: 1px solid #303030;
+    border-radius: 10px;
+    box-shadow: 0 10px 35px rgba(0,0,0, 0.65);
+    text-align: center;
+}
+
+.campaign-header h1 {
+    font-size: clamp(2.2rem, 5vw + 0.5rem, 3.2rem);
+    color: #FFFFFF;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 35px;
+    line-height: 1.3;
+    font-weight: 900;
+}
+
+.campaign-counter-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #1A1A1A;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #282828;
+}
+
+.counter-container {
+    display: flex;
+    align-items: center;
+    font-size: 1.25rem;
+    color: #E8E8E8;
+    font-weight: 700;
+}
+*/
+
+.live-dot {
+    width: 14px; /* Larger dot */
+    height: 14px; /* Larger dot */
+    background-color: #FF453A; /* Slightly adjusted red */
+    border-radius: 50%;
+    margin-right: 12px; /* Increased spacing */
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.85); /* Adjusted scale */
+        box-shadow: 0 0 0 0 rgba(255, 69, 58, 0.8); /* Adjusted shadow */
+    }
+    70% {
+        transform: scale(1.05); /* Adjusted scale */
+        box-shadow: 0 0 0 12px rgba(255, 69, 58, 0); /* Adjusted shadow */
+    }
+    100% {
+        transform: scale(0.85); /* Adjusted scale */
+        box-shadow: 0 0 0 0 rgba(255, 69, 58, 0); /* Adjusted shadow */
+    }
+}
+
+/*
+#signup-counter-text {
+    margin-right: 10px;
+    letter-spacing: 0.5px;
+}
+
+#signup-counter {
+    font-weight: 900;
+    color: var(--accent-blue);
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+}
+
+.campaign-bonus,
+.campaign-trial {
+    margin-bottom: 35px;
+    padding: 25px;
+    background-color: #121212;
+    border-left: 5px solid var(--accent-purple);
+    border-radius: 0 6px 6px 0;
     text-align: left;
 }
 
-.article-body-content h1,
-.article-body-content h2,
-.article-body-content h3,
-.article-body-content h4,
-.article-body-content h5,
-.article-body-content h6 {
+.campaign-bonus h2,
+.campaign-trial h2 {
+    font-size: clamp(1.5rem, 3.5vw + 0.5rem, 2rem);
+    color: var(--accent-pink);
+    margin-bottom: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.campaign-bonus p,
+.campaign-trial p {
+    font-size: 1.05rem;
+    color: #D0D0D0;
+    line-height: 1.6;
+    max-width: none;
+}
+
+.campaign-cta {
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 20px 45px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-pink));
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    font-weight: 900;
+    text-decoration: none;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.25s ease, box-shadow 0.3s ease, background-position 0.5s ease;
+    box-shadow: 0 5px 20px rgba(0, 207, 255, 0.35), 0 5px 20px rgba(255, 44, 212, 0.25);
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+}
+
+.cta-button:hover,
+.cta-button:focus {
+    background-position: 100% 50%;
+    color: #FFFFFF;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 207, 255, 0.5), 0 8px 25px rgba(255, 44, 212, 0.35);
+    outline: none;
+}
+*/
+
+.campaign-footer {
+    margin-top: 50px; /* Increased margin */
+    padding-top: 25px; /* Increased padding */
+    border-top: 1px solid #303030; /* Consistent border color */
+}
+
+.campaign-footer p {
+    font-size: 0.95rem; /* Slightly larger */
+    color: #888; /* Slightly lighter */
+    text-align: center;
+    max-width: none;
+    line-height: 1.5;
+}
+/* === NEW ASYMMETRICAL GRID LAYOUT FOR SOMMERKAMPAGNE === */
+
+.asymmetric-grid-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); /* 12-column grid */
+    grid-template-rows: auto auto auto; /* Define rows as needed, auto for content height */
+    gap: 20px; 
+    padding: 20px; 
+    width: 100%;
+    max-width: 1200px; 
+    margin: auto; /* Center the grid container */
+    flex-grow: 1; /* Allows the grid to take available space */
+}
+
+.content-block {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.03); /* Subtle background for blocks */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color); /* Subtle border for structure */
+}
+
+/* Block A: The Hook */
+.block-a-hook {
+    grid-column: 1 / span 7; 
+    grid-row: 1 / span 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: flex-start; /* Align content to the start */
+}
+
+.block-a-hook h1 {
+    font-size: clamp(2.2rem, 5vw + 0.5rem, 3.2rem); 
+    color: #FFFFFF;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    font-weight: 700; 
+    line-height: 1.3;
     text-align: left;
 }
+
+.block-a-hook .cta-button {
+    display: inline-block;
+    padding: 15px 35px;
+    background: var(--accent-blue); 
+    color: var(--bg-color);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 10px; /* Reduced margin from h1 */
+    align-self: flex-start; 
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.block-a-hook .cta-button:hover {
+    background: var(--accent-pink);
+    color: var(--text-color);
+    transform: scale(1.05);
+}
+
+
+/* Block B: The Value & Assurance */
+.block-b-value-assurance {
+    grid-column: 8 / span 5; 
+    grid-row: 1 / span 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.block-b-value-assurance h2 {
+    font-size: clamp(1.3rem, 3vw + 0.4rem, 1.8rem); 
+    color: var(--accent-pink);
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-align: left; 
+}
+.block-b-value-assurance p {
+    font-size: 1rem;
+    color: #D0D0D0;
+    line-height: 1.6;
+    max-width: none;
+    text-align: left;
+    margin-bottom: 10px;
+}
+.block-b-value-assurance .bonus-content {
+    margin-bottom: 20px;
+}
+
+
+/* Block C: The Urgency */
+.block-c-urgency {
+    grid-column: 1 / span 4; 
+    grid-row: 2 / span 1;
+    margin-top: 20px; /* Space from Block A if it's taller */
+    display: flex; /* To align counter items */
+    align-items: center; /* Vertically center items in the block */
+    justify-content: flex-start; /* Align counter to the left */
+}
+.block-c-urgency .counter-container { /* Styles for the div inside block-c */
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem; 
+    color: #E8E8E8;
+    font-weight: 600; 
+    background-color: rgba(0,0,0,0.2); /* Slight background for counter itself */
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+}
+.block-c-urgency .live-dot { 
+    width: 12px;
+    height: 12px;
+    background-color: #FF453A;
+    border-radius: 50%;
+    margin-right: 10px;
+    animation: pulse 1.5s infinite ease-in-out; 
+}
+.block-c-urgency #signup-counter-text {
+    margin-right: 8px;
+}
+.block-c-urgency #signup-counter {
+    font-weight: 700; 
+    color: var(--accent-blue);
+    font-size: 1.3rem; 
+}
+
+/* Footer adjustment */
+.campaign-footer {
+    width: 100%;
+    text-align: center;
+    padding: 25px 20px; /* Adjusted padding */
+    margin-top: auto; 
+    /* background-color: var(--secondary-bg); Re-evaluate if needed, campaign-body bg is dark */
+    border-top: 1px solid #303030; /* Kept from original */
+}
+.campaign-footer p {
+    font-size: 0.95rem; 
+    color: #888; 
+    text-align: center;
+    max-width: none;
+    line-height: 1.5;
+    margin-bottom: 0; /* Remove default p margin if it's the only element */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 992px) { 
+    .asymmetric-grid-container {
+        grid-template-columns: 1fr; /* Stack all blocks */
+        grid-template-rows: auto auto auto; /* Each block gets its own row */
+        gap: 25px; /* Increased gap for stacked layout */
+    }
+    .block-a-hook {
+        grid-column: 1 / -1; 
+        grid-row: 1;
+        align-items: center; /* Center content in stacked view */
+    }
+    .block-a-hook h1 {
+        text-align: center;
+    }
+    .block-a-hook .cta-button {
+        align-self: center; 
+    }
+
+    .block-b-value-assurance {
+        grid-column: 1 / -1; 
+        grid-row: 2;
+        align-items: center; /* Center content */
+    }
+     .block-b-value-assurance h2, .block-b-value-assurance p {
+        text-align: center;
+    }
+
+    .block-c-urgency {
+        grid-column: 1 / -1; 
+        grid-row: 3;
+        justify-content: center; /* Center counter in stacked view */
+        margin-top: 0; /* Reset margin-top as it's stacked now */
+    }
+}
+
+@media (max-width: 767px) { 
+    .asymmetric-grid-container {
+        padding: 15px;
+        gap: 20px;
+    }
+    .block-a-hook h1 {
+        font-size: clamp(1.8rem, 6vw + 0.5rem, 2.6rem); 
+    }
+    .block-a-hook .cta-button {
+        padding: 12px 30px;
+        font-size: 1rem;
+        width: 100%; /* Full width button on mobile */
+        max-width: 320px; /* Max width for the button */
+        align-self: center;
+    }
+    .block-b-value-assurance h2 {
+        font-size: clamp(1.2rem, 4vw + 0.4rem, 1.6rem);
+    }
+     .block-b-value-assurance p {
+        font-size: 0.95rem;
+    }
+    .block-c-urgency .counter-container {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+    .block-c-urgency #signup-counter {
+        font-size: 1.2rem;
+    }
+}
+
+/* Minimalist Dynamic Background Idea (Subtle) - Adjusted for Daring */
+body.campaign-body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: /* Using accent colors for the subtle pattern */
+        linear-gradient(45deg, rgba(0, 207, 255, 0.03) 25%, transparent 25%), /* Accent Blue */
+        linear-gradient(-45deg, rgba(0, 207, 255, 0.03) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255, 44, 212, 0.03) 75%), /* Accent Pink */
+        linear-gradient(-45deg, transparent 75%, rgba(255, 44, 212, 0.03) 75%);
+    background-size: 70px 70px; /* Slightly larger pattern */
+    opacity: 0.35; /* Slightly less opacity to be more subtle */
+    animation: subtleShift 80s linear infinite; /* Slower animation */
+}
+
+@keyframes subtleShift {
+    0% { background-position: 0 0; }
+    100% { background-position: 280px 280px; } /* Adjust for seamless loop with background-size (70*4) */
+}
+
+/* Ensure campaign styles take precedence if needed */
+.campaign-page h1, .campaign-page h2, .campaign-page p {
+    /* Add !important if strictly necessary, but prefer specificity */
+}
+
+/* Typography for campaign - ensure font is loaded if using a new one */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap'); /* Added 900 weight */
+
+/* Thank you page specific adjustments - can be expanded */
+.thank-you-page-content {
+    /* Styles for thank you page content if different from main campaign page */
+    padding: 50px; /* Increased padding */
+    text-align: center;
+}
+.thank-you-page-content h1 {
+    color: var(--accent-blue); /* Example: Blue heading for thank you */
+    font-size: 2.5rem; /* Increased size */
+    font-weight: 700;
+}
+.thank-you-page-content p {
+    font-size: 1.15rem; /* Increased size */
+    color: #D8D8D8; /* Brighter */
+    line-height: 1.6;
+}
+/* === SOMMERKAMPAGNE SPECIFIC STYLES === */
+
+/* General Section Styling for "Air" */
+.hero-kampagne,
+.pricing-tabel,
+.testimonials-sektion,
+.faq-sektion {
+    padding: var(--section-padding);
+    opacity: 0;
+    transform: translateY(15px);
+    animation: fadeInPop var(--animation-duration) ease-out forwards;
+}
+
+.pricing-tabel { animation-delay: 0.2s; }
+.testimonials-sektion { animation-delay: 0.4s; }
+.faq-sektion { animation-delay: 0.6s; }
+
+@keyframes fadeInPop {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Hero / Kampagnesektion */
+.hero-kampagne {
+    background: var(--secondary-bg);
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* For aesthetics, not strictly layout */
+    padding-top: calc(var(--section-padding) - 20px); /* Adjust top for more space */
+    padding-bottom: calc(var(--section-padding) + 20px); /* More space at bottom */
+}
+
+.hero-kampagne .badge {
+    display: inline-block;
+    background-color: var(--accent-pink);
+    color: var(--text-color);
+    padding: 8px 18px; /* Adjusted label padding */
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 2.5rem; /* More air */
+    box-shadow: 0 2px 6px var(--glow-pink); /* Even subtler glow */
+}
+
+.hero-kampagne h1 {
+    font-size: clamp(2.1rem, 5.5vw, 3.4rem); /* Slightly larger */
+    color: var(--text-color);
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    margin-bottom: 1.8rem; /* More air */
+    line-height: 1.25; /* Clean lines */
+}
+
+.hero-kampagne .underoverskrift {
+    font-size: clamp(1rem, 2.2vw, 1.15rem); /* Refined size */
+    color: var(--text-muted);
+    max-width: 60ch; /* Good readability */
+    margin: 0 auto 3rem auto; /* More air */
+    font-weight: 400;
+    line-height: 1.75; /* More air in text */
+}
+
+.campaign-counter-container {
+    margin-top: 1.5rem; /* Reduced top margin as subtext will add space */
+    padding: 15px 25px; /* More padding */
+    background-color: rgba(0,0,0,0.25);
+    border-radius: var(--border-radius);
+    display: inline-flex;
+    flex-direction: column; /* Stack text and subtext */
+    align-items: center;
+    gap: 8px; /* Gap between main counter line and subtext */
+    border: 1px solid var(--accent-purple);
+    box-shadow: 0 0 8px var(--glow-purple);
+    position: relative;
+}
+.campaign-counter-main-line {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between dot, text, live indicator */
+}
+
+
+.pulsing-dot {
+    width: 9px; /* Slightly smaller */
+    height: 9px;
+    background-color: var(--accent-pink);
+    border-radius: 50%;
+    animation: pulseDot 1.7s infinite ease-in-out; /* Slightly slower */
+}
+
+@keyframes pulseDot {
+    0%, 100% {
+        transform: scale(0.75);
+        box-shadow: 0 0 0 0 rgba(255, 44, 212, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 5px rgba(255, 44, 212, 0);
+    }
+}
+
+.campaign-counter-container .counter-text {
+    font-size: clamp(1rem, 2.5vw, 1.25rem); /* Readable but not too large */
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.campaign-counter-container .live-indicator {
+    font-size: 0.7rem; /* Smaller, more discreet */
+    font-weight: 500; /* Lighter */
+    color: var(--text-muted);
+    text-transform: uppercase;
+    background-color: rgba(255,255,255,0.03); /* Very subtle */
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.campaign-counter-container .counter-subtext {
+    font-size: 0.75rem; /* Discreet */
+    color: var(--text-muted);
+    /* margin-top is handled by gap in flex container */
+    display: block;
+    width: 100%;
+    text-align: center;
+    line-height: 1.4;
+}
+
+
+/* Pricing-tabel */
+.pricing-tabel {
+    background-color: var(--bg-color);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.5rem; /* More air */
+}
+
+.pricing-kolonne {
+    background-color: var(--secondary-bg);
+    padding: 2.5rem 2rem; /* More padding for air */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--animation-duration) ease, box-shadow var(--animation-duration) ease;
+    opacity: 0;
+    transform: translateY(25px) scale(0.97); /* Adjusted pop-in */
+    animation: popInCard var(--animation-duration) cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Added easing */
+}
+
+.pricing-kolonne:nth-child(1) { animation-delay: 0.25s; } /* Stagger */
+.pricing-kolonne:nth-child(2) { animation-delay: 0.45s; }
+
+
+@keyframes popInCard {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.pricing-kolonne:hover {
+    transform: translateY(-8px) scale(1.03); /* Enhanced pop */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25), 0 0 18px var(--glow-purple, var(--accent-purple));
+}
+
+.pricing-kolonne h2 {
+    font-size: clamp(1.5rem, 3.8vw, 1.9rem); /* Refined size */
+    color: var(--text-color);
+    text-align: left;
+    margin-bottom: 0.4rem;
+    background: none;
+    line-height: 1.3;
+}
+.pricing-kolonne .overskrift-sub {
+    font-size: 0.95rem; /* Clearer sub-headline */
+    color: var(--text-muted);
+    margin-bottom: 1.8rem; /* More air */
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+
+.pricing-kolonne .beskrivelse {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem; /* More air */
+    flex-grow: 1;
+    max-width: none;
+    line-height: 1.65; /* More air in text */
+}
+
+.pricing-kolonne .pris {
+    font-size: clamp(1.7rem, 4.8vw, 2.3rem); /* Refined size */
+    font-weight: 700;
+    color: var(--accent-blue);
+    margin-bottom: 1.2rem;
+}
+
+.pricing-kolonne .button {
+    display: inline-block;
+    padding: 14px 28px; /* Consistent button padding */
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--animation-duration) ease;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    background: linear-gradient(95deg, var(--accent-blue) 0%, var(--accent-pink) 100%);
+    color: var(--text-color);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* Subtler base shadow */
+    margin-top: auto;
+    background-size: 250% 100%; /* Larger size for smoother gradient move */
+    background-position: 0% 50%;
+}
+
+.pricing-kolonne .button:hover,
+.pricing-kolonne .button:focus {
+    transform: translateY(-3px) scale(1.02); /* Subtle lift and scale */
+    box-shadow: 0 5px 18px var(--glow-pink);
+    background-position: 100% 50%;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.pricing-kolonne.autopilot .button {
+   background: linear-gradient(95deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+}
+.pricing-kolonne.autopilot .button:hover,
+.pricing-kolonne.autopilot .button:focus {
+    box-shadow: 0 5px 18px var(--glow-purple);
+}
+
+
+.trial-info {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 1.2rem; /* More air */
+    margin-bottom: 1.8rem;
+    line-height: 1.5;
+}
+
+.includes-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1.2rem;
+}
+
+.includes-list li {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.7rem; /* Slightly more air */
+    padding-left: 24px;
+    position: relative;
+    line-height: 1.55; /* More air in list items */
+}
+
+.includes-list li::before {
+    content: '✓';
+    color: var(--accent-blue);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
+.pricing-kolonne.autopilot {
+    border: 2px solid var(--accent-pink);
+    position: relative;
+    box-shadow: 0 5px 18px var(--glow-pink);
+}
+
+.best-deal-label {
+    position: absolute;
+    top: -16px; /* Adjusted for padding */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-pink);
+    color: var(--text-color);
+    padding: 7px 16px; /* Consistent label padding */
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    z-index: 1;
+}
+
+/* Testimonials Section */
+.testimonials-sektion {
+    background-color: var(--secondary-bg);
+    text-align: center;
+    padding-bottom: calc(var(--section-padding) + 20px); /* More space at bottom */
+}
+
+.testimonials-sektion h2 {
+    font-size: clamp(1.7rem, 4.2vw, 2.3rem); /* Refined size */
+    color: var(--text-color);
+    margin-bottom: 3.5rem; /* More air */
+}
+
+.testimonial-band {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem; /* More air */
+    max-width: 860px; /* Adjusted width */
+    margin: 0 auto;
+}
+
+.testimonial {
+    background-color: var(--bg-color);
+    padding: 2rem 1.8rem; /* More padding */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.2rem; /* Adjusted gap */
+    box-shadow: var(--card-shadow);
+    transition: transform var(--animation-duration) ease, box-shadow var(--animation-duration) ease;
+}
+.testimonial:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.testimonial-logo {
+    flex-shrink: 0;
+}
+.testimonial-logo span {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.95rem; /* Slightly larger */
+}
+.testimonial-logo img {
+    max-height: 45px;
+    width: auto;
+    opacity: 0.85; /* Slightly more visible */
+}
+
+
+.testimonial-quote p {
+    font-size: 1.05rem; /* Elegant and readable */
+    color: var(--text-muted);
+    line-height: 1.65; /* More air */
+    margin-bottom: 0;
+    max-width: 55ch; /* Good readability for quotes */
+}
+.testimonial-quote strong {
+    color: var(--accent-blue);
+    font-weight: 600; /* Semibold is often good for highlights */
+}
+
+
+/* FAQ Sektion */
+.faq-sektion {
+    background-color: var(--bg-color);
+}
+
+.faq-sektion h2 {
+    text-align: center;
+    margin-bottom: 2.5rem; /* More air */
+    color: var(--text-color);
+    font-size: clamp(1.7rem, 4.2vw, 2.3rem);
+}
+
+.faq-item {
+    background-color: var(--secondary-bg);
+    margin-bottom: 0.8rem; /* Slightly more air */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: background-color 0.2s ease;
+}
+.faq-item:hover {
+    background-color: rgba(255,255,255,0.02); /* Very subtle hover for item */
+}
+
+.faq-item summary {
+    padding: 1.1rem 1.35rem; /* Adjusted padding for elegance */
+    font-weight: 500;
+    font-size: 0.9rem; /* Smaller for elegance */
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.15s ease; /* Faster summary hover */
+}
+
+.faq-item summary:hover {
+    background-color: rgba(255,255,255,0.04);
+}
+
+.faq-item summary::after {
+    content: '+';
+    font-size: 1.2rem; /* Refined icon size */
+    color: var(--accent-blue);
+    transition: transform 0.25s ease;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+.faq-item[open] summary {
+    background-color: rgba(255,255,255,0.02); /* Slight bg change when open */
+}
+
+.faq-item p {
+    padding: 0.2rem 1.35rem 1.1rem 1.35rem; /* Adjusted padding, less top */
+    font-size: 0.83rem; /* Smaller for elegance */
+    color: var(--text-muted);
+    max-width: none;
+    margin-bottom: 0;
+    line-height: 1.65; /* More air */
+}
+
+
+/* Responsiveness */
+@media (min-width: 768px) { /* Tablet and up */
+    .hero-kampagne,
+    .pricing-tabel,
+    .testimonials-sektion,
+    .faq-sektion {
+        padding-left: 50px; /* More air on sides */
+        padding-right: 50px;
+    }
+
+    .pricing-tabel {
+        grid-template-columns: 1fr 1fr;
+        max-width: 1024px; /* Wider for more air */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .testimonial {
+        flex-direction: row;
+        text-align: left;
+        align-items: flex-start;
+        gap: 2rem; /* More air */
+        padding: 2.2rem 2rem; /* More padding */
+    }
+    .testimonial-logo {
+        margin-top: 3px;
+    }
+
+    .faq-sektion {
+        max-width: 760px; /* Wider for more air */
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 992px) { /* Larger desktops */
+    .hero-kampagne h1 {
+        font-size: 3.6rem;
+    }
+    .hero-kampagne .underoverskrift {
+        font-size: 1.25rem; /* Refined */
+    }
+    .campaign-counter-container .counter-text {
+        font-size: 1.35rem; /* Refined */
+    }
+    .pricing-tabel {
+        gap: 4rem; /* More air */
+    }
+    .pricing-kolonne {
+        padding: 3rem 2.2rem; /* More padding */
+    }
+    .testimonial-band {
+        gap: 3.5rem; /* More air */
+    }
+}
+
+/* Mobile Specific Optimizations */
+@media (max-width: 767px) {
+    .hero-kampagne,
+    .pricing-tabel,
+    .testimonials-sektion,
+    .faq-sektion {
+        padding-left: 15px; /* Tighter padding on mobile */
+        padding-right: 15px;
+    }
+    .hero-kampagne {
+        padding-top: calc(var(--section-padding) - 30px);
+        padding-bottom: calc(var(--section-padding) + 10px);
+    }
+    .hero-kampagne h1 {
+        font-size: clamp(1.8rem, 6vw, 2.5rem); /* Adjusted for mobile */
+        line-height: 1.2;
+    }
+    .hero-kampagne .underoverskrift {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .campaign-counter-container {
+        padding: 12px 18px;
+    }
+    .campaign-counter-container .counter-text {
+        font-size: 0.95rem;
+    }
+    .campaign-counter-container .live-indicator {
+        font-size: 0.65rem;
+        padding: 2px 4px;
+    }
+     .campaign-counter-container .counter-subtext {
+        font-size: 0.7rem;
+    }
+
+    .pricing-tabel {
+        gap: 2.5rem; /* Less gap on mobile */
+    }
+    .pricing-kolonne {
+        padding: 2rem 1.5rem; /* Less padding on mobile */
+    }
+    .pricing-kolonne .button {
+        padding: 12px 24px; /* Ensure thumb reach */
+        width: 100%; /* Full width for easier tap */
+        max-width: 300px; /* Max width for aesthetics */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .trial-info {
+        font-size: 0.75rem;
+    }
+    .includes-list li {
+        font-size: 0.8rem;
+    }
+
+    .testimonial-band {
+        gap: 2rem;
+    }
+    .testimonial {
+        padding: 1.5rem 1.2rem;
+    }
+    .testimonial-quote p {
+        font-size: 0.95rem;
+    }
+
+    .faq-sektion h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        margin-bottom: 2rem;
+    }
+    .faq-item summary {
+        padding: 0.9rem 1.1rem;
+        font-size: 0.85rem;
+    }
+    .faq-item p {
+        padding: 0.2rem 1.1rem 0.9rem 1.1rem;
+        font-size: 0.8rem;
+    }
+}
+
+
+/* Ensure button class from HTML is styled if it's not .btn */
+.button {
+    display: inline-block;
+    padding: var(--button-padding);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--animation-duration) ease;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Ensure pricing buttons use existing .btn-primary or similar if desired */
+/* .pricing-kolonne .btn-primary { ... } */
