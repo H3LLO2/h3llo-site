@@ -3305,6 +3305,26 @@ body {
 .article-body-content .h3llo-cta-block a {
     /* Her kan du style links i CTA-blokken som knapper, f.eks. ved at genbruge .btn klasser */
     /* Eksempel: display: inline-block; padding: 10px 20px; background-color: var(--accent-pink); color: white; ... */
+}/* I style.css, inde i .article-body-content sektionen */
+.article-body-content .h3llo-cta-block .article-cta-buttons {
+    margin-top: 20px; /* Afstand fra tekst til knapper */
+    display: flex;
+    flex-direction: column; /* Knapper under hinanden på små skærme som udgangspunkt */
+    align-items: center; /* Centrerer knapperne i kolonnen */
+    gap: 15px; /* Afstand mellem knapper hvis de wrapper */
+}
+
+.article-body-content .h3llo-cta-block .article-cta-buttons .btn {
+    min-width: 220px; /* Giver knapperne en fornuftig minimumsbredde */
+    text-decoration: none; /* Fjerner standard understregning på links stylet som knapper */
+}
+
+/* Hvis du vil have knapperne ved siden af hinanden på større skærme: */
+@media (min-width: 500px) { /* Eller et andet breakpoint du foretrækker */
+    .article-body-content .h3llo-cta-block .article-cta-buttons {
+        flex-direction: row; /* Knapper ved siden af hinanden */
+        justify-content: center; /* Centrerer knapperne på rækken */
+    }
 }
 
 
