@@ -1,12 +1,11 @@
-# Allow all web crawlers access to all content
 User-agent: *
 Allow: /
 
-# Disallow campaign-specific pages
-Disallow: /sommer-kampagne-preview-xyz789.html
-Disallow: /thank-you-h3llo.html
-Disallow: /thank-you-h3llo-bundle.html
-Disallow: /thank-you-h3llo-startklar.html
+# Disallow campaign-specific pages (hvis de stadig eksisterer eller planlægges)
+# Disallow: /sommer-kampagne-preview-xyz789.html 
+# Disallow: /thank-you-h3llo.html
+# Disallow: /thank-you-h3llo-bundle.html
+# Disallow: /thank-you-h3llo-startklar.html
 
-# Sitemap (add URL once generated)
-# Sitemap: https://your-domain.com/sitemap.xml
+# Sitemap
+Sitemap: https://www.h3llo.dk/sitemap.xml
