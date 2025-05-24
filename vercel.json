@@ -4,6 +4,10 @@
     {
       "source": "/artikler/:slug",
       "destination": "/api/artikler/:slug"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
     }
   ]
 }
