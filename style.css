@@ -3169,3 +3169,191 @@ body.campaign-body::before {
 
 /* Ensure pricing buttons use existing .btn-primary or similar if desired */
 /* .pricing-kolonne .btn-primary { ... } */
+/* === ARTIKEL SPECIFIK STYLING (tilføj til style.css) === */
+
+/* Sikrer body padding-top hvis sticky nav er aktiv */
+body {
+    /* Hvis din sticky nav altid er synlig og har en fast højde, f.eks. 70px */
+    /* padding-top: 70px; */ 
+    /* Du har allerede padding-top: 70px; og 60px for mobil i din style.css, så dette er måske OK. */
+    /* Bare sørg for at indholdet ikke skjules bag nav'en. */
+}
+
+.article-body-content {
+    max-width: 800px; 
+    margin: 40px auto; 
+    padding: 25px; /* Lidt mere padding indeni boksen */    
+    color: var(--text-muted); /* Standard tekstfarve for artikel brødtekst */
+    background-color: var(--secondary-bg); /* Mørk baggrund for artikel containeren */
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    text-align: left; /* Standard justering for indholdet */
+}
+
+.article-body-content h1 {
+    font-size: clamp(2.0rem, 4.5vw, 2.6rem); /* Juster efter din smag */
+    color: var(--text-color); /* Lys overskrift */
+    margin-top: 0; /* Ingen top margin hvis det er første element */
+    margin-bottom: 1.25rem;
+    line-height: 1.25;
+    text-align: left; /* Hovedoverskrift til venstre */
+    padding-bottom: 0.5rem;
+    /* border-bottom: 1px solid var(--border-color); /* Valgfri linje under H1 */
+}
+
+.article-body-content .featured-article-image {
+    width: 100%;
+    max-width: 100%; 
+    height: auto;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    border-radius: calc(var(--border-radius) - 5px); /* Lidt mindre end container for pæn effekt */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.article-body-content .article-meta { 
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-align: center; /* Centrer "Målgruppe" info */
+    margin-top: -1.5rem; 
+    margin-bottom: 2.5rem;
+    font-style: italic;
+}
+
+.article-body-content .intro-text p {
+    font-size: 1.1em; 
+    line-height: 1.75;
+    color: var(--text-color); 
+    margin-bottom: 1.5rem; 
+}
+.article-body-content .intro-text {
+    margin-bottom: 2.5rem; 
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed var(--border-color); /* Adskil intro fra resten */
+}
+
+.article-body-content .article-section h2 { 
+    font-size: clamp(1.5rem, 3.8vw, 2.0rem); 
+    color: var(--text-color);
+    margin-top: 2.5rem; 
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color); 
+    text-align: left;
+}
+
+.article-body-content .article-section h3 { 
+    font-size: clamp(1.25rem, 3vw, 1.6rem); 
+    color: var(--accent-blue);
+    margin-top: 1.8rem; 
+    margin-bottom: 0.75rem;
+    text-align: left;
+}
+
+.article-body-content .article-section p { 
+    line-height: 1.8; 
+    margin-bottom: 1.25rem;
+    text-align: left;
+    color: var(--text-muted);
+}
+.article-body-content .article-section p a { /* Styling af links i brødtekst */
+    color: var(--accent-pink);
+    text-decoration: underline;
+}
+.article-body-content .article-section p a:hover {
+    color: var(--accent-blue);
+    text-decoration: none;
+}
+
+
+/* Konklusion sektion */
+.article-body-content .conclusion-text h2 { /* Samme som alm. H2 i artikel */
+    font-size: clamp(1.5rem, 3.8vw, 2.0rem); 
+    color: var(--text-color);
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    text-align: left;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.article-body-content .conclusion-text p {
+    font-size: 1.05em;
+    line-height: 1.75;
+    color: var(--text-muted); 
+    margin-bottom: 1.5rem;
+}
+
+/* CTA Blok */
+.article-body-content .h3llo-cta-block {
+    background-color: var(--bg-color); 
+    border: 1px solid var(--accent-purple);
+    padding: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 15px rgba(156, 39, 176, 0.2); /* Subtil glow */
+}
+.article-body-content .h3llo-cta-block p {
+     color: var(--text-color);
+     text-align: center;
+     margin-bottom: 0;
+     font-size: 1.1em;
+     line-height: 1.7;
+}
+/* Gør specifikt links i CTA-blokken til knapper, hvis du ønsker det */
+.article-body-content .h3llo-cta-block a {
+    /* Her kan du style links i CTA-blokken som knapper, f.eks. ved at genbruge .btn klasser */
+    /* Eksempel: display: inline-block; padding: 10px 20px; background-color: var(--accent-pink); color: white; ... */
+}
+
+
+/* Interne Links Navigation */
+.article-body-content nav.internal-links {
+    margin-top: 40px;
+    padding: 25px;
+    background-color: var(--bg-color); 
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+.article-body-content nav.internal-links h3 {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    color: var(--text-color);
+    font-size: 1.3rem; 
+    text-align: left;
+}
+.article-body-content nav.internal-links ul {
+    list-style: none;
+    padding-left: 0;
+    text-align: left;
+}
+.article-body-content nav.internal-links ul li {
+    margin-bottom: 0.75rem;
+}
+.article-body-content nav.internal-links ul li a {
+    color: var(--accent-pink);
+    text-decoration: none;
+    font-weight: 500;
+}
+.article-body-content nav.internal-links ul li a:hover {
+    color: var(--accent-blue);
+    text-decoration: underline;
+}
+
+/* Justering for mobil */
+@media (max-width: 767px) {
+    .article-body-content {
+        padding: 15px;
+        margin: 20px auto;
+    }
+    .article-body-content h1 {
+        font-size: clamp(1.6rem, 6vw, 2.2rem);
+    }
+    .article-body-content .article-section h2 {
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
+    }
+    .article-body-content .article-section h3 {
+        font-size: clamp(1.1rem, 4vw, 1.5rem);
+    }
+}
