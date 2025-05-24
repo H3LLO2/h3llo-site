@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-:start_line:6
--------
     <title>H3LLO - Artikler og Insights</title>
     <link rel="stylesheet" href="style.css">
     <!-- Favicons from index.html -->
@@ -57,52 +55,67 @@
     </footer>
 
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+    document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        async function fetchArticles() {
-            const articlesContainer = document.getElementById('articlesContainer');
-            const loadingText = articlesContainer.querySelector('.loading-text');
-            try {
-                const response = await fetch('/api/articles');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const responseData = await response.json();
-                console.log("Data received from API:", responseData);
+    async function fetchArticles() {
+        const articlesContainer = document.getElementById('articlesContainer');
+        const loadingText = articlesContainer.querySelector('.loading-text');
+        
+        try {
+            // Henter første side med op til 100 artikler (juster limit efter behov)
+            const response = await fetch('/api/articles?page=1&limit=100'); 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const responseData = await response.json();
+            console.log("Data received from API:", responseData);
 
-               const articlesToDisplay = responseData.data;
+           const articlesToDisplay = responseData.data; // API'en returnerer data i et 'data' array
 
-               if (loadingText) {
-                   loadingText.remove();
-               }
+           if (loadingText) {
+               loadingText.remove();
+           }
 
-               if (!articlesToDisplay || articlesToDisplay.length === 0) {
-                   articlesContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted);">No articles found.</p>';
-                   return;
-               }
+           if (!articlesToDisplay || articlesToDisplay.length === 0) {
+               articlesContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted);">Ingen artikler fundet.</p>';
+               return;
+           }
 
-               let articlesHTML = '';
-               articlesToDisplay.forEach(article => {
-                    // Using a structure similar to .step cards from style.css
+           let articlesHTML = '';
+           articlesToDisplay.forEach(article => {
+                // Valider at article.slug eksisterer og ikke er null/undefined
+                if (article.slug && article.status === 'published') { // Tjek også om artiklen er published
+                    // Opretter den korrekte URL til den statiske artikel
+                    const articleUrl = `/artikler/${article.slug.startsWith('/') ? article.slug.substring(1) : article.slug}`;
+                    
                     articlesHTML += `
-                        <article class="step" style="text-align: left;">
-                            <h3><a href="article-view.html?slug=${article.slug}" style="color: var(--accent-blue);">${article.seoTitle || article.title}</a></h3>
-                            ${article.metaDescription ? `<p style="color: var(--text-muted);">${article.metaDescription}</p>` : ''}
-                            <a href="article-view.html?slug=${article.slug}" class="btn btn-secondary" style="margin-top: 1rem;">Read More</a>
+                        <article class="step" style="text-align: left; background-color: var(--bg-color); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--card-shadow);">
+                            <h3 style="margin-bottom: 0.75rem;">
+                                <a href="${articleUrl}" style="color: var(--accent-blue); text-decoration: none; font-size: 1.4rem;">
+                                    ${article.seoTitle || article.title}
+                                </a>
+                            </h3>
+                            ${article.metaDescription ? `<p style="color: var(--text-muted); margin-bottom: 1.25rem; font-size: 0.95rem;">${article.metaDescription}</p>` : ''}
+                            <a href="${articleUrl}" class="btn btn-secondary" style="margin-top: 1rem; text-decoration: none;">Læs artikel</a>
                         </article>
                     `;
-                });
-                articlesContainer.innerHTML = articlesHTML;
-            } catch (error) {
-                console.error('Error fetching articles:', error);
-                 if (loadingText) {
-                    loadingText.remove();
                 }
-                articlesContainer.innerHTML = '<p style="text-align:center; color: var(--accent-pink);">Could not load articles. Please try again later.</p>';
-            }
-        }
+            });
+            articlesContainer.innerHTML = articlesHTML;
 
-        fetchArticles();
+            // Her kan du senere tilføje logik til pagineringsknapper, hvis du ønsker det,
+            // baseret på responseData.pagination (totalPages, totalItems etc.)
+
+        } catch (error) {
+            console.error('Error fetching articles:', error);
+             if (loadingText) {
+                loadingText.remove();
+            }
+            articlesContainer.innerHTML = '<p style="text-align:center; color: var(--accent-pink);">Kunne ikke indlæse artikler. Prøv venligst igen senere.</p>';
+        }
+    }
+
+    fetchArticles();
     </script>
 </body>
 </html>
