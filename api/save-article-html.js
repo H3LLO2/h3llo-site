@@ -11,34 +11,55 @@ export default async function handler(request, response) {
   }
 
   try {
-    // Ensure the body is parsed as JSON
-    let body;
-    if (typeof request.body === 'string') {
-      try {
-        body = JSON.parse(request.body);
-      } catch (parseError) {
-        console.error('[save-article-html] Error parsing request body as JSON:', parseError);
-        return response.status(400).json({ message: 'Invalid JSON in request body.' });
+      let body;
+
+      // Log den rå request.body for at se, hvad der ankommer
+      console.log('[save-article-html] Raw request.body type:', typeof request.body);
+      console.log('[save-article-html] Raw request.body content:', request.body);
+
+      if (request.body) {
+        if (typeof request.body === 'object' && request.body !== null && Object.keys(request.body).length > 0) {
+          // Hvis Vercel allerede har parset det til et ikke-tomt objekt
+          body = request.body;
+          console.log('[save-article-html] Used request.body directly as object.');
+        } else if (typeof request.body === 'string' && request.body.trim() !== "") {
+          // Hvis det er en ikke-tom streng, prøv at parse
+          try {
+            body = JSON.parse(request.body);
+            console.log('[save-article-html] Parsed request.body from string to object.');
+          } catch (e) {
+            console.error('[save-article-html] Failed to parse request.body string as JSON:', e, 'Request body string was:', request.body);
+            return response.status(400).json({ message: 'Invalid JSON format in request body string.' });
+          }
+        } else {
+          // Hvis request.body er et tomt objekt, en tom streng, eller en uventet type
+          console.error('[save-article-html] request.body is present but empty or of unexpected type. Type:', typeof request.body, 'Content:', request.body);
+          return response.status(400).json({ message: 'Request body is present but empty or not in expected format.' });
+        }
+      } else { 
+         // Hvis request.body er null eller undefined
+         console.error('[save-article-html] Request body is missing (null or undefined).');
+         return response.status(400).json({ message: 'Request body is missing.' });
       }
-    } else {
-      body = request.body; // Assume it's already an object (common in Vercel)
-    }
 
-    const { slug, htmlContent } = body;
+      // Nu bør 'body' være et gyldigt JavaScript-objekt
+      // Hvis 'body' stadig er undefined her, eller ikke et objekt, er der et fundamentalt problem
+      if (!body || typeof body !== 'object') {
+        console.error('[save-article-html] Critical error: body variable is not a valid object after parsing attempts. Body:', body);
+        return response.status(500).json({ message: 'Internal server error: Failed to process request body.' });
+      }
+      
+      const { slug, htmlContent } = body; 
 
-    // Log received slug and a snippet of HTML content for verification
-    console.log(`[save-article-html] Received slug: ${slug}`);
-    console.log(`[save-article-html] Received htmlContent (first 100 chars): ${htmlContent ? htmlContent.substring(0, 100) : 'No htmlContent received'}`);
-
-    // Validate required parameters
-    if (!slug || typeof slug !== 'string' || slug.trim() === "") {
-      console.log('[save-article-html] Missing or invalid slug parameter.');
-      return response.status(400).json({ message: 'Missing or invalid "slug" parameter. It must be a non-empty string.' });
-    }
-    if (!htmlContent || typeof htmlContent !== 'string') {
-      console.log('[save-article-html] Missing or invalid htmlContent parameter.');
-      return response.status(400).json({ message: 'Missing or invalid "htmlContent" parameter. It must be a string.' });
-    }
+      // Validering af slug og htmlContent (som du havde før)
+      if (!slug || typeof slug !== 'string' || slug.trim() === "") {
+        console.log('[save-article-html] Missing or invalid slug after destructuring.');
+        return response.status(400).json({ message: 'Missing or invalid "slug" in parsed body.' });
+      }
+      if (!htmlContent || typeof htmlContent !== 'string') {
+        console.log('[save-article-html] Missing or invalid htmlContent after destructuring.');
+        return response.status(400).json({ message: 'Missing or invalid "htmlContent" in parsed body.' });
+      }
 
     const kvKey = `html:${slug}`; // Using the 'slug_for_kv' which is already cleaned
     console.log(`[save-article-html] Attempting to save HTML to KV with key: ${kvKey}`);
