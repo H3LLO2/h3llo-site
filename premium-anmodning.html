@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PJ78H95G');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anmod om H3LLO Premium</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/For%20Web/Favicons/browser.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/For%20Web/Favicons/iPhone.png">
+    <style>
+        body {
+            background-color: #111111; /* Match card background */
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 80px; /* Space for sticky nav */
+        }
+        .form-container {
+            background-color: var(--secondary-bg, #1A1A1A);
+            padding: 2rem;
+            border-radius: var(--border-radius, 8px);
+            box-shadow: var(--card-shadow, 0 4px 15px rgba(0,0,0,0.2));
+            width: 100%;
+            max-width: 500px;
+            margin-top: 2rem;
+        }
+        .form-container h1 {
+            text-align: center;
+            color: var(--text-color); /* Ensure heading is visible */
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: var(--border-radius, 6px);
+            border: 1px solid var(--border-color, #333);
+            background-color: var(--bg-color, #0D0D0D);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-size: 1rem;
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .submit-btn { /* Using a more specific class than just .button to avoid conflicts */
+            display: block;
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--border-radius, 8px);
+            background: linear-gradient(to right, #fde047, #f472b6); /* from-yellow-300 to-pink-500 */
+            color: black;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+        .confirmation-message {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(0, 207, 255, 0.1); /* Light blue success bg */
+            color: var(--accent-blue, #00CFFF);
+            border: 1px solid var(--accent-blue, #00CFFF);
+            border-radius: var(--border-radius, 8px);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJ78H95G"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sticky-nav" role="navigation" aria-label="Hovednavigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-link">
+                <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo" class="nav-logo">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+            <ul id="nav-menu">
+                <li><a href="index.html#hvordan-det-virker">Sådan virker det</a></li>
+                <li><a href="kampagnepris.html">Kampagnepris</a></li>
+                <li><a href="articles.html">Artikler</a></li>
+                <li><a href="demo.html">Prøv Demo</a></li>
+                <li><a href="index.html#kunder">Kunder</a></li>
+                <li><a href="index.html#kontakt">Kontakt</a></li>
+                <li><a href="checkout.html" class="nav-demo-btn">Start gratis nu</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h1>Anmod om adgang til H3LLO Premium</h1>
+        <form id="premium-request-form">
+            <div class="form-group">
+                <label for="name">Navn</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Besked</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send anmodning</button>
+        </form>
+        <div id="confirmation-message" class="confirmation-message" style="display: none;">
+            Tak for din anmodning! Vi vender tilbage hurtigst muligt.
+        </div>
+    </div>
+
+    <script>
+        // Sticky nav script
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('nav-ul-active');
+                const isExpanded = navMenu.classList.contains('nav-ul-active');
+                navToggle.setAttribute('aria-expanded', isExpanded);
+            });
+        }
+
+        // Form handling script
+        const form = document.getElementById('premium-request-form');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const submitButton = form.querySelector('.submit-btn');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('name');
+            const messageInput = document.getElementById('message');
+
+            if (nameInput.value.trim() === '' || messageInput.value.trim() === '') {
+                alert('Udfyld venligst både navn og besked.');
+                return;
+            }
+
+            // Hide form and button, show confirmation
+            // In a real scenario, you'd send data to a server here.
+            form.style.display = 'none';
+            confirmationMessage.style.display = 'block';
+            // Optional: scroll to confirmation
+            confirmationMessage.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
