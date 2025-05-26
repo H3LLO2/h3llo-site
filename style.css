@@ -3377,3 +3377,89 @@ body {
         font-size: clamp(1.1rem, 4vw, 1.5rem);
     }
 }
+/* === Product Demo Video Section === */
+.product-demo-video-section {
+    padding: 0.5rem 0 2rem 0; /* Reduced top padding, kept bottom */
+    /* background-color: #f9f9f9; /* Optional: a light background to differentiate the section */
+}
+
+.product-demo-video-section .container {
+    max-width: 900px; /* Or your standard container width, adjust as needed */
+}
+
+.product-demo-video-section h2 { /* Styling for the "Se H3LLO i Aktion" heading */
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem; /* Adjust as needed */
+    color: var(--text-color); /* Assuming you have a --text-color variable */
+}
+
+.video-wrapper {
+    position: relative;
+    margin-bottom: 1rem; /* Space below video before any potential CTA */
+    background-color: #000; /* Black background for the video wrapper itself */
+    border-radius: 8px; /* Optional: rounded corners for the video area */
+    overflow: hidden; /* Ensures video corners also appear rounded if border-radius is used */
+}
+
+.product-video { /* Common styles for both videos */
+    width: 100%;
+    height: auto;
+    display: block; /* Removes extra space below video */
+    border-radius: 8px; /* Match wrapper if using */
+}
+
+/* Initially hide mobile video, show desktop */
+.mobile-video {
+    display: none;
+}
+.desktop-video {
+    display: block;
+}
+
+/* Media Query for mobile devices */
+@media (max-width: 768px) { /* Adjust 768px breakpoint as needed */
+    .desktop-video {
+        display: none; /* Hide desktop video on smaller screens */
+    }
+    .mobile-video {
+        display: block; /* Show mobile video on smaller screens */
+    }
+    .product-demo-video-section h2 {
+        font-size: 1.6rem; /* Slightly smaller heading on mobile */
+    }
+    .unmute-button { /* Example: slightly smaller button on mobile */
+        width: 40px;
+        height: 40px;
+        bottom: 75px; /* Moved up further */
+        right: 15px;
+    }
+}
+
+.unmute-button {
+    position: absolute;
+    bottom: 80px; /* Moved up further */
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 0;
+    transition: background-color 0.3s ease;
+}
+
+.unmute-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.unmute-button img {
+    width: 55%; /* Adjust icon size */
+    height: 55%;
+    filter: invert(1); /* Assuming icons are black, this makes them white */
+}

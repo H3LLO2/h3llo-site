@@ -130,9 +130,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </p>
         </div>
     </header>
-    <!-- === HEADER / HERO SECTION END === -->
-
     <main role="main">
+<!-- === PRODUCT DEMO VIDEO SECTION START === -->
+        <section class="product-demo-video-section fade-in" role="region" aria-labelledby="product-demo-video-heading">
+            <div class="container">
+                <h2 id="product-demo-video-heading" style="text-align: center; margin-bottom: 1.5rem;">Se H3LLO i Aktion</h2>
+                <div class="video-wrapper" style="position: relative; margin-bottom: 2rem;">
+                    <!-- Desktop Video -->
+                    <video id="desktopProductVideo" class="product-video desktop-video" controls autoplay muted loop playsinline style="width: 100%; height: auto; display: block;">
+                        <source src="videos/Hero_video_horizontal.mp4" type="video/mp4">
+                        <track src="videos/Hero_video_horizontal.vtt" kind="subtitles" srclang="da" label="Dansk" default>
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <!-- Mobile Video -->
+                    <video id="mobileProductVideo" class="product-video mobile-video" controls autoplay muted loop playsinline style="width: 100%; height: auto; display: none;">
+                        <source src="videos/Hero_video_vertical.mp4" type="video/mp4">
+                        <track src="videos/Hero_video_vertical.vtt" kind="subtitles" srclang="da" label="Dansk" default>
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <button id="unmuteButton" class="unmute-button" aria-label="Slå lyd til" style="position: absolute; bottom: 20px; right: 20px; background-color: rgba(0, 0, 0, 0.5); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; padding: 0;">
+                        <img src="images/icons/sound-off-icon.png" alt="Lyd slået fra" id="soundIcon" style="width: 60%; height: 60%;">
+                        <!-- REMINDER: Create sound-on-icon.svg and sound-off-icon.svg in images/icons/ -->
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- === PRODUCT DEMO VIDEO SECTION END === -->
 
         <!-- === HOW IT WORKS SECTION START === -->
         <section id="hvordan-det-virker" class="how-it-works fade-in" role="region" aria-labelledby="how-it-works-heading">
@@ -617,6 +642,71 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             // Make the placeholder focusable
             videoPlaceholder.setAttribute('tabindex', '0');
         }
+    </script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const desktopVideo = document.getElementById('desktopProductVideo');
+        const mobileVideo = document.getElementById('mobileProductVideo');
+        const unmuteButton = document.getElementById('unmuteButton');
+        const soundIcon = document.getElementById('soundIcon');
+
+        // Define paths to your sound icons - REMEMBER to create these files!
+        const soundOffIconSrc = 'images/icons/sound-off-icon.png'; // e.g., path/to/sound-off.png
+        const soundOnIconSrc = 'images/icons/sound-on-icon.png';   // e.g., path/to/sound-on.png
+
+        function getVisibleVideo() {
+            // Check which video is currently displayed based on CSS
+            // Ensure elements exist before checking their style
+            if (desktopVideo && window.getComputedStyle(desktopVideo).display !== 'none') {
+                return desktopVideo;
+            } else if (mobileVideo && window.getComputedStyle(mobileVideo).display !== 'none') {
+                return mobileVideo;
+            }
+            return null; // Should not happen if CSS is set up correctly and elements exist
+        }
+
+        if (unmuteButton) {
+            unmuteButton.addEventListener('click', () => {
+                const currentVideo = getVisibleVideo();
+                if (!currentVideo) return;
+
+                if (currentVideo.muted) {
+                    currentVideo.muted = false;
+                    if (soundIcon) soundIcon.src = soundOnIconSrc;
+                    if (soundIcon) soundIcon.alt = "Lyd slået til";
+                    unmuteButton.setAttribute('aria-label', "Slå lyd fra");
+                } else {
+                    currentVideo.muted = true;
+                    if (soundIcon) soundIcon.src = soundOffIconSrc;
+                    if (soundIcon) soundIcon.alt = "Lyd slået fra";
+                    unmuteButton.setAttribute('aria-label', "Slå lyd til");
+                }
+            });
+        }
+
+        // Ensure videos are actually muted on load if autoplaying
+        if (desktopVideo && desktopVideo.hasAttribute('autoplay')) {
+            desktopVideo.muted = true;
+        }
+        if (mobileVideo && mobileVideo.hasAttribute('autoplay')) {
+            mobileVideo.muted = true;
+        }
+
+        // Set initial icon state based on the (likely desktop) video's muted status
+        // Needs to run after a slight delay or when videos are ready, as muted state might not be immediately set
+        setTimeout(() => {
+            const initialVideo = getVisibleVideo();
+            if (initialVideo && soundIcon) {
+                 if (initialVideo.muted) {
+                    soundIcon.src = soundOffIconSrc;
+                    soundIcon.alt = "Lyd slået fra";
+                } else {
+                    soundIcon.src = soundOnIconSrc;
+                    soundIcon.alt = "Lyd slået til";
+                }
+            }
+        }, 100); // Small delay to ensure video properties are settled
+    });
     </script>
 
 </body>
