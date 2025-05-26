@@ -58,6 +58,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
 </head>
 <body>
+<nav class="sticky-nav" role="navigation" aria-label="Hovednavigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-link">
+                <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo" class="nav-logo">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+            <ul id="nav-menu">
+                <li><a href="index.html#hvordan-det-virker">Sådan virker det</a></li>
+                <li><a href="kampagnepris.html">Kampagnepris</a></li>
+                <li><a href="articles.html">Artikler</a></li>
+                <li><a href="demo.html">Prøv Demo</a></li>
+                <li><a href="index.html#kunder">Kunder</a></li>
+                <li><a href="index.html#kontakt">Kontakt</a></li>
+                <li><a href="checkout.html" class="nav-demo-btn">Start gratis nu</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <script>
+        // Mobile navigation toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('nav-ul-active');
+                const isExpanded = navMenu.classList.contains('nav-ul-active');
+                navToggle.setAttribute('aria-expanded', isExpanded);
+            });
+        }
+    </script>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJ78H95G"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

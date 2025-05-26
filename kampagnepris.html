@@ -23,9 +23,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a href="index.html" class="nav-logo-link">
                 <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo - Tilbage til forsiden" class="nav-logo">
             </a>
-            <!-- Menu items and toggle button are intentionally omitted for this page -->
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+            <ul id="nav-menu">
+                <li><a href="index.html#hvordan-det-virker">Sådan virker det</a></li>
+                <li><a href="kampagnepris.html">Kampagnepris</a></li>
+                <li><a href="articles.html">Artikler</a></li>
+                <li><a href="demo.html">Prøv Demo</a></li>
+                <li><a href="index.html#kunder">Kunder</a></li>
+                <li><a href="index.html#kontakt">Kontakt</a></li>
+                <li><a href="checkout.html" class="nav-demo-btn">Start gratis nu</a></li>
+            </ul>
         </div>
     </nav>
+
+    <script>
+        // Mobile navigation toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('nav-ul-active');
+                const isExpanded = navMenu.classList.contains('nav-ul-active');
+                navToggle.setAttribute('aria-expanded', isExpanded);
+            });
+        }
+    </script>
 
     <main>
         <!-- 1. Hero / Kampagnesektion -->
@@ -134,45 +159,77 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const counterSubtextElement = campaignCounterElement ? campaignCounterElement.querySelector('.counter-subtext') : null;
 
         async function fetchAndUpdateCounter() {
-            if (!campaignCounterElement || !counterTextElement) {
-                console.error('Counter elements not found.');
-                if (counterSubtextElement) counterSubtextElement.textContent = 'Fejl: Kunne ikke initialisere tæller.';
+            // Log element finding status
+            console.log('Attempting to find counter elements...');
+            console.log('campaignCounterElement:', campaignCounterElement);
+            console.log('counterTextElement:', counterTextElement);
+            console.log('liveIndicatorElement:', liveIndicatorElement);
+            console.log('counterSubtextElement:', counterSubtextElement);
+
+            if (!campaignCounterElement || !counterTextElement || !liveIndicatorElement || !counterSubtextElement) {
+                console.error('One or more counter elements were not found. Aborting counter update.');
+                // Optionally, update a general status message on the page if elements are missing
+                if (document.body) document.body.insertAdjacentHTML('afterbegin', '<p style="color:red; text-align:center;">Fejl: Nødvendige sideelementer for tæller mangler.</p>');
                 return;
             }
+            
+            console.log('All counter elements found. Proceeding with fetch.');
 
             try {
                 const response = await fetch('/api/get-sheet-count');
+                console.log('API response status:', response.status);
+
                 if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}`);
+                    let errorDetails = `API request failed with status ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        console.log('API error data:', errorData);
+                        if (errorData && errorData.details) {
+                            errorDetails += `: ${errorData.details}`;
+                        } else if (errorData && errorData.error) {
+                            errorDetails += `: ${errorData.error}`;
+                        }
+                    } catch (e) {
+                        console.error('Failed to parse API error JSON:', e);
+                        errorDetails += ` - ${response.statusText || 'Could not retrieve error details'}`;
+                    }
+                    throw new Error(errorDetails);
                 }
                 const data = await response.json();
+                console.log('API success data:', data);
                 
                 if (typeof data.count !== 'number') {
-                    throw new Error('Invalid count received from API.');
+                    throw new Error('Invalid count received from API. Data: ' + JSON.stringify(data));
                 }
 
                 const rawCount = data.count;
                 const displayValue = 500 - rawCount;
-                const finalDisplayValue = Math.max(0, displayValue); // Ensure counter doesn't go below 0
+                const finalDisplayValue = Math.max(0, displayValue);
 
                 campaignCounterElement.dataset.counter = finalDisplayValue;
                 counterTextElement.textContent = `${finalDisplayValue} ud af 500 kampagnepladser tilbage`;
                 
-                if (liveIndicatorElement) liveIndicatorElement.style.display = 'inline'; // Show live indicator
-                if (counterSubtextElement) counterSubtextElement.textContent = 'Live status: Opdateret nu';
-
+                liveIndicatorElement.style.display = 'inline';
+                counterSubtextElement.textContent = 'Live status: Opdateret nu';
+                console.log('Counter updated successfully.');
 
             } catch (error) {
-                console.error('Error fetching or updating campaign counter:', error);
-                // Display a user-friendly error message, but keep existing or default text if needed
+                console.error('Detailed error in fetchAndUpdateCounter:', error.message, error);
                 if (counterTextElement) {
-                     // Keep the initial text or a fallback if API fails, rather than showing an error directly in the counter text
-                     // For example, if campaignCounterElement.dataset.counter was set initially, it could be used.
-                     // Or, show a specific error message if desired:
-                     // counterTextElement.textContent = `Fejl ved hentning af data`;
+                    // Display a more detailed error message in the main counter text
+                    counterTextElement.textContent = `Fejl: ${error.message}`;
+                    console.log('Main counter text updated to show error:', counterTextElement.textContent);
+                } else {
+                    console.error('counterTextElement is null, cannot update main error text.');
                 }
-                if (liveIndicatorElement) liveIndicatorElement.style.display = 'none'; // Hide live indicator on error
-                if (counterSubtextElement) counterSubtextElement.textContent = 'Fejl: Kunne ikke hente live data. Prøv igen senere.';
+                if (liveIndicatorElement) {
+                    liveIndicatorElement.style.display = 'none';
+                }
+                if (counterSubtextElement) {
+                    // The subtext already indicates a general failure, which is good.
+                    counterSubtextElement.textContent = 'Fejl: Kunne ikke hente live data. Prøv igen senere.';
+                    console.log('Sub-counter text updated to show error.');
+                }
             }
         }
 
