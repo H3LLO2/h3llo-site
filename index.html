@@ -134,26 +134,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- === PRODUCT DEMO VIDEO SECTION START === -->
         <section class="product-demo-video-section fade-in" role="region" aria-labelledby="product-demo-video-heading">
             <div class="container">
-                <h2 id="product-demo-video-heading" style="text-align: center; margin-bottom: 1.5rem;">Se H3LLO i Aktion</h2>
+                <h2 id="product-demo-video-heading" class="video-section-title">Se her, hvordan <span class="h3llo-gradient">H3LLO</span> gør det for lokale butikker hver dag</h2>
+                <p class="video-section-subtext" style="text-align: center; max-width: 60ch; margin: 0 auto 2rem auto; font-size: 1.1rem; color: var(--text-muted);">Videoen viser dig, hvor enkelt det faktisk er at få styr på dine opslag – uanset om du er vant til sociale medier eller ej.</p>
                 <div class="video-wrapper" style="position: relative; margin-bottom: 2rem;">
-                    <!-- Desktop Video -->
-                    <video id="desktopProductVideo" class="product-video desktop-video" controls autoplay muted loop playsinline style="width: 100%; height: auto; display: block;">
-                        <source src="videos/Hero_video_horizontal.mp4" type="video/mp4">
-                        <track src="videos/Hero_video_horizontal.vtt" kind="subtitles" srclang="da" label="Dansk" default>
-                        Your browser does not support the video tag.
-                    </video>
+                    <!-- Desktop Vimeo Embed (Horizontal) -->
+                    <div class="vimeo-embed desktop-video" style="padding:56.25% 0 0 0;position:relative;display:block;">
+                        <iframe src="https://player.vimeo.com/video/1088349382?h=f1671886c8&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Hero_video_horizontal"></iframe>
+                    </div>
 
-                    <!-- Mobile Video -->
-                    <video id="mobileProductVideo" class="product-video mobile-video" controls autoplay muted loop playsinline style="width: 100%; height: auto; display: none;">
-                        <source src="videos/Hero_video_vertical.mp4" type="video/mp4">
-                        <track src="videos/Hero_video_vertical.vtt" kind="subtitles" srclang="da" label="Dansk" default>
-                        Your browser does not support the video tag.
-                    </video>
-
-                    <button id="unmuteButton" class="unmute-button" aria-label="Slå lyd til" style="position: absolute; bottom: 20px; right: 20px; background-color: rgba(0, 0, 0, 0.5); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; padding: 0;">
-                        <img src="images/icons/sound-off-icon.png" alt="Lyd slået fra" id="soundIcon" style="width: 60%; height: 60%;">
-                        <!-- REMINDER: Create sound-on-icon.svg and sound-off-icon.svg in images/icons/ -->
-                    </button>
+                    <!-- Mobile Vimeo Embed (Vertical) -->
+                    <div class="vimeo-embed mobile-video" style="padding:177.78% 0 0 0;position:relative;display:none;">
+                        <iframe src="https://player.vimeo.com/video/1088349451?h=5c8d7805ed&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Hero_video_vertical"></iframe>
+                    </div>
+<div class="video-cta-container" style="text-align: center; margin-top: 1.5rem;">
+                    <a href="checkout.html" class="btn btn-primary">Start Gratis Nu & Se Mere</a>
+                </div>
                 </div>
             </div>
         </section>
@@ -199,45 +194,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </section>
         <!-- === HOW IT WORKS SECTION END === -->
-<!-- === H3LLO AUTOPILOT PROMO SECTION START === -->
-        <section id="autopilot-promo" class="autopilot-promo-section fade-in" role="region" aria-labelledby="autopilot-heading">
-            <div class="container">
-                <div style="background-color: #111111; border: 2px solid #ff00cc; border-radius: 12px; padding: 2rem; margin-top: 2rem; text-align: center;">
-                    <div class="ai-badge" style="margin-bottom: 1rem; background-color: #ff00cc; color: #111111; display: inline-block; padding: 0.5rem 1rem; border-radius: 6px; font-weight: bold;">🔥 NYHED – Autopilot</div>
-                    <h2 id="autopilot-heading" style="color: #ffffff; margin-bottom: 0.5rem;">H3LLO Autopilot</h2>
-                    <p style="color: #f0f0f0; font-size: 1.1rem; margin-bottom: 1.5rem;">Professionelle billeder og videoer – uden ekstra arbejde</p>
-                    
-                    <!-- New Flex Wrapper for Text and Image -->
-                    <div class="autopilot-flex-wrapper" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; text-align: left; margin-top: 1.5rem; margin-bottom: 1.5rem;">
-                        
-                        <!-- Left Column: Text Content -->
-                        <div class="autopilot-text-column" style="flex: 1; min-width: 300px; padding-right: 1rem;">
-                            <p style="color: #cccccc; margin-bottom: 1rem;">📸 Få omdannet et helt almindeligt mobilfoto til et professionelt produktbillede og video. Perfekt til Facebook & Instagram. Alt er klar på få minutter.</p>
-                            <p style="color: #cccccc; font-weight: bold; margin-bottom: 0.5rem;">Du får:</p>
-                            <ul style="color: #cccccc; list-style-position: inside; padding-left: 0; margin-bottom: 1.5rem;">
-                                <li style="margin-bottom: 0.3rem;">✔ Automatisk billed- og videoproduktion</li>
-                                <li style="margin-bottom: 0.3rem;">✔ Professionelt visuelt materiale uden ekstra arbejde</li>
-                                <li style="margin-bottom: 0.3rem;">✔ Alt fra den normale H3LLO – plus det visuelle indhold</li>
-                                <li style="margin-bottom: 0.3rem;">✔ Samme nemme flow – Du sender bare et billede</li>
-                            </ul>
-                            <p style="color: #ffffff; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">💰 DKK 901 / md. ekskl. moms</p>
-                            <p style="color: #bbbbbb; font-size: 0.9rem; margin-bottom: 0;">Løbende måned + 1 måneds opsigelse – ingen skjulte gebyrer</p>
-                        </div>
-
-                        <!-- Right Column: Image Content -->
-                        <div class="autopilot-image-column" style="flex: 0 1 300px; min-width: 250px; text-align: center; padding-left: 1rem; margin-top: 1rem; align-self: flex-start;">
-                            <img src="images/Autopilot.png" alt="H3LLO Autopilot eksempel" style="max-width: 100%; max-height: 350px; height: auto; border-radius: 8px; object-fit: contain;">
-                        </div>
-                    </div>
-
-                    <!-- Button - remains centered below the flex wrapper -->
-                    <div style="margin-top: 1.5rem;">
-                        <a href="kampagnepris.html#pricing" class="btn" style="background: linear-gradient(to right, #00ffff, #ff00ff); color: black; font-weight: bold; padding: 1rem 2rem; border-radius: 8px; display: inline-block; text-decoration: none;">Vælg Autopilot</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- === H3LLO AUTOPILOT PROMO SECTION END === -->
 
 
 
@@ -273,6 +229,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- === USE CASE EXAMPLES START === -->
         <section id="eksempler" class="examples-section fade-in" role="region" aria-labelledby="examples-heading">
+<!-- === H3LLO AUTOPILOT PROMO SECTION START === -->
+        <section id="autopilot-promo" class="autopilot-promo-section fade-in" role="region" aria-labelledby="autopilot-heading">
+            <div class="container">
+                <div style="background-color: #111111; border: 2px solid #ff00cc; border-radius: 12px; padding: 1rem; margin-top: 2rem; text-align: center;">
+                    <div class="ai-badge" style="margin-bottom: 1rem; background-color: #ff00cc; color: #111111; display: inline-block; padding: 0.5rem 1rem; border-radius: 6px; font-weight: bold;">🔥 NYHED – Autopilot</div>
+                    <h2 id="autopilot-heading" style="color: #ffffff; margin-bottom: 0.5rem;">H3LLO Autopilot</h2>
+                    <p style="color: #f0f0f0; font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center; max-width: 70ch; margin-left: auto; margin-right: auto;">Professionelle billeder og videoer – uden ekstra arbejde</p>
+                    
+                    <!-- New Flex Wrapper for Text and Image -->
+                    <div class="autopilot-flex-wrapper" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; text-align: left; margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                        
+                        <!-- Left Column: Text Content -->
+                        <div class="autopilot-text-column" style="flex: 1; min-width: 280px; padding-right: 1.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <p style="color: #cccccc; margin-bottom: 1rem;">📸 NU kan du også få omdannet et helt almindeligt mobilfoto til et professionelt produktbillede og video. Perfekt til Facebook & Instagram. Alt er klar på få minutter.</p>
+                        </div>
+
+                        <!-- Right Column: Image Content -->
+                        <div class="autopilot-image-column" style="flex: 0 1 320px; text-align: center;">
+                            <img src="images/Autopilot.png" alt="H3LLO Autopilot eksempel" style="max-width: 100%; max-height: 350px; height: auto; border-radius: 8px; object-fit: contain; display: block; margin-left: auto; margin-right: auto;">
+                        </div>
+                    </div>
+
+                    <!-- Button - remains centered below the flex wrapper -->
+                    <div style="margin-top: 1.5rem;">
+                        <a href="kampagnepris.html#pricing" class="btn" style="background: linear-gradient(to right, #00ffff, #ff00ff); color: black; font-weight: bold; padding: 1rem 2rem; border-radius: 8px; display: inline-block; text-decoration: none;">Vælg Autopilot</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- === H3LLO AUTOPILOT PROMO SECTION END === -->
             <div class="container">
                 <h2 id="examples-heading">Eksempler: Fra besked til færdigt opslag</h2>
                 <p class="scroll-indicator">Swipe for flere eksempler →</p> <!-- Indicator moved here -->
@@ -643,71 +629,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             videoPlaceholder.setAttribute('tabindex', '0');
         }
     </script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const desktopVideo = document.getElementById('desktopProductVideo');
-        const mobileVideo = document.getElementById('mobileProductVideo');
-        const unmuteButton = document.getElementById('unmuteButton');
-        const soundIcon = document.getElementById('soundIcon');
-
-        // Define paths to your sound icons - REMEMBER to create these files!
-        const soundOffIconSrc = 'images/icons/sound-off-icon.png'; // e.g., path/to/sound-off.png
-        const soundOnIconSrc = 'images/icons/sound-on-icon.png';   // e.g., path/to/sound-on.png
-
-        function getVisibleVideo() {
-            // Check which video is currently displayed based on CSS
-            // Ensure elements exist before checking their style
-            if (desktopVideo && window.getComputedStyle(desktopVideo).display !== 'none') {
-                return desktopVideo;
-            } else if (mobileVideo && window.getComputedStyle(mobileVideo).display !== 'none') {
-                return mobileVideo;
-            }
-            return null; // Should not happen if CSS is set up correctly and elements exist
-        }
-
-        if (unmuteButton) {
-            unmuteButton.addEventListener('click', () => {
-                const currentVideo = getVisibleVideo();
-                if (!currentVideo) return;
-
-                if (currentVideo.muted) {
-                    currentVideo.muted = false;
-                    if (soundIcon) soundIcon.src = soundOnIconSrc;
-                    if (soundIcon) soundIcon.alt = "Lyd slået til";
-                    unmuteButton.setAttribute('aria-label', "Slå lyd fra");
-                } else {
-                    currentVideo.muted = true;
-                    if (soundIcon) soundIcon.src = soundOffIconSrc;
-                    if (soundIcon) soundIcon.alt = "Lyd slået fra";
-                    unmuteButton.setAttribute('aria-label', "Slå lyd til");
-                }
-            });
-        }
-
-        // Ensure videos are actually muted on load if autoplaying
-        if (desktopVideo && desktopVideo.hasAttribute('autoplay')) {
-            desktopVideo.muted = true;
-        }
-        if (mobileVideo && mobileVideo.hasAttribute('autoplay')) {
-            mobileVideo.muted = true;
-        }
-
-        // Set initial icon state based on the (likely desktop) video's muted status
-        // Needs to run after a slight delay or when videos are ready, as muted state might not be immediately set
-        setTimeout(() => {
-            const initialVideo = getVisibleVideo();
-            if (initialVideo && soundIcon) {
-                 if (initialVideo.muted) {
-                    soundIcon.src = soundOffIconSrc;
-                    soundIcon.alt = "Lyd slået fra";
-                } else {
-                    soundIcon.src = soundOnIconSrc;
-                    soundIcon.alt = "Lyd slået til";
-                }
-            }
-        }, 100); // Small delay to ensure video properties are settled
-    });
-    </script>
+<script src="https://player.vimeo.com/api/player.js"></script>
 
 </body>
 </html>
