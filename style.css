@@ -3434,6 +3434,9 @@ body {
     .mobile-video {
         display: block; /* Show mobile video on smaller screens */
     }
+.video-wrapper {
+        aspect-ratio: auto; /* Allow height to be determined by content for vertical video */
+    }
     .video-section-title { /* Adjusted media query to target new class */
         font-size: clamp(1.6rem, 3.5vw + 0.7rem, 2.2rem); /* Adjust for mobile */
     }
