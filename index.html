@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<![CDATA[<!DOCTYPE html>
 <html lang="da">
 <head>
     <!-- Google Tag Manager -->
@@ -139,12 +139,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="video-wrapper" style="position: relative; margin-bottom: 2rem;">
                     <!-- Desktop Vimeo Embed (Horizontal) -->
                     <div class="vimeo-embed desktop-video" style="padding:56.25% 0 0 0;position:relative;">
-                        <iframe src="https://player.vimeo.com/video/1088837071&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="video-with-subtitles"></iframe>
+                        <iframe src="https://player.vimeo.com/video/1088837071?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="video-with-subtitles"></iframe>
                     </div>
 
                     <!-- Mobile Vimeo Embed (Vertical) -->
                     <div class="vimeo-embed mobile-video" style="padding:177.78% 0 0 0;position:relative;">
-                        <iframe src="https://player.vimeo.com/video/1088837028&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="video-with-subtitles (1)"></iframe>
+                        <iframe src="https://player.vimeo.com/video/1088837028?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="video-with-subtitles (1)"></iframe>
                     </div>
 <div class="video-cta-container" style="text-align: center; margin-top: 1.5rem;">
                     <a href="checkout.html" class="btn btn-primary">Start Gratis Nu & Se Mere</a>
@@ -498,73 +498,126 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <p class="contact-intro">Skriv direkte til mig her:</p>
                 <form id="contact-form" class="contact-form" action="https://formspree.io/f/xyzweeyg" method="POST">
                     <div class="form-group">
-                        <label for="name">Navn</label>
-                        <input type="text" id="name" name="name" required>
+                        <label for="name">Navn:</label>
+                        <input type="text" id="name" name="name" required autocomplete="name">
                     </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required autocomplete="email">
                     </div>
                     <div class="form-group">
-                        <label for="phone">Telefon (Valgfri)</label>
-                        <input type="tel" id="phone" name="phone">
+                        <label for="message">Besked:</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="message">Besked</label>
-                        <textarea id="message" name="message" rows="4" required></textarea>
+                        <button type="submit" class="btn btn-primary">Send Besked</button>
                     </div>
-                    <div class="form-submit">
-                         <button type="submit" class="btn btn-secondary">Skriv til mig</button>
-                    </div>
-                     <div id="form-status" class="form-status" aria-live="polite"></div>
                 </form>
-
-                <div class="alternative-contact">
-                    <p>Eller book et møde med det samme:</p>
-                    <a href="https://calendly.com/lasse-h3llo/h3llo-demo-med-lasse" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book et hurtigt møde</a>
+                <p id="form-status"></p> <!-- Status message for form submission -->
+                 <div class="alternative-contact">
+                    <p>Eller book et møde direkte i min kalender:</p>
+                    <a href="https://calendly.com/lasse-h3llo/h3llo-demo-med-lasse" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Book Møde</a>
                 </div>
             </div>
         </section>
         <!-- === CONTACT FORM SECTION END === -->
-
     </main>
 
-    <!-- === FOOTER START === -->
+    <!-- === FOOTER SECTION START === -->
     <footer class="site-footer" role="contentinfo">
         <div class="container">
-             <img src="images/For Web/White logo - no background.svg" alt="H3LLO Logo Hvid" class="logo footer-logo" loading="lazy" decoding="async" width="137" height="40"> <!-- Added estimated width/height for SVG -->
-            <p>© <span id="current-year"></span> – <span class="h3llo-gradient">H3LLO</span> er udviklet i Aarhus til lokale forretninger</p>
+            <img src="images/For Web/White logo - no background.svg" alt="H3LLO Footer Logo" class="footer-logo">
+            <p class="footer-tagline">Nem markedsføring for lokale butikker.</p>
             <div class="footer-contact">
-                <p>H3LLO ApS | CVR: 45421937</p>
-                <p>Trindsøvej 6, 1. sal, 8000 Aarhus C | Tlf: 40 11 94 26</p>
-                <p><a href="privacy.html">Privatlivspolitik</a></p>
+                <p>H3LLO ApS • CVR: 44690590</p>
+                <p><a href="mailto:lasse@h3llo.dk">lasse@h3llo.dk</a></p>
             </div>
+            <ul class="footer-links">
+                <li><a href="privacy.html">Privatlivspolitik</a></li>
+                <li><a href="https://www.facebook.com/h3llo.dk" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                <li><a href="https://www.instagram.com/h3llo.dk/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            </ul>
+            <p class="copyright">&copy; <span id="current-year"></span> H3LLO ApS. Alle rettigheder forbeholdes.</p>
         </div>
     </footer>
-    <!-- === FOOTER END === -->
+    <!-- === FOOTER SECTION END === -->
 
+    <!-- === SCRIPTS SECTION START === -->
     <script>
-        // Mobile navigation toggle
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start' // Aligns the top of the target element to the top of the visible area
+                    });
+
+                    // If it's a nav link and the menu is open, close it
+                    const navMenu = document.getElementById('nav-menu');
+                    const navToggle = document.querySelector('.nav-toggle');
+                    if (navMenu && navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        navToggle.classList.remove('active');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+        });
+
+        // Sticky Navigation
+        const nav = document.querySelector('.sticky-nav');
+        const hero = document.querySelector('.hero'); // Assuming .hero is your hero section
+        let heroHeight = hero ? hero.offsetHeight : 0;
+
+        function updateHeroHeight() {
+            heroHeight = hero ? hero.offsetHeight : 0;
+        }
+
+        window.addEventListener('load', updateHeroHeight);
+        window.addEventListener('resize', updateHeroHeight); // Recalculate on resize
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > heroHeight) { // Make nav sticky after scrolling past hero
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+
+        // Mobile Navigation Toggle
         const navToggle = document.querySelector('.nav-toggle');
         const navMenu = document.getElementById('nav-menu');
 
-        if (navToggle && navMenu) {
-            navToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('nav-ul-active');
-                const isExpanded = navMenu.classList.contains('nav-ul-active');
-                navToggle.setAttribute('aria-expanded', isExpanded);
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+            const isExpanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
+            navToggle.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        // Close mobile menu when a link is clicked
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                }
             });
-        }
+        });
 
-        // Set current year in footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // Simple fade-in animation on scroll
-        const fadeInElements = document.querySelectorAll('.fade-in');
+        // Fade-in animation for sections
+        const sections = document.querySelectorAll('.fade-in');
         const observerOptions = {
-            root: null, // relative to document viewport
+            root: null,
             rootMargin: '0px',
-            threshold: 0.1 // trigger when 10% of the element is visible
+            threshold: 0.1 // Trigger when 10% of the element is visible
         };
 
         const observer = new IntersectionObserver((entries, observer) => {
@@ -576,112 +629,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             });
         }, observerOptions);
 
-        fadeInElements.forEach(el => {
-            observer.observe(el);
+        sections.forEach(section => {
+            observer.observe(section);
         });
 
-        // Contact Form Submission Handler
-        const contactForm = document.getElementById('contact-form');
+        // Update copyright year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Contact Form Submission
+        const form = document.getElementById('contact-form');
         const formStatus = document.getElementById('form-status');
 
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-
-            const formData = new FormData(contactForm);
-            const webhookUrl = contactForm.action;
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-
-            // Disable button and show loading state
-            submitButton.disabled = true;
-            submitButton.textContent = 'Sender...';
-            formStatus.textContent = ''; // Clear previous status
-            formStatus.className = 'form-status'; // Reset class
-
-            // Fetch request modified for Formspree AJAX
-            fetch(webhookUrl, { // webhookUrl is now the Formspree URL from contactForm.action
-                method: 'POST',
-                body: formData,
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const data = new FormData(event.target);
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
                 headers: {
-                    'Accept': 'application/json' // Formspree requires this for AJAX
+                    'Accept': 'application/json'
                 }
-            })
-            .then(response => {
+            }).then(response => {
                 if (response.ok) {
-                    // Formspree success response (usually {ok: true})
-                    return response.json();
+                    formStatus.textContent = "Tak for din besked! Vi vender tilbage snarest.";
+                    formStatus.style.color = "var(--accent-blue)";
+                    form.reset();
                 } else {
-                    // Try to parse Formspree error response
-                    return response.json().then(data => {
+                    response.json().then(data => {
                         if (Object.hasOwn(data, 'errors')) {
-                          // Formspree validation errors
-                          throw new Error(data["errors"].map(error => error["message"]).join(", "));
+                            formStatus.textContent = data["errors"].map(error => error["message"]).join(", ");
                         } else {
-                          // Other server errors
-                          throw new Error(`Server responded with status: ${response.status}`);
+                            formStatus.textContent = "Ups! Der opstod et problem. Prøv venligst igen.";
                         }
-                    }).catch(() => {
-                         // Fallback if error response isn't JSON
-                         throw new Error(`Server responded with status: ${response.status}`);
-                    });
+                        formStatus.style.color = "var(--accent-pink)";
+                    })
                 }
-            })
-            .then(data => {
-                // Handle Formspree success
-                console.log('Formspree Success:', data);
-                contactForm.reset(); // Clear the form
-                formStatus.textContent = 'Tak for din besked! Vi vender tilbage hurtigst muligt.'; // Success message
-                formStatus.classList.add('success');
-                // Keep button disabled after success (optional)
-                // submitButton.disabled = false; // Remove this line to keep disabled
-                // submitButton.textContent = 'Skriv til mig'; // Remove this line to keep disabled
-            })
-            .catch(error => {
-                // Handle fetch errors or errors thrown from response handling
-                console.error('Form Submission Error:', error);
-                formStatus.textContent = `Fejl: ${error.message || 'Kunne ikke sende besked. Prøv igen.'}`;
-                formStatus.classList.add('error');
-            })
-            .finally(() => {
-                // Re-enable button only if not successful (or if explicitly desired after success)
-                 if (!formStatus.classList.contains('success')) {
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Skriv til mig';
-                 }
+            }).catch(error => {
+                formStatus.textContent = "Ups! Der opstod et problem. Prøv venligst igen.";
+                formStatus.style.color = "var(--accent-pink)";
             });
-        });
-
-// Lazy Load YouTube Video
-        const videoPlaceholder = document.querySelector('.video-placeholder');
-        if (videoPlaceholder) {
-            videoPlaceholder.addEventListener('click', function() {
-                const videoId = this.getAttribute('data-id');
-                if (videoId) {
-                    const iframe = document.createElement('iframe');
-                    iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`); // Autoplay and hide related videos
-                    iframe.setAttribute('frameborder', '0');
-                    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; presentation'); // Added presentation for fullscreen possibility
-                    iframe.setAttribute('allowfullscreen', '');
-                    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-popups'); // Added sandbox attribute
-                    iframe.setAttribute('title', 'H3LLO Demo Video'); // Add a title for accessibility
-
-                    // Replace placeholder content with iframe
-                    const wrapper = this.parentNode; // Get the .video-wrapper
-                    wrapper.innerHTML = ''; // Clear existing content (image, icon)
-                    wrapper.appendChild(iframe);
-                }
-            });
-            // Add keyboard accessibility (Enter/Space key press)
-            videoPlaceholder.addEventListener('keydown', function(event) {
-                 if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault(); // Prevent default space bar scroll
-                    this.click(); // Trigger the click event
-                 }
-            });
-            // Make the placeholder focusable
-            videoPlaceholder.setAttribute('tabindex', '0');
         }
-    </script>
-<script src="https://player.vimeo.com/api/player.js"></script>
+        form.addEventListener("submit", handleSubmit)
 
+    </script>
+    <!-- === SCRIPTS SECTION END === -->
 </body>
 </html>
+]]>
