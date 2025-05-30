@@ -19,17 +19,14 @@ export default async (req, res) => {
     const rows = response.data.values;
     const actualTakenCount = rows ? rows.filter(row => row[0] && row[0].trim() !== '').length : 0; // Count non-empty cells in Column A
 
-    let countToReport;
-    const actualSpotsRemaining = 500 - actualTakenCount;
-
-    if (actualSpotsRemaining > 469) {
-      // If more than 469 spots are actually remaining,
-      // report a "taken" count that will make the frontend show 469 remaining.
-      countToReport = 500 - 469; // This will be 31
-    } else {
-      // If 469 or fewer spots are actually remaining, report the true "taken" count.
-      countToReport = actualTakenCount;
-    }
+    // Calculate the "taken" count to report to the frontend.
+    // We want the frontend to display an initial "remaining" count of 469.
+    // Frontend calculates remaining as: 500 - countFromApi
+    // So, we want: 469 = 500 - countFromApi
+    // This means initial countFromApi should be 500 - 469 = 31.
+    // For each actual spot taken, this "base" of 31 increases.
+    // Cap the reported taken count at 500 to ensure "remaining" doesn't go below 0.
+    const countToReport = Math.min(31 + actualTakenCount, 500);
 
     res.status(200).json({ count: countToReport });
   } catch (error) {
