@@ -27,7 +27,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- Basic Content Security Policy (CSP) - Needs refinement based on actual resources -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://assets.calendly.com https://cdn-cookieyes.com https://www.googletagmanager.com https://www.clarity.ms https://connect.facebook.net 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://cdn-cookieyes.com https://www.facebook.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://cdn-cookieyes.com https://formspree.io https://*.google-analytics.com https://*.clarity.ms https://connect.facebook.net; frame-src https://www.youtube.com https://calendly.com https://player.vimeo.com;">
     <!-- Stylesheets & Fonts -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -97,14 +97,6 @@ src="https://www.facebook.com/tr?id=4104062979829686&ev=PageView&noscript=1"
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJ78H95G"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJ78H95G"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PJ78H95G"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 <!-- === STICKY NAVIGATION START === -->
     <nav class="sticky-nav" role="navigation" aria-label="Hovednavigation">
         <div class="nav-container">
@@ -131,8 +123,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- === HEADER / HERO SECTION START === -->
     <header class="hero fade-in" role="banner">
         <div class="container">
-            <img src="../images/cafe_hero.jpg" alt="Stemningsbillede fra en travl, hyggelig café" class="logo" width="205" height="60"> <!-- Placeholder width/height, adjust as needed -->
-            <h1>Få flere gæster i din café – med SoMe-opslag på 2 minutter.</h1>
+            <img src="../images/cafe_hero.jpg" alt="Stemningsbillede fra en travl, hyggelig café" class="hero-banner-image" style="width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: 2rem;">
+            <h1><span class="h3llo-gradient">Få flere gæster i din café</span> – med SoMe-opslag på 2 minutter.</h1>
             <p class="subline">H3LLO automatiserer dine opslag på Facebook og Instagram, så du kan fokusere på kaffen, maden og dine gæster – ikke på marketing.</p>
             <p class="hero-explanation">Send billeder og en besked - direkte fra mobilen - <span class="h3llo-gradient">H3LLO</span> laver opslaget og poster det for dig.</p> <!-- This line seems generic and was kept from original, review if it should be removed or changed based on new context -->
             <div class="cta-buttons">
@@ -461,25 +453,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- === INTERACTIVE DEMO SECTION END === -->
 
 <!-- === FAQ SECTION START === -->
-<section id="faq-cafe" class="faq-section fade-in" role="region" aria-labelledby="faq-cafe-heading" style="padding: 2rem 0; background-color: var(--secondary-bg);">
+<section id="faq-cafe" class="faq-sektion fade-in" role="region" aria-labelledby="faq-cafe-heading" style="padding: 60px 0; background-color: var(--secondary-bg);">
   <div class="container">
     <h2 id="faq-cafe-heading" style="text-align: center; margin-bottom: 2.5rem; font-size: clamp(1.8rem, 4vw + 0.8rem, 2.8rem); color: var(--text-color);">Ofte Stillede Spørgsmål (Caféer)</h2>
     <div class="faq-grid" style="max-width: 80ch; margin-left: auto; margin-right: auto;">
 
-      <article class="faq-item" style="margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-color);">Kan jeg bruge H3LLO til at poste om 'Dagens Ret' hver dag?</h3>
+      <details class="faq-item" style="margin-bottom: 1.5rem;">
+        <summary>Kan jeg bruge H3LLO til at poste om 'Dagens Ret' hver dag?</summary>
         <p style="font-size: 1rem; color: var(--text-muted); margin-bottom:0;">Ja, absolut. Du sender blot et billede og en kort tekst som 'Dagens ret: Fish & Chips', så klarer H3LLO resten og laver et fængende opslag på under 2 minutter.</p>
-      </article>
+      </details>
 
-      <article class="faq-item" style="margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-color);">Hvad hvis jeg ikke har professionelle billeder af min mad?</h3>
+      <details class="faq-item" style="margin-bottom: 1.5rem;">
+        <summary>Hvad hvis jeg ikke har professionelle billeder af min mad?</summary>
         <p style="font-size: 1rem; color: var(--text-muted); margin-bottom:0;">Intet problem. Vores Autopilot-funktion kan omdanne et almindeligt mobilfoto til et lækkert, professionelt produktbillede. Du kan også sagtens bruge dine egne gode mobilfotos.</p>
-      </article>
+      </details>
 
-      <article class="faq-item" style="margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-color);">Virker det også for en lille kaffebar med få ansatte?</h3>
+      <details class="faq-item" style="margin-bottom: 1.5rem;">
+        <summary>Virker det også for en lille kaffebar med få ansatte?</summary>
         <p style="font-size: 1rem; color: var(--text-muted); margin-bottom:0;">Ja. H3LLO er designet netop til travle, lokale forretninger – uanset om det er en stor café eller en lille, hyggelig kaffebar. Det er bygget til at spare tid for dem, der har mindst af den.</p>
-      </article>
+      </details>
 
     </div>
   </div>
