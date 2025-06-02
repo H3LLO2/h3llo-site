@@ -55,6 +55,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             max-width: 700px; /* Adjust as needed for desktop view */
             margin-top: 20px; /* Add some space above Stripe table */
         }
+        .checkout-clarification {
+            text-align: center;
+            margin-bottom: 20px; /* Space before Stripe element */
+            padding: 15px;
+            background-color: #002f3a; /* A slightly different background - using a direct hex for now */
+            border: 1px solid #00CFFF; /* Using existing var --accent-blue if defined, or direct hex */
+            border-radius: 8px; /* Using existing var --border-radius if defined, or direct value */
+            max-width: 600px; /* Consistent width */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Using existing var --card-shadow if defined, or direct value */
+        }
+        .checkout-clarification p {
+            font-size: 1rem;
+            color: #F9FAFB; /* Using existing var --text-color if defined, or direct hex */
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+        .checkout-clarification strong {
+            color: #39FF14; /* A highlight color - using a direct hex for now */
+            font-weight: 600;
+        }
     </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -116,6 +136,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p>"H3LLO har gjort vores SoMe så meget nemmere. Vi sparer timer hver uge, som vi kan bruge på kunderne!"</p>
         <cite>– Café Lava, Aarhus</cite>
     </div>
+
+    <!-- NEW CLARIFICATION MESSAGE START -->
+    <div class="checkout-clarification">
+        <p>Velkommen! Din <strong>10-dages gratis prøveperiode</strong> starter her.</p>
+        <p>Du vil ikke blive opkrævet 885 kr. før din prøveperiode udløber. Du kan annullere når som helst inden da.</p>
+    </div>
+    <!-- NEW CLARIFICATION MESSAGE END -->
+
     <stripe-pricing-table pricing-table-id="prctbl_1RPJzyKifPDopKmbscVRsDUL"
     publishable-key="pk_live_51Qn6WFKifPDopKmbXBAnp0WKuw4ElPekk0eWOmTs2BmxrI3MUDchdrTRz6qn2KhineKyU4elyhcIsqGCcZgf0hyL00Awe6xbu0">
     </stripe-pricing-table>
