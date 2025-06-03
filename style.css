@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap'); /* Added 900 weight */
 /* === GLOBAL STYLES & VARIABLES === */
 :root {
     --bg-color: #0D0D0D;
@@ -220,6 +221,16 @@ img.logo {
     transform: scale(1) translateY(0);
 }
 
+/* Utility class for mobile-only text */
+.mobile-only-text {
+    display: none; /* Hidden by default */
+}
+
+@media (max-width: 767px) {
+    .mobile-only-text {
+        display: inline; /* Show on mobile. Use 'block' if it should be on its own line. */
+    }
+}
 /* === AI BADGE STYLES === */
 .ai-badge {
     display: inline-block;
@@ -548,6 +559,93 @@ img.logo {
 }
 
 /* Desktop layout for testimonials */
+/* === THANK YOU PAGE STYLES === */
+.thank-you-main-content {
+    text-align: center; /* Center align all content within this div */
+    padding-top: 40px; /* Add some space at the top */
+    padding-bottom: 40px; /* Add some space at the bottom */
+}
+
+.thank-you-main-content h1 {
+    margin-bottom: 1.5rem; /* More space below main heading */
+}
+
+.thank-you-main-content > p { /* Target direct children p for general text */
+    margin-left: auto; /* Center paragraphs */
+    margin-right: auto; /* Center paragraphs */
+    max-width: 60ch; /* Consistent with other p tags for readability */
+}
+
+.thank-you-info-section {
+    margin-top: 2.5rem; /* Space above each section */
+    padding-top: 1.5rem; /* Space within each section, above the content */
+    border-top: 1px solid var(--border-color); /* Use theme border color */
+    text-align: left; /* Default text alignment for content within sections */
+}
+
+.thank-you-info-section h3 {
+    text-align: center; /* Center the h3 headings within these sections */
+    margin-bottom: 1rem;
+    color: var(--accent-blue); /* Ensure h3 color is applied */
+}
+
+.thank-you-info-section p {
+    max-width: 100%; /* Allow paragraphs in these sections to take full width if needed */
+    margin-bottom: 0.75rem; /* Adjust paragraph spacing within sections */
+    margin-left: auto; /* Center p tags within info sections too */
+    margin-right: auto; /* Center p tags within info sections too */
+}
+
+.thank-you-info-section strong {
+    color: var(--text-color); /* Make strong text stand out a bit more */
+}
+
+.thank-you-info-section .social-proof p { /* More specific selector for testimonial */
+    font-style: italic;
+    color: var(--text-muted); /* Keep testimonial text muted */
+    text-align: center; /* Center the testimonial text */
+}
+
+.thank-you-info-section .social-sharing p { /* More specific selector for social links */
+    text-align: center; /* Center the social sharing links */
+}
+
+.thank-you-info-section .social-sharing a {
+    margin: 0 10px; /* Space out social links */
+    color: var(--accent-pink); /* Style links */
+}
+.thank-you-info-section .social-sharing a:hover {
+    color: var(--accent-blue);
+}
+
+
+/* Ensure .campaign-body and .campaign-page (container) allow centering */
+body.campaign-body { /* Make it more specific if it's on the body */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 20px; /* Add some top padding to the body */
+    padding-bottom: 20px; /* Add some bottom padding to the body */
+}
+
+.container.campaign-page { /* Specific to the thank you page's container */
+    width: 100%;
+    max-width: 760px; /* Set a max-width for the main content area */
+    background-color: var(--secondary-bg); /* Give it a card-like background */
+    padding: 30px; /* Add padding inside the container */
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.campaign-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    width: 100%; /* Ensure footer can be centered if body is flex */
+    max-width: 760px; /* Match container width */
+}
 @media (min-width: 768px) {
     .testimonials-sektion {
         flex-direction: row;
@@ -1953,6 +2051,8 @@ body {
 @media (max-width: 767px) {
     .sticky-nav .nav-toggle {
         display: block; /* Show hamburger button */
+        position: relative; /* Ensure positioning context for z-index */
+        z-index: 1001; /* Explicitly set z-index for mobile */
     }
 
     .sticky-nav ul#nav-menu { /* Target by ID for specificity */
@@ -2575,7 +2675,6 @@ body.campaign-body::before {
 }
 
 /* Typography for campaign - ensure font is loaded if using a new one */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap'); /* Added 900 weight */
 
 /* Thank you page specific adjustments - can be expanded */
 .thank-you-page-content {
