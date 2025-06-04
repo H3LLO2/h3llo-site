@@ -415,6 +415,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function processSubmission() {
+// Track demo submission with Google Analytics
+        if (typeof gtag === 'function') {
+            gtag('event', 'demo_submission', {
+                'event_category': 'Interactive Demo',
+                'event_label': 'Post Generation Attempt'
+            });
+        }
         hideError();
         if (!submitBtn || !inputSection || !outputSection || !loadingIndicator || !outputContent) return;
 
