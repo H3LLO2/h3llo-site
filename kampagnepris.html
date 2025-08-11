@@ -38,6 +38,28 @@ src="https://www.facebook.com/tr?id=4104062979829686&ev=PageView&noscript=1"
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "rd6e0qatha");
     </script>
+<style>
+  /* Add asterisk to H3LLO Standardpakken (first column) and Autopilot (autopilot column) */
+  .pricing-tabel .pricing-kolonne:nth-child(1) h2::after,
+  .pricing-tabel .pricing-kolonne.autopilot h2::after {
+    content: " *";
+    font-weight: bold;
+    font-size: 0.7em;
+    vertical-align: super; /* superscript feel */
+    line-height: 1;
+    color: var(--text-muted, #888);
+  }
+
+  /* Footnote styling */
+  .pricing-footnote {
+    margin: 0.5rem auto 1.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted, #888);
+    max-width: 60ch;
+    padding: 0 1rem;
+  }
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -148,6 +170,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </ul>
             </div>
         </section>
+        <p class="pricing-footnote">* Kun for virksomheder med op til 8 ansatte.</p>
 
         <!-- New Testimonials Section -->
         <section class="testimonials-sektion">
