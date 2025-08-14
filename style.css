@@ -708,6 +708,25 @@ body.campaign-body { /* Make it more specific if it's on the body */
     background-color: var(--secondary-bg);
 }
 
+/* New hero for pricing (no campaign elements) */
+.hero-priser {
+    text-align: center;
+    padding: var(--section-padding);
+    padding-top: 60px;
+    padding-bottom: 40px;
+    background-color: var(--secondary-bg);
+}
+.hero-priser h1 {
+    margin-bottom: 0.75rem;
+    font-size: clamp(2rem, 4.5vw + 1rem, 3.2rem);
+}
+.hero-priser .underoverskrift {
+    font-size: clamp(1rem, 2vw + 0.5rem, 1.2rem);
+    color: var(--text-muted);
+    max-width: 65ch;
+    margin: 0 auto 2rem auto;
+}
+
 .hero-kampagne .badge {
     display: inline-block;
     background-color: var(--accent-pink);
@@ -797,6 +816,17 @@ body.campaign-body { /* Make it more specific if it's on the body */
     gap: 32px; /* Minimum 32px gap */
     padding: var(--section-padding);
     align-items: stretch; /* Makes cards same height if they are in a row */
+}
+
+/* Desktop: keep all three cards on one row and keep equal visual widths */
+@media (min-width: 1024px) {
+  .pricing-tabel {
+      flex-wrap: nowrap; /* Force single row */
+  }
+  .pricing-kolonne {
+      flex: 1 1 360px;   /* Grow evenly, suggested base width */
+      max-width: 380px;  /* Preserve existing visual cap */
+  }
 }
 
 .pricing-kolonne {
@@ -894,6 +924,34 @@ body.campaign-body { /* Make it more specific if it's on the body */
     margin-top: 1rem; /* Space above price */
     margin-bottom: 8px; /* 8px space AFTER price, before first label */
 }
+
+/* Keep prices visually consistent with previous theme usage */
+.pricing-kolonne.starter .pris,
+.pricing-kolonne.standard .pris {
+    color: var(--accent-blue);
+}
+
+/* Premium card should retain its highlighted look (border, bg, shadow) */
+.pricing-kolonne.premium {
+    border: 2px solid #ffc107;
+    background-color: #111111;
+    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+}
+.pricing-kolonne.premium h2 {
+    color: #ffffff;
+}
+.pricing-kolonne.premium .pris {
+    color: #22d3ee;
+}
+.pricing-kolonne.premium .includes-list li {
+    color: #e0e0e0;
+}
+/* Premium CTA matches prior gradient treatment */
+.pricing-kolonne.premium .button {
+    background: linear-gradient(to right, #fde047, #f472b6);
+    color: #000;
+    font-weight: 700;
+}
 .pricing-kolonne.autopilot .pris {
     color: var(--accent-blue); /* Specific color for Autopilot */
 }
@@ -945,6 +1003,24 @@ body.campaign-body { /* Make it more specific if it's on the body */
 }
 .pricing-kolonne.autopilot .button:hover, .pricing-kolonne.autopilot .button:focus {
     box-shadow: 0 4px 15px var(--glow-blue);
+}
+
+/* Ensure CTA buttons align across cards:
+   - Reorder elements so the button is always last visually
+   - Cards are already flex columns, so ordering aligns baselines */
+.pricing-kolonne .includes-list { order: 97; }
+.pricing-kolonne .trial-info   { order: 98; }
+.pricing-kolonne .button       { order: 99; }
+
+/* Minor spacing normalization so buttons line up tighter */
+.pricing-kolonne .pris        { margin-bottom: 8px; }
+.pricing-kolonne .trial-info  { margin-top: -12px; margin-bottom: 16px; }
+.pricing-kolonne .includes-list { margin-top: 16px; }
+
+/* Desktop: keep three cards on one row and distribute evenly */
+@media (min-width: 1024px) {
+  .pricing-tabel { flex-wrap: nowrap; }
+  .pricing-kolonne { flex: 1 1 360px; max-width: 380px; }
 }
 
 /* Trial Info Text */

@@ -10,7 +10,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>H3LLO Sommerkampagne</title>
+    <title>H3LLO Priser</title>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://assets.calendly.com https://cdn-cookieyes.com https://www.googletagmanager.com https://www.clarity.ms https://connect.facebook.net 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://cdn-cookieyes.com https://www.facebook.com https://*.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://cdn-cookieyes.com https://formspree.io https://*.google-analytics.com https://*.clarity.ms https://connect.facebook.net https://*.google.com; frame-src https://www.youtube.com https://calendly.com https://player.vimeo.com https://www.googletagmanager.com;">
     <link rel="stylesheet" href="style.css">
 <!-- Meta Pixel Code -->
@@ -39,9 +39,8 @@ src="https://www.facebook.com/tr?id=4104062979829686&ev=PageView&noscript=1"
         })(window, document, "clarity", "script", "rd6e0qatha");
     </script>
 <style>
-  /* Add asterisk to H3LLO Standardpakken (first column) and Autopilot (autopilot column) */
-  .pricing-tabel .pricing-kolonne:nth-child(1) h2::after,
-  .pricing-tabel .pricing-kolonne.autopilot h2::after {
+  /* Add asterisk to Starter only */
+  .pricing-tabel .pricing-kolonne.starter h2::after {
     content: " *";
     font-weight: bold;
     font-size: 0.7em;
@@ -55,6 +54,15 @@ src="https://www.facebook.com/tr?id=4104062979829686&ev=PageView&noscript=1"
     margin: 0.5rem auto 1.5rem;
     text-align: center;
     font-size: 0.9rem;
+    color: var(--text-muted, #888);
+    max-width: 60ch;
+    padding: 0 1rem;
+  }
+
+  .chain-discount {
+    margin: 0.5rem auto 0.5rem;
+    text-align: center;
+    font-size: 0.95rem;
     color: var(--text-muted, #888);
     max-width: 60ch;
     padding: 0 1rem;
@@ -76,7 +84,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </button>
             <ul id="nav-menu">
                 <li><a href="index.html#hvordan-det-virker">Sådan virker det</a></li>
-                <li><a href="kampagnepris.html">Kampagnepris</a></li>
+                <li><a href="kampagnepris.html">Priser</a></li>
                 <li><a href="articles.html">Artikler</a></li>
                 <li><a href="demo.html">Prøv Demo</a></li>
                 <li><a href="index.html#kunder">Kunder</a></li>
@@ -101,76 +109,65 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </script>
 
     <main>
-        <!-- 1. Hero / Kampagnesektion -->
-        <section class="hero-kampagne">
-            <div class="badge">Sommerkampagne</div>
-            <h1>Kun 500 pladser til introprisen: Spar 40% hver måned – for altid</h1>
-            <p class="underoverskrift">Når de 500 pladser er taget, stiger prisen fra 885 kr til 1.250 kr/md.<br>Lås din pris nu og spar hver eneste måned.</p>
-            <div id="campaign-counter" data-counter="500" class="campaign-counter-container">
-                <span class="pulsing-dot"></span> <span class="counter-text">500 ud af 500 kampagnepladser tilbage</span> <span class="live-indicator">LIVE</span>
-                <p class="counter-subtext">Live status: Pladser opdateres hvert minut</p>
-            </div>
+        <!-- 1. Hero / Priser -->
+        <section class="hero-priser">
+            <h1>Find den pakke der passer bedst til dig</h1>
+            <p class="underoverskrift">Ingen binding • Nemt at komme i gang • Opsig når som helst</p>
         </section>
 
         <!-- 2. Pricing-tabel -->
-        <section id="pricing" class="pricing-tabel" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
-            <div class="pricing-kolonne">
-                <h2>H3LLO <span class="package-type">(Standardpakken)</span></h2>
-                <p class="beskrivelse">Automatiske opslag til Facebook og Instagram. Spar timer hver uge.</p>
-<p class="original-pris" style="text-decoration: line-through; font-size: 0.9em; color: var(--text-muted); margin-bottom: 0.25rem;">DKK 1250/md. ekskl. moms</p>
-                <p class="pris">DKK 885 kr/md. ekskl. moms</p>
-                <p class="price-label accent-label">KUN 500 pladser til denne pris</p>
-                <p class="price-label gift-label">🎁 Gratis personlig contentkalender ved opstart</p>
-                <a href="/checkout.html" target="_blank" class="button">Start gratis nu</a>
+        <section id="pricing" class="pricing-tabel">
+            <!-- Starter (new low tier) -->
+            <div class="pricing-kolonne starter">
+                <h2>H3LLO Starter</h2>
+                <p class="beskrivelse">Kom i gang med H3LLO i en slank udgave.</p>
+                <p class="pris">1.800 kr/md ekskl. moms</p>
+                <a href="/checkout.html" target="_blank" rel="noopener noreferrer" class="button">Start gratis nu</a>
                 <p class="trial-info">10 dages gratis prøveperiode. Betalingskort kræves ved opstart. Løbende måned + 1 måneds opsigelse. Ingen skjulte gebyrer.</p>
                 <ul class="includes-list">
-                    <li>Automatiske opslag på Facebook og Instagram</li>
+                    <li>1 kanal (Facebook eller Instagram)</li>
+                    <li>5 opslag/måned</li>
+                    <li>Ingen Analytics</li>
+                    <li>Ingen Kampagnekalender</li>
+                    <li>Support: svar inden for 1 uge</li>
+                </ul>
+            </div>
+
+            <!-- Standard -->
+            <div class="pricing-kolonne standard">
+                <div class="best-deal-label">MEST POPULÆR</div>
+                <h2>H3LLO <span class="package-type">(Standardpakken)</span></h2>
+                <p class="beskrivelse">Automatiske opslag til Facebook og Instagram. Spar timer hver uge.</p>
+                <p class="pris">2.500 kr/md ekskl. moms</p>
+                <a href="/checkout.html" target="_blank" rel="noopener noreferrer" class="button">Start gratis nu</a>
+                <p class="trial-info">10 dages gratis prøveperiode. Betalingskort kræves ved opstart. Løbende måned + 1 måneds opsigelse. Ingen skjulte gebyrer.</p>
+                <ul class="includes-list">
+                    <li>Ubegrænsede opslag (fair use – planlægges i kalenderen; spikes/kampagner efter aftale)</li>
+                    <li>2 kanaler (Facebook og Instagram)</li>
+                    <li>Analytics (månedlig organisk rapport)</li>
+                    <li>Kampagnekalender</li>
                     <li>Klar til brug på under 2 minutter</li>
                     <li>Simpelt, nemt, hurtigt</li>
                     <li>Perfekt til lokale virksomheder med travl hverdag</li>
                 </ul>
             </div>
-            <div class="pricing-kolonne bundle autopilot">
-                <div class="best-deal-label">NYHED</div>
-                <h2>H3LLO Autopilot</h2>
-                <p class="overskrift-sub">Professionelle billeder & videoer på Autopilot</p>
-                <p class="beskrivelse">Alt fra H3LLO – plus automatisk produktion af professionelle billeder og videoer af dine produkter. Tag blot ét mobilfoto, og modtag på få minutter professionelt materiale, klar til brug.</p>
-                <p class="pris">DKK 1185/md. ekskl. moms</p>
-                <a href="/checkout.html" target="_blank" class="button">Vælg Autopilot</a>
-                <p class="trial-info">Betalingskort kræves ved opstart. Løbende måned + 1 måneds opsigelse. Ingen skjulte gebyrer.</p>
-                <ul class="includes-list">
-                    <li>Automatiske opslag på Facebook og Instagram</li>
-                    <li>Alt fra H3LLO</li>
-                    <li>Professionelle billeder og videoer automatisk</li>
-                    <li>15 færdige billeder/videoer hver måned</li>
-                    <li>Ingen ekstra indsats – bare send ét mobilfoto</li>
-                </ul>
-            </div>
-<div class="pricing-kolonne premium" style="border: 2px solid #ffc107; background-color: #111111; box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);">
-                <div style="margin-bottom: 1rem; text-align: center;">
-                    <span style="display: inline-block; background-color: #ffc107; color: black; font-size: 0.75rem; font-weight: bold; padding: 0.25rem 0.75rem; border-radius: 9999px;">
-                        ENTERPRISE
-                    </span>
-                </div>
-                <h2 style="color: #ffffff;">H3LLO Premium</h2>
-                <p class="beskrivelse" style="color: #ffffff;">Alt fra H3LLO og Autopilot – plus ekstra intelligent automation.</p>
-                <p class="pris" style="color: #22d3ee; font-size: 2rem; line-height: 1.2;"> <!-- text-cyan-300 equivalent -->
-                    fra DKK 2.500/md.<br>
-                    <span style="font-size: 0.7em; font-weight: normal; color: #e0e0e0;">ekskl. moms</span>
-                </p>
-                <a href="premium-anmodning.html" class="button" style="width: 100%; background: linear-gradient(to right, #fde047, #f472b6); color: black; font-weight: bold; margin-top: 1rem;">
-                    Anmod om adgang
-                </a>
-                <ul class="includes-list" style="color: #ffffff; margin-top: 1.5rem; font-size: 0.9rem;">
-                    <li>Automatiske opslag på Facebook og Instagram</li>
-                    <li>Alt fra H3LLO og Autopilot</li>
-                    <li>AI-læringsloop – opslagene bliver smartere</li>
-                    <li>Månedlig performance-rapport</li>
-                    <li>Automatisk kommentar – gør din profil aktiv</li>
+
+            <!-- Premium (Enterprise) -->
+            <div class="pricing-kolonne premium">
+                <h2>H3LLO Premium (Enterprise)</h2>
+                <p class="pris">Kontakt os</p>
+                <a href="https://calendly.com/lasse-h3llo/h3llo-demo-med-lasse" target="_blank" rel="noopener noreferrer" class="button">Book en demo</a>
+                <ul class="includes-list" style="margin-top: 1rem;">
+                    <li>Alt i Standard</li>
+                    <li>Autopilot (AI-variationer af billeder/video, auto-forslag & udsendelser)</li>
+                    <li>Kædefunktioner (centralt godkenderflow, kampagner på tværs af lokationer, rolle-/rettighedsstyring)</li>
+                    <li>Udvidet rapportering (kædeoverblik, benchmarking pr. lokation)</li>
+                    <li>SLA: samme dag</li>
                 </ul>
             </div>
         </section>
-        <p class="pricing-footnote">* Kun for virksomheder med op til 8 ansatte.</p>
+        <div class="chain-discount">Kæderabat: 2.000 kr/md pr. lokation ved 15+ lokationer og 12 mdr. aftale.</div>
+        <p class="pricing-footnote">* Starter: Kun for virksomheder med op til 8 ansatte.</p>
 
         <!-- New Testimonials Section -->
         <section class="testimonials-sektion">
@@ -202,16 +199,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <p>H3LLO laver automatiske opslag for dig på Facebook og Instagram på kun 2 minutter.</p>
             </details>
             <details class="faq-item">
-                <summary>Hvordan fungerer introprisen og hvad sker der bagefter?</summary>
-                <p>Du får introprisen (600 kr/md) for altid, hvis du låser den nu. Når de 500 pladser er taget, stiger prisen til 1.000 kr/md, for alle nye kunder – også for H3LLO Autopilot.</p>
+                <summary>Hvordan fungerer kæderabat og binding?</summary>
+                <p>Kæderabat er 2.000 kr/md pr. lokation ved 15+ lokationer og 12 mdr. aftale. Gælder Standard-pakken.</p>
             </details>
             <details class="faq-item">
                 <summary>Kan jeg afmelde mit abonnement når som helst?</summary>
                 <p>Ja, du kan afmelde dit abonnement når som helst. Opsigelsen gælder for løbende måned + 1 måned.</p>
             </details>
             <details class="faq-item">
-                <summary>Hvad får jeg ekstra med i H3LLO Autopilot?</summary>
-                <p>Med H3LLO Autopilot får du alt fra H3LLO standardpakken, plus automatisk produktion af 15 professionelle billeder og videoer hver måned, skabt ud fra dine egne mobilfotos. Det betyder maksimal synlighed og professionelt materiale uden ekstra arbejde.</p>
+                <summary>Hvad får jeg ekstra med i H3LLO Premium (Autopilot)?</summary>
+                <p>Premium indeholder Autopilot, kædefunktioner, udvidet rapportering og same-day SLA. Standard er uden Autopilot.</p>
             </details>
             <details class="faq-item">
                 <summary>Hvordan fungerer den personlige contentkalender?</summary>
@@ -224,94 +221,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- Assuming a footer similar to the rest of the H3LLO site -->
     </footer>
 
-    <script>
-        // Live counter script
-        const campaignCounterElement = document.getElementById('campaign-counter');
-        const counterTextElement = campaignCounterElement ? campaignCounterElement.querySelector('.counter-text') : null;
-        const liveIndicatorElement = campaignCounterElement ? campaignCounterElement.querySelector('.live-indicator') : null;
-        const counterSubtextElement = campaignCounterElement ? campaignCounterElement.querySelector('.counter-subtext') : null;
-
-        async function fetchAndUpdateCounter() {
-            // Log element finding status
-            console.log('Attempting to find counter elements...');
-            console.log('campaignCounterElement:', campaignCounterElement);
-            console.log('counterTextElement:', counterTextElement);
-            console.log('liveIndicatorElement:', liveIndicatorElement);
-            console.log('counterSubtextElement:', counterSubtextElement);
-
-            if (!campaignCounterElement || !counterTextElement || !liveIndicatorElement || !counterSubtextElement) {
-                console.error('One or more counter elements were not found. Aborting counter update.');
-                // Optionally, update a general status message on the page if elements are missing
-                if (document.body) document.body.insertAdjacentHTML('afterbegin', '<p style="color:red; text-align:center;">Fejl: Nødvendige sideelementer for tæller mangler.</p>');
-                return;
-            }
-            
-            console.log('All counter elements found. Proceeding with fetch.');
-
-            try {
-                const response = await fetch('/api/get-sheet-count');
-                console.log('API response status:', response.status);
-
-                if (!response.ok) {
-                    let errorDetails = `API request failed with status ${response.status}`;
-                    try {
-                        const errorData = await response.json();
-                        console.log('API error data:', errorData);
-                        if (errorData && errorData.details) {
-                            errorDetails += `: ${errorData.details}`;
-                        } else if (errorData && errorData.error) {
-                            errorDetails += `: ${errorData.error}`;
-                        }
-                    } catch (e) {
-                        console.error('Failed to parse API error JSON:', e);
-                        errorDetails += ` - ${response.statusText || 'Could not retrieve error details'}`;
-                    }
-                    throw new Error(errorDetails);
-                }
-                const data = await response.json();
-                console.log('API success data:', data);
-                
-                if (typeof data.count !== 'number') {
-                    throw new Error('Invalid count received from API. Data: ' + JSON.stringify(data));
-                }
-
-                const rawCount = data.count;
-                const displayValue = 500 - rawCount;
-                const finalDisplayValue = Math.max(0, displayValue);
-
-                campaignCounterElement.dataset.counter = finalDisplayValue;
-                counterTextElement.textContent = `${finalDisplayValue} ud af 500 kampagnepladser tilbage`;
-                
-                liveIndicatorElement.style.display = 'inline';
-                counterSubtextElement.textContent = 'Live status: Opdateret nu';
-                console.log('Counter updated successfully.');
-
-            } catch (error) {
-                console.error('Detailed error in fetchAndUpdateCounter:', error.message, error);
-                if (counterTextElement) {
-                    // Display a more detailed error message in the main counter text
-                    counterTextElement.textContent = `Fejl: ${error.message}`;
-                    console.log('Main counter text updated to show error:', counterTextElement.textContent);
-                } else {
-                    console.error('counterTextElement is null, cannot update main error text.');
-                }
-                if (liveIndicatorElement) {
-                    liveIndicatorElement.style.display = 'none';
-                }
-                if (counterSubtextElement) {
-                    // The subtext already indicates a general failure, which is good.
-                    counterSubtextElement.textContent = 'Fejl: Kunne ikke hente live data. Prøv igen senere.';
-                    console.log('Sub-counter text updated to show error.');
-                }
-            }
-        }
-
-        // Fetch immediately on load
-        fetchAndUpdateCounter();
-
-        // Optionally, refresh the counter periodically (e.g., every minute)
-        // setInterval(fetchAndUpdateCounter, 60000); // 60000ms = 1 minute
-    </script>
+    <!-- Removed campaign counter script -->
 <script>
         // Intersection Observer for animations on scroll (e.g., pricing cards)
         document.addEventListener('DOMContentLoaded', () => {
