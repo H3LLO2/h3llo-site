@@ -122,12 +122,13 @@ btnUpload.addEventListener("click", async () => {
 
     const url = json.secure_url;
     urlInput.value = url;
-
+ 
     // set preview and detected media type based on file and url
     uploadedFromFile = true;
-    uploadedMediaType = kind;
-    detectedMediaType = kind || await detectMediaTypeFromUrl(url);
-
+    // normalize image -> photo for routing/payload
+    uploadedMediaType = (kind === "image") ? "photo" : kind;
+    detectedMediaType = (kind === "image") ? "photo" : (kind || await detectMediaTypeFromUrl(url));
+ 
     await setPreview(url);
 
     uploadStatus.className = "small ok";
@@ -156,14 +157,17 @@ btnPublish.addEventListener("click", async () => {
 
   const target = (document.querySelector('input[name="target"]:checked').value || "").toString().trim().toLowerCase();
   // compute mediaType with priority: uploadedMediaType (if file upload), then detectedMediaType from URL, default video
-  const mediaType = uploadedFromFile ? (uploadedMediaType || "video") : (detectedMediaType || await detectMediaTypeFromUrl(mediaUrl) || "video");
-
+  let mediaTypeCandidate = uploadedFromFile ? (uploadedMediaType || "video") : (detectedMediaType || await detectMediaTypeFromUrl(mediaUrl) || "video");
+  let mediaType = String(mediaTypeCandidate).toLowerCase();
+  // normalize image -> photo for routing
+  if (mediaType === "image") mediaType = "photo";
+ 
   // validation
   const allowedTargets = new Set(["facebook", "instagram"]);
-  const allowedMediaTypes = new Set(["video", "image"]);
+  const allowedMediaTypes = new Set(["video", "photo"]);
   if (!allowedTargets.has(target)) { publishStatus.className = "small err"; publishStatus.textContent = "Invalid target."; return; }
   if (!allowedMediaTypes.has(mediaType)) { publishStatus.className = "small err"; publishStatus.textContent = "Invalid media type."; return; }
-
+ 
   // build payload per spec: email, target, media_type, media_url, label
   const email = (reviewerEmailInput && reviewerEmailInput.value) || REVIEW_EMAIL_DEFAULT;
   const payload = {

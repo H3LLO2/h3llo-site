@@ -23,9 +23,26 @@ export default async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const { routeKey, media_url, target, fb_page_id, ig_user_id, media_type } = body;
+    const rawEmail = String(body.email || '').trim();
+    const tRaw = String(body.target || '').toLowerCase().trim();
+    const mtRaw = String(body.media_type || '').toLowerCase().trim();
 
-    // Map to Make webhooks via env vars (already set in Vercel)
+    // Verify reviewer email if configured
+    const allowedEmail = String(process.env.REVIEW_EMAIL || '').trim();
+    if (!allowedEmail || rawEmail.toLowerCase() !== allowedEmail.toLowerCase()) {
+      return res.status(403).json({ error: 'Reviewer email not authorized' });
+    }
+
+    // Normalize target and media_type defensively
+    const target = (tRaw === 'facebook' || tRaw === 'instagram') ? tRaw : '';
+    const media_type = (mtRaw === 'image') ? 'photo' : mtRaw; // normalize image -> photo
+
+    if (!target || (media_type !== 'photo' && media_type !== 'video')) {
+      return res.status(400).json({ error: `Invalid target/media_type: ${tRaw}/${mtRaw}` });
+    }
+
+    const routeKey = String(body.routeKey || `${target}_${media_type}`);
+
     const routes = {
       instagram_photo: process.env.MAKE_IG_PHOTO_URL,
       instagram_video: process.env.MAKE_IG_VIDEO_URL,
@@ -33,12 +50,9 @@ export default async function handler(req, res) {
       facebook_video:  process.env.MAKE_FB_VIDEO_URL,
     };
 
-    // Infer routeKey if not provided
-    const rk = routeKey || `${target}_${media_type}`;
-    const webhook = routes[rk];
+    const webhook = routes[routeKey];
     if (!webhook) {
-      res.status(400).json({ error: `Unknown route: ${rk}` });
-      return;
+      return res.status(400).json({ error: `Unknown route: ${routeKey}` });
     }
 
     const payload = {
