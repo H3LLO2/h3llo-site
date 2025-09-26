@@ -95,48 +95,85 @@ async function setPreview(url) {
     previewInfo.textContent = "Previewing media URL";
   }
 }
-
+ 
+// Helper to show detailed upload status near the upload button
+function showUploadStatus(message, isError = false) {
+  if (!uploadStatus) return;
+  uploadStatus.className = isError ? "small err" : "small ok";
+  if (isError) uploadStatus.textContent = `Upload failed: ${message}`;
+  else uploadStatus.textContent = message === "Upload OK" ? "Upload OK" : message;
+}
+ 
 btnUpload.addEventListener("click", async () => {
-  uploadStatus.className = "small muted";
-  uploadStatus.textContent = "Uploading to Cloudinary…";
+  showUploadStatus("Uploading to Cloudinary…", false);
   const file = fileInput.files && fileInput.files[0];
-  if (!file) { uploadStatus.className = "small err"; uploadStatus.textContent = "Choose a file first."; return; }
-
+  if (!file) { showUploadStatus("Choose a file first.", true); return; }
+ 
   try {
-    // determine kind and preset
-    const kind = detectMediaTypeFromFile(file); // "video" | "image"
-    const endpoint = kind === "video" ? "video" : "image";
-    const preset = kind === "video" ? PRESET_VIDEO : PRESET_IMAGE;
-
+    // Determine resourceType and endpoint/preset
+    const resourceType = (file.type && file.type.startsWith("video")) ? "video" : "image";
+    const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`;
+    const preset = resourceType === "video" ? PRESET_VIDEO : PRESET_IMAGE;
+ 
     const form = new FormData();
     form.append("file", file);
     form.append("upload_preset", preset);
-
-    // upload to explicit endpoint (video or image)
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${endpoint}/upload`, {
-      method: "POST",
-      body: form
-    });
-    if (!res.ok) throw new Error(`Cloudinary upload failed ${res.status}`);
-    const json = await res.json();
-
-    const url = json.secure_url;
-    urlInput.value = url;
  
-    // set preview and detected media type based on file and url
+    // Perform unsigned upload
+    const res = await fetch(endpoint, { method: "POST", body: form });
+    let json;
+    try {
+      json = await res.json();
+    } catch (e) {
+      const txt = await res.text();
+      throw new Error(`Invalid JSON response from Cloudinary: ${txt}`);
+    }
+ 
+    // Cloudinary may return an error object even with 200; check for it
+    if (!res.ok || json.error) {
+      const msg = (json && json.error && json.error.message) ? json.error.message : `Upload failed ${res.status}`;
+      showUploadStatus(msg, true);
+      return;
+    }
+ 
+    const secure = json.secure_url;
+    if (!secure) {
+      showUploadStatus("Upload succeeded but secure_url missing", true);
+      return;
+    }
+ 
+    // Populate the media URL input and normalize media type to photo/video
+    urlInput.value = secure;
     uploadedFromFile = true;
-    // normalize image -> photo for routing/payload
-    uploadedMediaType = (kind === "image") ? "photo" : kind;
-    detectedMediaType = (kind === "image") ? "photo" : (kind || await detectMediaTypeFromUrl(url));
+    uploadedMediaType = (resourceType === "video") ? "video" : "photo";
+    detectedMediaType = uploadedMediaType;
  
-    await setPreview(url);
-
-    uploadStatus.className = "small ok";
-    uploadStatus.textContent = "Uploaded ✔";
+    // Ensure a hidden media_type input exists and set it
+    let mediaInput = document.getElementById("mediaType");
+    if (!mediaInput) {
+      mediaInput = document.createElement("input");
+      mediaInput.type = "hidden";
+      mediaInput.id = "mediaType";
+      mediaInput.name = "media_type";
+      document.body.appendChild(mediaInput);
+    }
+    mediaInput.value = uploadedMediaType;
+ 
+    // Update preview
+    if (resourceType === "video") {
+      videoPreview.style.display = "block";
+      imagePreview.style.display = "none";
+      videoPreview.src = secure;
+    } else {
+      imagePreview.style.display = "block";
+      videoPreview.style.display = "none";
+      imagePreview.src = secure;
+    }
+ 
+    showUploadStatus("Upload OK", false);
   } catch (err) {
     console.error(err);
-    uploadStatus.className = "small err";
-    uploadStatus.textContent = "Upload failed.";
+    showUploadStatus(String(err.message || err), true);
   }
 });
 
