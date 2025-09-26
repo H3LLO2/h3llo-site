@@ -57,6 +57,45 @@
       </div>
     </div>
 
+    <!-- Sample media (reviewer convenience) -->
+    <section class="sample-media" aria-labelledby="sample-media-heading">
+      <h3 id="sample-media-heading">Try with sample media</h3>
+      <div class="sample-grid">
+        <article class="sample-card">
+          <div class="thumb">
+            <img src="https://res.cloudinary.com/dz57mpjzx/image/upload/c_fill,w_320,h_480,q_auto,f_auto/v1758892366/qbfxykbf6nnafxkxxgry.jpg" alt="Sample image (story portrait)">
+          </div>
+          <div class="meta">
+            <strong>Sample image</strong>
+            <button type="button" id="sample-image-btn" class="btn-secondary">Use this image</button>
+          </div>
+        </article>
+
+        <article class="sample-card">
+          <div class="thumb">
+            <video src="https://res.cloudinary.com/dz57mpjzx/video/upload/w_320,c_scale,q_auto/v1758892412/z0b3tx77wbhdmetqqskg.mp4" muted loop playsinline></video>
+          </div>
+          <div class="meta">
+            <strong>Sample video</strong>
+            <button type="button" id="sample-video-btn" class="btn-secondary">Use this video</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <style>
+      .sample-media { margin-top: 16px; }
+      .sample-media h3 { margin: 0 0 8px; font-size: 1rem; opacity: .9; }
+      .sample-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+      .sample-card { background: #111; border: 1px solid #222; border-radius: 12px; padding: 10px; display: grid; gap: 8px; }
+      .sample-card .thumb { aspect-ratio: 2/3; overflow: hidden; border-radius: 8px; background: #000; display:flex; align-items:center; justify-content:center; }
+      .sample-card img, .sample-card video { width: 100%; height: 100%; object-fit: cover; display:block; }
+      .sample-card .meta { display:flex; align-items:center; justify-content:space-between; gap: 8px; }
+      .btn-secondary { padding: 6px 10px; border-radius: 8px; border: 1px solid #444; background:#1a1a1a; color:#fff; cursor:pointer; }
+      .btn-secondary:hover { background:#222; }
+      @media (max-width: 640px) { .sample-grid { grid-template-columns: 1fr; } }
+    </style>
+
     <div class="card">
       <h2>2) Choose target</h2>
       <div class="grid2">

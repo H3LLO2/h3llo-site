@@ -21,6 +21,47 @@ const payloadEcho = document.getElementById("payloadEcho");
 const reviewerEmailInput = document.getElementById("reviewerEmail");
 const targetRadios = document.querySelectorAll('input[name="target"]');
 
+// === Sample media support ===
+// Buttons in the page let reviewers quickly load sample image/video URLs
+const SAMPLE_IMAGE_URL = 'https://res.cloudinary.com/dz57mpjzx/image/upload/v1758892366/qbfxykbf6nnafxkxxgry.jpg';
+const SAMPLE_VIDEO_URL = 'https://res.cloudinary.com/dz57mpjzx/video/upload/v1758892412/z0b3tx77wbhdmetqqskg.mp4';
+
+// Find media URL input (try several fallbacks) and ensure it has an id we can reference
+let mediaUrlInput = document.querySelector('#media-url') || document.querySelector('input[name="media_url"]') || document.querySelector('input[type="url"]');
+if (mediaUrlInput && !mediaUrlInput.id) mediaUrlInput.id = 'media-url';
+
+// Helper: set URL and trigger existing listeners so preview and detection run
+function setMediaUrlAndNotify(url) {
+  if (!mediaUrlInput) return;
+  mediaUrlInput.value = url;
+
+  const ev = new Event('input', { bubbles: true });
+  mediaUrlInput.dispatchEvent(ev);
+
+  const ev2 = new Event('change', { bubbles: true });
+  mediaUrlInput.dispatchEvent(ev2);
+}
+
+// Wire sample buttons after DOM is available (buttons may exist in HTML)
+document.addEventListener('DOMContentLoaded', () => {
+  const imgBtn = document.getElementById('sample-image-btn');
+  const vidBtn = document.getElementById('sample-video-btn');
+
+  if (imgBtn) {
+    imgBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      setMediaUrlAndNotify(SAMPLE_IMAGE_URL);
+    });
+  }
+
+  if (vidBtn) {
+    vidBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      setMediaUrlAndNotify(SAMPLE_VIDEO_URL);
+    });
+  }
+});
+
 // internal state to remember detected media type and upload origin
 let detectedMediaType = null; // "video" | "image"
 let uploadedMediaType = null; // "video" | "image" if uploaded via file
