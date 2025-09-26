@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>H3LLO Story Publisher – Reviewer Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Prevent indexing -->
+  <meta name="robots" content="noindex,nofollow" />
+  <!-- Use the existing site stylesheet exactly -->
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    /* Minimal safety styling only for layout hooks; do not override site styles */
+    .container { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .card { border: 1px solid #e5e5e5; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .row-1 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .muted { opacity: 0.8; font-size: 0.9rem; }
+    .ok { color: #0a7f2e; }
+    .err { color: #c62828; }
+    video, img { width: 100%; max-height: 520px; object-fit: contain; background:#000; }
+    input[type="text"], input[type="url"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+    button { padding: 10px 14px; border-radius: 10px; border: 0; cursor: pointer; }
+    button.primary { background: #111; color: #fff; }
+    button.secondary { background: #f4f4f4; }
+    .small { font-size: .85rem; }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#f2f2f2; padding:2px 6px; border-radius:6px; }
+    .grid2 { display:grid; gap:12px; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 900px){ .row { grid-template-columns: 1fr; } .grid2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>H3LLO Story Publisher – Reviewer Portal</h1>
+    <p class="muted">This page lets a reviewer upload or paste a media URL, preview it, and trigger our Make.com flow to publish a Story on a test Facebook Page or the linked Instagram professional account. No personal profiles; only assets shared to H3LLO Business.</p>
+
+    <div class="card">
+      <h2>1) Provide media</h2>
+      <div class="row">
+        <div>
+          <p><strong>Paste a media URL</strong> (MP4 recommended):</p>
+          <input id="urlInput" type="url" placeholder="https://example.com/story.mp4" />
+          <p class="small muted">or upload a file (we’ll upload to Cloudinary and use the returned URL)</p>
+          <input id="fileInput" type="file" accept="video/*,image/*" />
+          <div class="actions" style="margin-top:10px">
+            <button id="btnUpload" class="secondary">Upload to Cloudinary</button>
+            <span id="uploadStatus" class="small muted"></span>
+          </div>
+          <p class="small muted">Cloudinary unsigned upload is used only to obtain a delivery URL for the review flow.</p>
+        </div>
+        <div>
+          <p><strong>Preview</strong></p>
+          <video id="videoPreview" controls playsinline style="display:none"></video>
+          <img id="imagePreview" alt="preview" style="display:none" />
+          <div class="small muted" id="previewInfo"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>2) Choose target & IDs</h2>
+      <div class="grid2">
+        <div>
+          <label><input type="radio" name="target" value="instagram" checked /> Instagram Story (video)</label><br />
+          <label><input type="radio" name="target" value="facebook" /> Facebook Page Story (video)</label>
+        </div>
+        <div>
+          <div id="fbIds">
+            <label class="small">Facebook Page ID</label>
+            <input id="fbPageId" type="text" placeholder="508308482364148 (example)" />
+          </div>
+          <div id="igIds" style="display:none">
+            <label class="small">Instagram User ID</label>
+            <input id="igUserId" type="text" placeholder="1784... (IG User ID)" />
+          </div>
+        </div>
+      </div>
+      <p class="small muted">These IDs point to our test Page and its linked IG professional account (already shared to H3LLO). Only those assets are used.</p>
+    </div>
+
+    <div class="card">
+      <h2>3) Publish via Make.com</h2>
+      <div class="actions">
+        <button id="btnPublish" class="primary">Send to Make → Publish Story</button>
+        <span id="publishStatus" class="small"></span>
+      </div>
+      <pre id="payloadEcho" class="small muted" style="white-space:pre-wrap;margin-top:10px;"></pre>
+    </div>
+
+    <div class="card">
+      <h3>Notes for review</h3>
+      <ul class="small muted">
+        <li>We only send: media_url, media_type, target (facebook|instagram), fb_page_id or ig_user_id, and a simple label (<span class="kbd">source: reviewer-portal</span>). No tokens or personal data are ever embedded here.</li>
+        <li>Our Vercel serverless function proxies the POST to Make.com to avoid CORS and hide the webhook URL.</li>
+        <li>All posting is done by our system user + Page/IG assets shared to H3LLO Business.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="/platformtoreview/script.js" defer></script>
+</body>
+</html>

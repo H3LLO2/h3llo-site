@@ -8,6 +8,22 @@
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
+    },
+    {
+      "source": "/platformtoreview",
+      "destination": "/platformtoreview/index.html"
     }
-  ]
+  ],
+  "headers": [
+    {
+      "source": "/platformtoreview(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ],
+  "functions": {
+    "api/*.js": { "runtime": "nodejs18.x" }
+  }
 }
