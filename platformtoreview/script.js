@@ -1,5 +1,5 @@
 // -------- CONFIG (client-side, safe values only) --------
-const CLOUD_NAME = "YOUR_CLOUD_NAME";          // set this to your Cloudinary cloud name (line 1)
+const CLOUD_NAME = "dz57mpjzx";          // set this to your Cloudinary cloud name (line 1)
 const PRESET_VIDEO = "Stories_VIDEO";          // use this for video uploads (line 2)
 const PRESET_IMAGE = "Stories_IMAGE";          // use this for image uploads (line 3)
 const PROXY_ENDPOINT = "/api/make-proxy";      // Vercel function that forwards to Make
@@ -108,18 +108,18 @@ btnUpload.addEventListener("click", async () => {
   showUploadStatus("Uploading to Cloudinary…", false);
   const file = fileInput.files && fileInput.files[0];
   if (!file) { showUploadStatus("Choose a file first.", true); return; }
- 
+
   try {
     // Determine resourceType and endpoint/preset
     const resourceType = (file.type && file.type.startsWith("video")) ? "video" : "image";
     const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`;
     const preset = resourceType === "video" ? PRESET_VIDEO : PRESET_IMAGE;
- 
+
     const form = new FormData();
     form.append("file", file);
     form.append("upload_preset", preset);
- 
-    // Perform unsigned upload
+
+    // Perform unsigned upload (no manual Content-Type, no auth)
     const res = await fetch(endpoint, { method: "POST", body: form });
     let json;
     try {
@@ -128,27 +128,27 @@ btnUpload.addEventListener("click", async () => {
       const txt = await res.text();
       throw new Error(`Invalid JSON response from Cloudinary: ${txt}`);
     }
- 
+
     // Cloudinary may return an error object even with 200; check for it
     if (!res.ok || json.error) {
-      const msg = (json && json.error && json.error.message) ? json.error.message : `Upload failed ${res.status}`;
+      const msg = (json && json.error && json.error.message) ? json.error.message : (res.statusText || `Upload failed ${res.status}`);
       showUploadStatus(msg, true);
       return;
     }
- 
+
     const secure = json.secure_url;
     if (!secure) {
       showUploadStatus("Upload succeeded but secure_url missing", true);
       return;
     }
- 
+
     // Populate the media URL input and normalize media type to photo/video
     urlInput.value = secure;
     uploadedFromFile = true;
     uploadedMediaType = (resourceType === "video") ? "video" : "photo";
     detectedMediaType = uploadedMediaType;
- 
-    // Ensure a hidden media_type input exists and set it
+
+    // Ensure a hidden media_type input exists and set it for the proxy
     let mediaInput = document.getElementById("mediaType");
     if (!mediaInput) {
       mediaInput = document.createElement("input");
@@ -158,9 +158,9 @@ btnUpload.addEventListener("click", async () => {
       document.body.appendChild(mediaInput);
     }
     mediaInput.value = uploadedMediaType;
- 
-    // Update preview
-    if (resourceType === "video") {
+
+    // Update preview immediately
+    if (uploadedMediaType === "video") {
       videoPreview.style.display = "block";
       imagePreview.style.display = "none";
       videoPreview.src = secure;
@@ -169,11 +169,13 @@ btnUpload.addEventListener("click", async () => {
       videoPreview.style.display = "none";
       imagePreview.src = secure;
     }
- 
+
+    await setPreview(secure);
     showUploadStatus("Upload OK", false);
   } catch (err) {
     console.error(err);
-    showUploadStatus(String(err.message || err), true);
+    const msg = err && err.message ? err.message : String(err);
+    showUploadStatus(msg, true);
   }
 });
 
