@@ -1,55 +1,75 @@
-// /api/make-proxy.js
-// CommonJS Vercel Serverless Function. Dispatches incoming requests to one of several Make webhooks
-// based on target and mediaType. Route keys map to environment variables:
-//   facebook_video  -> MAKE_FB_VIDEO_URL
-//   facebook_photo  -> MAKE_FB_PHOTO_URL
-//   instagram_video -> MAKE_IG_VIDEO_URL
-//   instagram_photo -> MAKE_IG_PHOTO_URL
-
-module.exports = async function handler(req, res) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Method Not Allowed" });
+// api/make-proxy.js  (ES module compatible with "type":"module")
+export default async function handler(req, res) {
+  // Health check for GET so opening the URL in a browser won’t crash
+  if (req.method === 'GET') {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(JSON.stringify({ ok: true, service: 'make-proxy', status: 'ready' }));
+    return;
   }
 
-  const WEBHOOKS = {
-    facebook_video: process.env.MAKE_FB_VIDEO_URL,
-    facebook_photo: process.env.MAKE_FB_PHOTO_URL,
-    instagram_video: process.env.MAKE_IG_VIDEO_URL,
-    instagram_photo: process.env.MAKE_IG_PHOTO_URL
-  };
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(204).end();
+    return;
+  }
+
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
+  }
 
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
-    const target = String((body.target || "")).toLowerCase().trim();
-    const mediaType = String((body.mediaType || body.media_type || "")).toLowerCase().trim();
-    const routeKey = `${target}_${mediaType}`;
-    const url = WEBHOOKS[routeKey];
+    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+    const { routeKey, media_url, target, fb_page_id, ig_user_id, media_type } = body;
 
-    if (!url) {
-      return res.status(400).json({ error: `Unknown route: ${routeKey}` });
+    // Map to Make webhooks via env vars (already set in Vercel)
+    const routes = {
+      instagram_photo: process.env.MAKE_IG_PHOTO_URL,
+      instagram_video: process.env.MAKE_IG_VIDEO_URL,
+      facebook_photo:  process.env.MAKE_FB_PHOTO_URL,
+      facebook_video:  process.env.MAKE_FB_VIDEO_URL,
+    };
+
+    // Infer routeKey if not provided
+    const rk = routeKey || `${target}_${media_type}`;
+    const webhook = routes[rk];
+    if (!webhook) {
+      res.status(400).json({ error: `Unknown route: ${rk}` });
+      return;
     }
 
-    const fwd = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...body, routeKey })
+    const payload = {
+      media_url,
+      target,
+      fb_page_id,
+      ig_user_id,
+      media_type,
+      routeKey: rk,
+      label: 'review',
+    };
+
+    const r = await fetch(webhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
     });
 
-    const text = await fwd.text();
-    if (!fwd.ok) {
-      return res.status(fwd.status).send(text || `Upstream error (${fwd.status})`);
-    }
-
-    // Try to return JSON when possible, otherwise fallback to a minimal OK payload
-    try {
-      const maybeJson = JSON.parse(text);
-      return res.status(200).json({ ok: true, routeKey, status: fwd.status, upstream: maybeJson });
-    } catch {
-      return res.status(200).json({ ok: true, routeKey, status: fwd.status });
-    }
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({ error: "Proxy failed" });
+    const text = await r.text();
+    // Allow the form page to call this endpoint from the same origin
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(
+      JSON.stringify({
+        ok: true,
+        routeKey: rk,
+        status: r.status,
+        makeSnippet: text.slice(0, 200),
+      })
+    );
+  } catch (err) {
+    res.status(500).json({ error: 'Proxy error', detail: String(err?.message || err) });
   }
-};
+}
