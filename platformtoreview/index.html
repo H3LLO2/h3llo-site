@@ -58,24 +58,18 @@
     </div>
 
     <div class="card">
-      <h2>2) Choose target & IDs</h2>
+      <h2>2) Choose target</h2>
       <div class="grid2">
         <div>
-          <label><input type="radio" name="target" value="instagram" checked /> Instagram Story (video)</label><br />
-          <label><input type="radio" name="target" value="facebook" /> Facebook Page Story (video)</label>
+          <label><input type="radio" name="target" value="instagram" checked /> Instagram Story</label><br />
+          <label><input type="radio" name="target" value="facebook" /> Facebook Page Story</label>
         </div>
         <div>
-          <div id="fbIds">
-            <label class="small">Facebook Page ID</label>
-            <input id="fbPageId" type="text" placeholder="508308482364148 (example)" />
-          </div>
-          <div id="igIds" style="display:none">
-            <label class="small">Instagram User ID</label>
-            <input id="igUserId" type="text" placeholder="1784... (IG User ID)" />
-          </div>
+          <!-- Hidden reviewer email (set in JS) -->
+          <input id="reviewerEmail" type="hidden" value="" />
+          <p class="small muted">Reviewer-only: posts go to H3LLO test assets. No personal profiles.</p>
         </div>
       </div>
-      <p class="small muted">These IDs point to our test Page and its linked IG professional account (already shared to H3LLO). Only those assets are used.</p>
     </div>
 
     <div class="card">
